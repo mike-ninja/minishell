@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/16 13:24:44 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/16 17:08:51 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*env_node(void)
 	return (node);
 }
 
-t_env	*env_init(t_env *env_head)
+t_env	*env_init(t_env *env_head) // Need to implement deletion if malloc fails
 {
 	t_env	*node;
 	t_env	*prev;
@@ -46,8 +46,8 @@ t_env	*env_init(t_env *env_head)
 		node->key = ft_strdup(ft_strsep(ptr, "="));
 		node->val = ft_strdup(*ptr);
 		prev = node;
-		ptr++;
 		node = env_node();
+		ptr++;
 	}
 	return (env_head);
 }

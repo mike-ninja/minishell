@@ -6,25 +6,11 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/16 13:45:39 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/17 19:31:44 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// static void	env_delete(t_env *env)
-// {
-// 	t_env	*ptr;
-
-// 	ptr = env;
-// 	while (env->key)
-// 	{
-// 		free(env->key);
-// 		free(env->val);
-// 		env++;
-// 	}
-// 	free(ptr);
-// }
 
 int	env_print(t_env *env)
 {
