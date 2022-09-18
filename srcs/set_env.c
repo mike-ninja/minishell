@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/16 17:08:51 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:20:54 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,42 @@
 
 extern	char **environ;
 
-t_env	*env_node(void)
+void	env_del(char **env)
 {
-	t_env	*node;
+	char **ptr;
 
-	node = NULL;
-	node = (t_env *)malloc(sizeof(t_env));
-	if (!node)
-		return (NULL);
-	node->key = NULL;
-	node->val = NULL;
-	node->next = NULL;
-	return (node);
+	ptr = env;
+	while (*ptr)
+		free(*ptr++);
+	free(env);
+	env = NULL;
 }
 
-t_env	*env_init(t_env *env_head) // Need to implement deletion if malloc fails
+size_t	env_len(char **env)
 {
-	t_env	*node;
-	t_env	*prev;
+	size_t len;
+
+	len = 0;
+	while (env[len])
+		len++;
+	return (len);
+}
+
+char	**env_init(void)
+{
+	char	**env;
 	char	**ptr;
-	
-	node = NULL;
-	prev = NULL;
-	ptr = environ;
-	node = env_node();
-	env_head = node;
-	while (*ptr)
+
+	ptr = (char **)malloc(sizeof(char *) * env_len(environ) + 1);
+	if (!ptr)
+		return(NULL);
+	env = ptr;
+	while (*environ)
 	{
-		if (prev)
-			prev->next = node;
-		node->key = ft_strdup(ft_strsep(ptr, "="));
-		node->val = ft_strdup(*ptr);
-		prev = node;
-		node = env_node();
+		*ptr = ft_strdup(*environ);
+		environ++;
 		ptr++;
 	}
-	return (env_head);
+	*ptr = NULL;
+	return (env);
 }

@@ -6,62 +6,39 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/17 19:31:44 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:32:41 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env_print(t_env *env)
+int	env_print(char **env)
 {
-	while (env)
-	{
-		ft_printf("%s=%s\n", env->key, env->val);
-		env = env->next;
-	}
+	while (*env)
+		ft_printf("%s\n", *env++);
 	return (1);
 }
 
-static void	remove_node(t_env *prev, t_env *curr)
-{
-	t_env *ptr;
-
-	ptr = curr->next;
-	free(curr->key);
-	free(curr->val);
-	free(curr);
-	prev->next = ptr;
-}
-
-int	unset_env(t_env *env, char **input)
-{
-	t_env	*prev;
-
-	prev = NULL;
-	while (env)
-	{
-		if (ft_strcmp(env->key, input[1]) == 0)
-		{
-			remove_node(prev, env);
-			return (1);
-		}
-		prev = env;
-		env = env->next;
-	}
-	return (0);
-}
-
-int set_env(t_env *env, char **input)
-{
-	t_env	*node;
+// int	unset_env(t_env *env, t_args *args)
+// {
 	
-	node = env_node();
-	if (!node)
+// }
+
+int set_env(t_session *session)
+{
+	char	**new_array;
+	char	**ptr;
+	int		i;
+	
+	new_array = (char **)malloc(sizeof(char *) * env_len(session->env) + 1);
+	if (!new_array)
 		return (0);
-	node->key = ft_strdup(ft_strsep(&input[1], "="));
-	node->val = ft_strdup(input[1]);
-	while (env->next)
-		env = env->next;
-	env->next = node;
+	i = 0;
+	ptr = session->env;
+	while (*ptr)
+		new_array[i++] = ft_strdup(*ptr++);
+	new_array[i] = ft_strdup(session->arg[1]);
+	env_del(session->env);
+	session->env = new_array;
 	return (1);
 }
