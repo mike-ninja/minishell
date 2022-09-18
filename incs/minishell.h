@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/18 17:18:07 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/18 18:23:28 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		env_print(char **env);
 void	env_del(char **env);
 char	**env_init(void);
 int 	set_env(t_session *session);
-// int		unset_env(t_env *env, char **input);
+int		unset_env(t_session *session);
 // void	env_delete(t_env *env);
 
 /*Parsing through user input*/
