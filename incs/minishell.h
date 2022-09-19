@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 10:23:15 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 12:57:41 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct	sesssion
 // t_env	*env_node(void);
 size_t	env_len(char **env);
 int		env_print(char **env);
-void	env_del(char **env);
+void	env_clean(char **env);
 char	**env_init(void);
 int 	set_env(t_session *session);
 int		unset_env(t_session *session);
@@ -61,6 +61,7 @@ char	**get_args(char *line);
 bool	built_ins(t_session *session);
 
 /*EXIT*/
-// int		ft_exit(t_env *env, int status);
+int		ft_exit(t_session *session, char *message);
+void	arg_clean(char **arg, char *line);
 
 #endif

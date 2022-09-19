@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 11:14:43 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 16:06:58 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,7 @@
 
 extern	char **environ;
 
-void	env_del(char **env)
-{
-	char **ptr;
 
-	ptr = env;
-	while (*ptr)
-		free(*ptr++);
-	free(env);
-	env = NULL;
-}
 
 size_t	env_len(char **env)
 {
@@ -35,15 +26,15 @@ size_t	env_len(char **env)
 	return (len);
 }
 
-static char	*shell_level(char *env)
+static char	*shell_level(char *my_env, char *env)
 {
-	char	*res;
 	char	*key;
 	int		lvl;
+	char	*lvl_str;
 	int		i;
 	
 	i = 0;
-	res = NULL;
+	lvl_str = NULL;
 	while (env[i] < '0' || env[i] > '9')
 		i++;
 	lvl = ft_atoi(&env[i]);
@@ -51,10 +42,12 @@ static char	*shell_level(char *env)
 		lvl++;
 	else
 		lvl = 0;
+	lvl_str = ft_itoa(lvl);
 	key = env;
 	key[i] = '\0';
-	return(ft_strjoin(key, ft_itoa(lvl)));
-	return(res);
+	my_env = ft_strjoin(key, lvl_str);
+	free(lvl_str);
+	return (my_env);
 }
 
 char	**env_init(void)
@@ -69,7 +62,7 @@ char	**env_init(void)
 	while (*environ)
 	{
 		if (ft_strstr(*environ, "SHLVL"))
-			*ptr = shell_level(*environ);
+			*ptr = shell_level(*ptr, *environ);
 		else
 			*ptr = ft_strdup(*environ);
 		environ++;

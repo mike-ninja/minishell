@@ -6,26 +6,11 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/18 17:17:43 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:17:58 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	garbage_collect(char **args)
-{
-	char **ptr;
-
-	ptr = args;
-	while (*args)
-	{
-		
-		free(*args);
-		args++;
-	}
-	free(ptr);
-	args = NULL;
-}
 
 // static void check_args(t_args *args)
 // {
@@ -81,18 +66,18 @@ int	main(void)
 			session->arg = get_args(line);
 			if (!built_ins(session))
 			{	
+				// ft_printf("Running another functions\n");
+				if (ft_strcmp(*session->arg, "exit") == 0)
+					return(ft_exit(session, "exit\n"));
 				id = fork();
 				if (id < 0)
-				{
-					ft_printf("Fork failed\n");
-					exit(FAILURE);
-				}
+					return(ft_exit(session, "Fork Failed\n"));
 				else if (id == 0)
 					execve(*session->arg, session->arg, session->env);
 				else
 					wait(&id);
-				garbage_collect(session->arg);
 			}
+			arg_clean(session->arg, line);
 		}
 	}
 	return(SUCCESS);
