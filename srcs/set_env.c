@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/18 17:20:54 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 11:14:43 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,28 @@ size_t	env_len(char **env)
 	return (len);
 }
 
+static char	*shell_level(char *env)
+{
+	char	*res;
+	char	*key;
+	int		lvl;
+	int		i;
+	
+	i = 0;
+	res = NULL;
+	while (env[i] < '0' || env[i] > '9')
+		i++;
+	lvl = ft_atoi(&env[i]);
+	if (lvl < 1000)
+		lvl++;
+	else
+		lvl = 0;
+	key = env;
+	key[i] = '\0';
+	return(ft_strjoin(key, ft_itoa(lvl)));
+	return(res);
+}
+
 char	**env_init(void)
 {
 	char	**env;
@@ -46,7 +68,10 @@ char	**env_init(void)
 	env = ptr;
 	while (*environ)
 	{
-		*ptr = ft_strdup(*environ);
+		if (ft_strstr(*environ, "SHLVL"))
+			*ptr = shell_level(*environ);
+		else
+			*ptr = ft_strdup(*environ);
 		environ++;
 		ptr++;
 	}

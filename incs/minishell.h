@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/18 18:23:28 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 10:23:15 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	sesssion
 {
 	char	**env;
 	char	**arg;
+	// char	*las_exec;
 }				t_session;
 
 /*Functions for Environment Variables*/

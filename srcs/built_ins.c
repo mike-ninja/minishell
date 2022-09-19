@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/18 18:27:48 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 09:02:15 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static int	ft_echo(char **arg)
 {
 	while (*arg)
-		ft_printf("%s\n", *arg++);
+		ft_printf("%s ", *arg++);
+	ft_printf("\n");
 	return (1);
 }
 
