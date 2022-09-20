@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 13:17:58 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:45:44 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	session_init(t_session *session)
 {
 	session->env = NULL;
 	session->arg = NULL;
+	session->pwd = NULL;
 }
 
 // static void print_print(t_session *session)
@@ -49,35 +50,42 @@ static void	session_init(t_session *session)
 // 	}
 // }
 
+static int	system_call(t_session *sesh)
+{
+	pid_t	id;
+	
+	id = fork();
+	if (id < 0)
+		return (0);
+	else if (id == 0)
+		execve(*sesh->arg, sesh->arg, sesh->env);
+	else
+		wait(&id);
+	return (1);
+}
+
 int	main(void)
 {
-	pid_t		id;
 	char		*line;
-	t_session	session[1];
+	t_session	sesh[1];
 
 	line = NULL;
-	session_init(session);
-	session->env = env_init();
+	session_init(sesh);
+	sesh->env = env_init();
 	while (1)
 	{
 		ft_printf("$> ");
 		if (get_next_line(0, &line))
 		{
-			session->arg = get_args(line);
-			if (!built_ins(session))
+			sesh->arg = get_args(line);
+			if (!built_ins(sesh))
 			{	
-				// ft_printf("Running another functions\n");
-				if (ft_strcmp(*session->arg, "exit") == 0)
-					return(ft_exit(session, "exit\n"));
-				id = fork();
-				if (id < 0)
-					return(ft_exit(session, "Fork Failed\n"));
-				else if (id == 0)
-					execve(*session->arg, session->arg, session->env);
-				else
-					wait(&id);
+				if (ft_strcmp(*sesh->arg, "exit") == 0)
+					return(ft_exit(sesh, "exit\n"));
+				if (!system_call(sesh))
+					return(ft_exit(sesh, "Fork Failed\n"));
 			}
-			arg_clean(session->arg, line);
+			arg_clean(sesh->arg, line);
 		}
 	}
 	return(SUCCESS);

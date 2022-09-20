@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/09/17 11:08:49 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/09/19 17:28:49 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	 = minishell
 
 CC 	= gcc
 INC 	= -Iincs/
-FLAG 	= -Wall -Wextra -Werror
+FLAG 	= 
 
 LIBFT 		= libft
 LIBFT_INC	= -Llibft -lft
@@ -34,6 +34,7 @@ FILE += func_env
 FILE += built_ins
 FILE += args
 FILE += exit
+FILE += ft_cd
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILE)))
 

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 12:32:50 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:03:32 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ bool	built_ins(t_session *session)
 		return(unset_env(session));
 	if (ft_strcmp(*session->arg, "echo") == 0 && session->arg[1])
 		return(ft_echo(session->arg + 1));
+	if (ft_strcmp(*session->arg, "cd") == 0 && session->arg[1])
+		return(ft_cd(session));
 	return(false);
 }

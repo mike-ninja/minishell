@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 12:57:41 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:44:35 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	sesssion
 {
 	char	**env;
 	char	**arg;
+	char	*pwd;
 	// char	*las_exec;
 }				t_session;
 
@@ -63,5 +64,8 @@ bool	built_ins(t_session *session);
 /*EXIT*/
 int		ft_exit(t_session *session, char *message);
 void	arg_clean(char **arg, char *line);
+
+/*cd*/
+int		ft_cd(t_session *sesh);
 
 #endif

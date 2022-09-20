@@ -6,15 +6,13 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 16:06:58 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:02:23 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern	char **environ;
-
-
 
 size_t	env_len(char **env)
 {
