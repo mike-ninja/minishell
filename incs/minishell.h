@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 17:44:35 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:46:11 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct	sesssion
 	char	**env;
 	char	**arg;
 	char	*pwd;
+	int		status;
 	// char	*las_exec;
 }				t_session;
 

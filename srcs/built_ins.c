@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 17:03:32 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/20 12:48:12 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	ft_echo(char **arg)
 
 bool	built_ins(t_session *session)
 {
+	sesh->status = 0;
 	if (ft_strcmp(*session->arg, "env") == 0)
 		return(env_print(session->env));
 	if (ft_strcmp(*session->arg, "setenv") == 0 && session->arg[1])
@@ -32,5 +33,6 @@ bool	built_ins(t_session *session)
 		return(ft_echo(session->arg + 1));
 	if (ft_strcmp(*session->arg, "cd") == 0 && session->arg[1])
 		return(ft_cd(session));
+	sesh->status = 1;
 	return(false);
 }
