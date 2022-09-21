@@ -6,13 +6,13 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/20 12:03:33 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:08:12 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**env_get_var(t_session *sesh, char *key)
+char	**env_get_var(t_session *sesh, char *key)
 {
 	char	**env;
 
@@ -69,14 +69,9 @@ static void	cd_success(char *cwd, t_session *sesh)
 int	ft_cd(t_session *sesh)
 {
 	char	cwd[256];
-	int		dir;
 
-	dir = chdir(sesh->arg[1]);
-	if (dir != 0)
-	{
-			ft_printf("chdir() error() %i\n", dir);
-			return (0);
-	}
+	if (chdir(sesh->arg[1]) != 0)
+		return (0);
 	else 
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/20 12:46:11 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:07:41 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,57 +16,43 @@
 # include "../libft/incs/libft.h"
 # include "../libft/incs/ft_printf.h"
 
-# define SUCCESS 0
-# define FAILURE 1
+# include <sys/stat.h>
 
-// Fetch terminal size
-# include <sys/ioctl.h>
+# define SUCCESS 1
+# define FAILURE 0
+# define PROMPT "$> "
 
-// typedef struct 	env
-// {
-// 	size_t	len;
-// 	char	**array;
-// }				t_env;
+extern int errno ; // Delete this when no longer used
 
-// typedef struct	args
-// {
-// 	size_t	len;
-// 	char	**array;
-// }				t_args;
 
 typedef struct	sesssion
 {
 	char	**env;
 	char	**arg;
 	char	*pwd;
-	int		status;
 	// char	*las_exec;
 }				t_session;
 
-/*Functions for Environment Variables*/
-// t_env	*env_node(void);
+/* Functions for Environment Variables */
 size_t	env_len(char **env);
 int		env_print(char **env);
-void	env_clean(char **env);
 char	**env_init(void);
 int 	set_env(t_session *session);
 int		unset_env(t_session *session);
-// void	env_delete(t_env *env);
+char	**env_get_var(t_session *sesh, char *key);
 
-/*Parsing through user input*/
-// t_args  *args_init(void);
+/* Parsing through user input */
 char	**get_args(char *line);
-// // t_input	*get_args(char *line);
-// // void	print_args(t_input *head); // delete when no longer used
 
-// /*Parse through built in functions*/
+/* Parse through built in functions */
 bool	built_ins(t_session *session);
 
-/*EXIT*/
+/* EXIT */
+void	env_clean(char **env);
 int		ft_exit(t_session *session, char *message);
 void	arg_clean(char **arg, char *line);
 
-/*cd*/
+/* Changing directory */
 int		ft_cd(t_session *sesh);
 
 #endif

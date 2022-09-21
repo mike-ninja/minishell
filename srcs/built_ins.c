@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/20 12:48:12 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:33:31 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,17 @@ static int	ft_echo(char **arg)
 	return (1);
 }
 
-bool	built_ins(t_session *session)
+bool	built_ins(t_session *sesh)
 {
-	sesh->status = 0;
-	if (ft_strcmp(*session->arg, "env") == 0)
-		return(env_print(session->env));
-	if (ft_strcmp(*session->arg, "setenv") == 0 && session->arg[1])
-		return(set_env(session));
-	if (ft_strcmp(*session->arg, "unsetenv") == 0 && session->arg[1])
-		return(unset_env(session));
-	if (ft_strcmp(*session->arg, "echo") == 0 && session->arg[1])
-		return(ft_echo(session->arg + 1));
-	if (ft_strcmp(*session->arg, "cd") == 0 && session->arg[1])
-		return(ft_cd(session));
-	sesh->status = 1;
+	if (ft_strcmp(*sesh->arg, "env") == 0)
+		return(env_print(sesh->env));
+	if (ft_strcmp(*sesh->arg, "setenv") == 0 && sesh->arg[1])
+		return(set_env(sesh));
+	if (ft_strcmp(*sesh->arg, "unsetenv") == 0 && sesh->arg[1])
+		return(unset_env(sesh));
+	if (ft_strcmp(*sesh->arg, "echo") == 0 && sesh->arg[1])
+		return(ft_echo(sesh->arg + 1));
+	if (ft_strcmp(*sesh->arg, "cd") == 0 && sesh->arg[1])
+		return(ft_cd(sesh));
 	return(false);
 }
