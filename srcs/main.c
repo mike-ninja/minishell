@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/21 19:37:24 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:16:02 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ static char	*find_binary(char *file, char **path)
 	ret = NULL;
 	path_copy = ft_strdup(*path);
 	addr = path_copy;
-	while (*path_copy)
+	while (path_copy)
 	{
 		ret = confirm_addr(ft_strsep(&path_copy, "=:"), file);
 		if (ret)
 		{
-			free(addr);	
+			free(addr);
 			return (ret);
 		}
 	}
-	free(addr);
+	free(addr); // It never reaches here for some reason
 	return (NULL);
 }
 
@@ -82,6 +82,8 @@ static int	system_call(t_session *sesh, char *file)
 			if (execve(path, sesh->arg, sesh->env) == -1) // Result is negative if failure
 				return (-1);
 		}
+		else
+			return (-1);
 	}
 	else
 		wait(&id);
@@ -94,6 +96,7 @@ int	main(void)
 	t_session	sesh[1];
 
 	line = NULL;
+	header_print();
 	session_init(sesh);
 	sesh->env = env_init();
 	while (1)
@@ -101,7 +104,7 @@ int	main(void)
 		ft_printf(PROMPT);
 		if (get_next_line(0, &line))
 		{
-			sesh->arg = get_args(line);
+			sesh->arg = get_args(&line);
 			if (!built_ins(sesh))
 			{	
 				if (ft_strcmp(*sesh->arg, "exit") == 0)

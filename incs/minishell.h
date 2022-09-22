@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/21 19:07:41 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:26:55 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
 # include "../libft/incs/libft.h"
 # include "../libft/incs/ft_printf.h"
 
-# include <sys/stat.h>
+/* Bonus */
+# include	<sys/ioctl.h>
 
-# define SUCCESS 1
-# define FAILURE 0
-# define PROMPT "$> "
+# include	<sys/stat.h>
+
+# define	SUCCESS 1
+# define	FAILURE 0
+# define	PROMPT "$> "
 
 extern int errno ; // Delete this when no longer used
 
@@ -42,7 +45,7 @@ int		unset_env(t_session *session);
 char	**env_get_var(t_session *sesh, char *key);
 
 /* Parsing through user input */
-char	**get_args(char *line);
+char	**get_args(char **line);
 
 /* Parse through built in functions */
 bool	built_ins(t_session *session);
@@ -54,5 +57,8 @@ void	arg_clean(char **arg, char *line);
 
 /* Changing directory */
 int		ft_cd(t_session *sesh);
+
+/* Printing header */
+void	header_print(void);
 
 #endif

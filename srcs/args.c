@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/18 16:57:19 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:12:38 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,32 +79,60 @@ static size_t	arg_len(char *line)
 	return (len);
 }
 
-char	**get_args(char *line) // It needs to be done via char **
+static char	*skip_whitespace(char *str)
+{
+	if (str)
+	{
+		while (*str)
+		{
+			if (!ft_iswhitespace(*str))
+				return(str);
+			str++;
+		}	
+	}
+	return(NULL);
+
+	
+	// if (str)
+	// {
+	// 	while (ft_iswhitespace(*str))
+	// 	{
+	// 		str++;
+	// 		if (!str)
+	// 			return (NULL);
+	// 	}
+	// 	return (str);
+	// }
+	// return (NULL);
+}
+
+char	**get_args(char **line) // It needs to be done via char **
 {
 	char	**args;
-	char	**ptr;
+	char	*ptr;
 	size_t	len;
+	size_t	i;
 	
-
-	len = arg_len(line);
+	i = 0;
+	ptr = *line;
+	len = arg_len(ptr);
 	args = (char **)malloc(sizeof(char *) * len + 1);
 	if (!args)
 		return (NULL);
-	ptr = args;
-	args[len] = NULL;
-	while (len--)
+	ptr = skip_whitespace(ptr);
+	while (ptr)
 	{
-		// ft_printf("This happens\n");
-		while (ft_iswhitespace(*line))
-			line++;
-		if (*line == '"')
+		if (*ptr == '"')
 		{
-			line++;
-			*args = ft_strdup(ft_strsep(&line, "\""));
+			ptr++;
+			args[i++] = ft_strdup(ft_strsep(&ptr, "\""));
 		}
 		else
-			*args = ft_strdup(ft_strsep(&line, " "));
-		args++;
+			args[i++] = ft_strdup(ft_strsep(&ptr, " "));
+		ptr = skip_whitespace(ptr);
 	}
-	return (ptr);
+	args[i] = NULL;
+	free(*line);
+	*line = NULL;
+	return (args);
 }

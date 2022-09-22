@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 11:05:20 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/21 18:00:01 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/22 13:18:57 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ void	env_clean(char **env)
 	env = NULL;
 }
 
-int	ft_exit(t_session *session, char *message)
+int	ft_exit(t_session *sesh, char *message)
 {
 	if (message)
-		ft_printf("%s\n", message);
-	env_clean(session->env);
+		ft_printf("-minishell: %s: %s\n", *sesh->arg, message);
+	env_clean(sesh->env);
+	arg_clean(sesh->arg, NULL);
 	return (SUCCESS);
 }
