@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/22 15:16:02 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:50:15 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,15 @@ static char	*confirm_addr(char *addr, char *file)
 	char	*path;
 	struct stat	buff;
 
-	slash = ft_strjoin(addr, "/");
-	path = ft_strjoin(slash, file);
+	slash = NULL;
+	path = NULL;
+	if (addr)
+	{
+		slash = ft_strjoin(addr, "/");
+		path = ft_strjoin(slash, file);
+	}
+	else
+		path = file;
 	if (stat(path, &buff) == 0)
 		return (addr_return(0, slash, path));
 	else
@@ -76,9 +83,11 @@ static int	system_call(t_session *sesh, char *file)
 		return (-1);
 	else if (id == 0)
 	{
-		path = find_binary(file, env_get_var(sesh, "PATH"));
+		path = confirm_addr(NULL, file);
+		if (!path)
+			path = find_binary(file, env_get_var(sesh, "PATH"));
 		if (path)
-		{
+		{	
 			if (execve(path, sesh->arg, sesh->env) == -1) // Result is negative if failure
 				return (-1);
 		}
@@ -105,6 +114,7 @@ int	main(void)
 		if (get_next_line(0, &line))
 		{
 			sesh->arg = get_args(&line);
+			sesh->arg = dollar_parse(sesh);
 			if (!built_ins(sesh))
 			{	
 				if (ft_strcmp(*sesh->arg, "exit") == 0)

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/22 15:26:55 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:34:43 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**env_get_var(t_session *sesh, char *key);
 
 /* Parsing through user input */
 char	**get_args(char **line);
+char	**dollar_parse(t_session *sesh);
 
 /* Parse through built in functions */
 bool	built_ins(t_session *session);

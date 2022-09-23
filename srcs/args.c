@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/22 16:12:38 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/22 16:15:46 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,32 +91,17 @@ static char	*skip_whitespace(char *str)
 		}	
 	}
 	return(NULL);
-
-	
-	// if (str)
-	// {
-	// 	while (ft_iswhitespace(*str))
-	// 	{
-	// 		str++;
-	// 		if (!str)
-	// 			return (NULL);
-	// 	}
-	// 	return (str);
-	// }
-	// return (NULL);
 }
 
 char	**get_args(char **line) // It needs to be done via char **
 {
 	char	**args;
 	char	*ptr;
-	size_t	len;
 	size_t	i;
 	
 	i = 0;
 	ptr = *line;
-	len = arg_len(ptr);
-	args = (char **)malloc(sizeof(char *) * len + 1);
+	args = (char **)malloc(sizeof(char *) * (arg_len(ptr) + 1));
 	if (!args)
 		return (NULL);
 	ptr = skip_whitespace(ptr);
