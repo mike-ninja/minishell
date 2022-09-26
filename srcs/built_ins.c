@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/25 10:05:12 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 12:30:46 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	built_ins(t_session *sesh)
 		return(env_print(sesh->env));
 	}
 	if (ft_strcmp(*sesh->arg, "setenv") == 0 && sesh->arg[1])
-		return(set_env(sesh));
+		return(set_env(sesh, sesh->arg[1]));
 	if (ft_strcmp(*sesh->arg, "unsetenv") == 0 && sesh->arg[1])
 		return(unset_env(sesh));
 	if (ft_strcmp(*sesh->arg, "echo") == 0 && sesh->arg[1])

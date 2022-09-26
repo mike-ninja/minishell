@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/26 09:52:50 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 12:29:50 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct sesssion
 size_t	env_len(char **env);
 int		env_print(char **env);
 char	**env_init(void);
-int		set_env(t_session *session);
+int		set_env(t_session *session, char *env);
 int		unset_env(t_session *session);
 char	**env_get_var(t_session *sesh, char *key);
 char	**env_last_prog(char *path, t_session *sesh);

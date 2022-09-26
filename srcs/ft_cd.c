@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/26 09:58:16 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 12:33:06 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ static void	cd_success(t_session *sesh)
 {
 	char	cwd[MAXPATHLEN];
 
+	//set OLDPWD env here
+	if (!env_get_var(sesh, "OLDPWD"))
+		set_env(sesh, "OLDPWD=");
 	swap_oldpwd(sesh);
 	swap_pwd(sesh, getcwd(cwd, sizeof(cwd)));
 }

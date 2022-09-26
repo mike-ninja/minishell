@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   func_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/24 17:21:42 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 12:30:05 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	unset_env(t_session *sesh)
 	return (1);
 }
 
-int set_env(t_session *sesh)
+int set_env(t_session *sesh, char *env)
 {
 	char	**new_array;
 	char	**ptr;
@@ -55,7 +55,7 @@ int set_env(t_session *sesh)
 	ptr = sesh->env;
 	while (*ptr)
 		new_array[i++] = ft_strdup(*ptr++);
-	new_array[i++] = ft_strdup(sesh->arg[1]);
+	new_array[i++] = ft_strdup(env);
 	new_array[i] = NULL;
 	env_clean(sesh->env);
 	sesh->env = new_array;
