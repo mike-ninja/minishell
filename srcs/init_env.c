@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_env.c                                          :+:      :+:    :+:   */
+/*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/19 17:02:23 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/25 15:33:08 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern	char **environ;
+extern char	**environ;
 
 size_t	env_len(char **env)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (env[len])
@@ -24,15 +24,12 @@ size_t	env_len(char **env)
 	return (len);
 }
 
-static char	*shell_level(char *my_env, char *env)
+static char	*lvl_str(char *env)
 {
-	char	*key;
-	int		lvl;
-	char	*lvl_str;
 	int		i;
-	
+	int		lvl;
+
 	i = 0;
-	lvl_str = NULL;
 	while (env[i] < '0' || env[i] > '9')
 		i++;
 	lvl = ft_atoi(&env[i]);
@@ -40,32 +37,34 @@ static char	*shell_level(char *my_env, char *env)
 		lvl++;
 	else
 		lvl = 0;
-	lvl_str = ft_itoa(lvl);
-	key = env;
-	key[i] = '\0';
-	my_env = ft_strjoin(key, lvl_str);
-	free(lvl_str);
+	return (ft_itoa(lvl));
+}
+
+static char	*shlvl(char *my_env, char *env)
+{
+	char	*lvl;
+
+	lvl = lvl_str(env);
+	my_env = ft_strjoin("SHLVL=", lvl);
+	free(lvl);
 	return (my_env);
 }
 
 char	**env_init(void)
 {
+	int		i;
 	char	**env;
-	char	**ptr;
 
-	ptr = (char **)malloc(sizeof(char *) * env_len(environ) + 1);
-	if (!ptr)
-		return(NULL);
-	env = ptr;
-	while (*environ)
+	env = (char **)malloc(sizeof(char *) * env_len(environ) + 1);
+	if (!env)
+		return (NULL);
+	i = -1;
+	while (environ[++i])
 	{
-		if (ft_strstr(*environ, "SHLVL"))
-			*ptr = shell_level(*ptr, *environ);
+		if (ft_strstr(environ[i], "SHLVL"))
+			env[i] = shlvl(env[i], environ[i]);
 		else
-			*ptr = ft_strdup(*environ);
-		environ++;
-		ptr++;
+			env[i] = ft_strdup(environ[i]);
 	}
-	*ptr = NULL;
 	return (env);
 }

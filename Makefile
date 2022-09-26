@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/09/23 12:39:07 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/09/25 15:16:05 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ MAGENTA 	= \033[1;95m
 CYAN 		= \033[1;96m
 
 FILE = main
-FILE += set_env
+FILE += init_env
 FILE += func_env
 FILE += built_ins
 FILE += args
@@ -37,6 +37,7 @@ FILE += exit
 FILE += ft_cd
 FILE += header
 FILE += dollar_parse
+FILE += tilda_parse
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILE)))
 

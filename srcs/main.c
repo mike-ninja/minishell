@@ -6,18 +6,12 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/23 14:50:15 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:33:01 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	session_init(t_session *sesh)
-{
-	sesh->env = NULL;
-	sesh->arg = NULL;
-	sesh->pwd = NULL;
-}
 
 static char	*addr_return(int status, char *slash, char *path)
 {
@@ -27,13 +21,13 @@ static char	*addr_return(int status, char *slash, char *path)
 		free(path);
 		return (NULL);
 	}
-	return(path);
+	return (path);
 }
 
-static char	*confirm_addr(char *addr, char *file)
+char	*confirm_addr(char *addr, char *file)
 {
-	char	*slash;
-	char	*path;
+	char		*slash;
+	char		*path;
 	struct stat	buff;
 
 	slash = NULL;
@@ -69,8 +63,37 @@ static char	*find_binary(char *file, char **path)
 			return (ret);
 		}
 	}
-	free(addr); // It never reaches here for some reason
+	free(addr);
 	return (NULL);
+}
+
+char	**env_last_prog(char *path, t_session *sesh)
+{
+	int		i;
+	int		x;
+	char	tmp;
+	char	*tofree;
+
+	i = -1;
+	tofree = NULL;
+	while (sesh->env[++i])
+	{
+		x = 0;
+		while (sesh->env[i][x] != '=')
+			x++;
+		tmp = sesh->env[i][x + 1];
+		sesh->env[i][x + 1] = '\0';
+		if (ft_strcmp(sesh->env[i], "_=") == 0)
+		{
+			tofree = sesh->env[i];
+			sesh->env[i] = ft_strjoin(sesh->env[i], path);
+			sesh->env[i][x] = '=';
+			free(tofree);
+			break ;
+		}
+		sesh->env[i][x + 1] = tmp;
+	}
+	return (sesh->env);
 }
 
 static int	system_call(t_session *sesh, char *file)
@@ -88,7 +111,8 @@ static int	system_call(t_session *sesh, char *file)
 			path = find_binary(file, env_get_var(sesh, "PATH"));
 		if (path)
 		{	
-			if (execve(path, sesh->arg, sesh->env) == -1) // Result is negative if failure
+			sesh->env = env_last_prog(path, sesh); // This never gets tranfered
+			if (execve(path, sesh->arg, sesh->env) == -1)
 				return (-1);
 		}
 		else
@@ -99,6 +123,13 @@ static int	system_call(t_session *sesh, char *file)
 	return (1);
 }
 
+static void	session_init(t_session *sesh)
+{
+	sesh->env = env_init();
+	sesh->arg = NULL;
+	sesh->pwd = NULL;
+}
+
 int	main(void)
 {
 	char		*line;
@@ -107,23 +138,21 @@ int	main(void)
 	line = NULL;
 	header_print();
 	session_init(sesh);
-	sesh->env = env_init();
 	while (1)
 	{
 		ft_printf(PROMPT);
 		if (get_next_line(0, &line))
 		{
-			sesh->arg = get_args(&line);
-			sesh->arg = dollar_parse(sesh);
+			sesh->arg = get_args(sesh, &line);
 			if (!built_ins(sesh))
 			{	
 				if (ft_strcmp(*sesh->arg, "exit") == 0)
-					return(ft_exit(sesh, "exit\n"));
+					return (ft_exit(sesh, "exit\n"));
 				if (system_call(sesh, *sesh->arg) == -1)
-					return(ft_exit(sesh, strerror(errno)));
+					return (ft_exit(sesh, strerror(errno)));
 			}
 			arg_clean(sesh->arg, line);
 		}
 	}
-	return(SUCCESS);
+	return (SUCCESS);
 }

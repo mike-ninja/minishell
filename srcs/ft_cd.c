@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/23 13:17:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:41:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,30 +58,47 @@ static void swap_pwd(t_session *sesh)
 	}
 }
 
-static void	cd_success(char *cwd, t_session *sesh)
+static void	cd_success(char *path, t_session *sesh)
 {
 	if (sesh->pwd)
 	{
 		free(sesh->pwd);
 		sesh->pwd = NULL;
 	}
-	sesh->pwd = ft_strdup(cwd);
+	sesh->pwd = ft_strdup(path);
 	swap_oldpwd(sesh);
 	swap_pwd(sesh);
 }
 
+// int	ft_cd(t_session *sesh)
+// {
+// 	char	cwd[256];
+
+// 	if (chdir(sesh->arg[1]) != 0)
+// 		return (0);
+// 	else 
+// 	{
+// 		if (getcwd(cwd, sizeof(cwd)) == NULL)
+// 			return (0);
+// 		else
+// 			cd_success(cwd, sesh);
+// 	}
+// 	return (1);
+// }
+
 int	ft_cd(t_session *sesh)
 {
-	char	cwd[256];
+	char	*path;
 
-	if (chdir(sesh->arg[1]) != 0)
-		return (0);
-	else 
+	path = confirm_addr(NULL, sesh->arg[1]);
+	if (path)
 	{
-		if (getcwd(cwd, sizeof(cwd)) == NULL)
+		if (chdir(sesh->arg[1]) != 0)
 			return (0);
 		else
-			cd_success(cwd, sesh);
-	}
+			cd_success(path, sesh);
+	}	
+	else 
+		return (0);
 	return (1);
 }

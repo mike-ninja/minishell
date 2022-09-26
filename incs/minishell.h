@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/23 14:34:43 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:33:53 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,38 @@
 # include "../libft/incs/libft.h"
 # include "../libft/incs/ft_printf.h"
 
+/* Mandatory */
+# include	<sys/stat.h>
+
 /* Bonus */
 # include	<sys/ioctl.h>
 
-# include	<sys/stat.h>
-
-# define	SUCCESS 1
-# define	FAILURE 0
-# define	PROMPT "$> "
+# define SUCCESS 1
+# define FAILURE 0
+# define PROMPT "$> "
 
 extern int errno ; // Delete this when no longer used
 
-
-typedef struct	sesssion
+typedef struct sesssion
 {
 	char	**env;
 	char	**arg;
 	char	*pwd;
-	// char	*las_exec;
 }				t_session;
 
 /* Functions for Environment Variables */
 size_t	env_len(char **env);
 int		env_print(char **env);
 char	**env_init(void);
-int 	set_env(t_session *session);
+int		set_env(t_session *session);
 int		unset_env(t_session *session);
 char	**env_get_var(t_session *sesh, char *key);
+char	**env_last_prog(char *path, t_session *sesh);
 
 /* Parsing through user input */
-char	**get_args(char **line);
+char	**get_args(t_session *sesh, char **line);
 char	**dollar_parse(t_session *sesh);
+char	**tilda_parse(t_session *sesh);
 
 /* Parse through built in functions */
 bool	built_ins(t_session *session);
@@ -61,5 +62,8 @@ int		ft_cd(t_session *sesh);
 
 /* Printing header */
 void	header_print(void);
+
+/* Confirming file exists */
+char	*confirm_addr(char *addr, char *file);
 
 #endif

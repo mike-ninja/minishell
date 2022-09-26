@@ -6,75 +6,40 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/22 16:15:46 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:36:08 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	print_args(t_input *head)
-// {
-// 	while (head)
-// 	{
-// 		ft_printf("[%s]\n", head->str);
-// 		head = head->next;	
-// 	}
-// }
-
-// char	*qoute_sep(char **line)
-// {
-// 	int		qou_pos;
-// 	char	*ret;
-	
-// 	ret = NULL;
-// 	qou_pos = 0;
-// 	while (line[0][qou_pos] && line[0][qou_pos] != '"')
-// 		qou_pos++;
-// 	ret = (char *)malloc(qou_pos + 1);
-// 	if (!ret)
-// 		return (NULL);
-// 	ret[qou_pos] = '\0';
-// 	ft_strncpy(ret, line[0], qou_pos);
-// 	line[0] = &line[0][qou_pos];
-// 	return(ret);
-// }
-
-static size_t	get_index_position(char *line, size_t index)
+static size_t	get_qoute_position(char *line, int i)
 {
-	index++;
-	while (line[index] != '"' && line[index])
-		index++;
-	return(index);
+	i++;
+	while (line[i] != '"' && line[i])
+		i++;
+	return (i);
 }
 
-// static void	init_arg_struct(t_args *ret, size_t len)
-// {
-// 	ret->array = (char **)malloc(sizeof(char *) * len + 1);
-// 	if (!ret->array)
-// 		ret->array = NULL;
-// 	ret->len = len;
-// }
-
-static size_t	arg_len(char *line)
+static int	arg_qty(char *line)
 {
-	size_t	len;
-	size_t	index;
+	int	i;
+	int	len;
 
+	i = 0;
 	len = 0;
-	index = 0;
-	while (line[index] != '\0')
+	while (line[i] != '\0')
 	{
-		if (line[index] == '"')
+		if (line[i] == '"')
 		{
-			len++;	
-			index = get_index_position(line, index);
+			len++;
+			i = get_qoute_position(line, i);
 		}
-		if (line[index] != ' ' && index == 0)
+		if (line[i] != ' ' && i == 0)
 				len++;
-		if (index)
-			if (line[index] != ' ' && line[index - 1] == ' ')
+		if (i)
+			if (line[i] != ' ' && line[i - 1] == ' ')
 				len++;
-		index++;
+		i++;
 	}
 	return (len);
 }
@@ -86,24 +51,20 @@ static char	*skip_whitespace(char *str)
 		while (*str)
 		{
 			if (!ft_iswhitespace(*str))
-				return(str);
+				return (str);
 			str++;
 		}	
 	}
-	return(NULL);
+	return (NULL);
 }
 
-char	**get_args(char **line) // It needs to be done via char **
+static char	**collect_args(char **args, char **line)
 {
-	char	**args;
+	int		i;
 	char	*ptr;
-	size_t	i;
-	
+
 	i = 0;
 	ptr = *line;
-	args = (char **)malloc(sizeof(char *) * (arg_len(ptr) + 1));
-	if (!args)
-		return (NULL);
 	ptr = skip_whitespace(ptr);
 	while (ptr)
 	{
@@ -120,4 +81,15 @@ char	**get_args(char **line) // It needs to be done via char **
 	free(*line);
 	*line = NULL;
 	return (args);
+}
+
+char	**get_args(t_session *sesh, char **line)
+{
+	sesh->arg = (char **)malloc(sizeof(char *) * (arg_qty(*line) + 1));
+	if (!sesh->arg)
+		return (NULL);
+	sesh->arg = collect_args(sesh->arg, line);
+	sesh->arg = dollar_parse(sesh);
+	sesh->arg = tilda_parse(sesh);
+	return (sesh->arg);
 }

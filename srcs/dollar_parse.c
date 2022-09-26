@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/23 15:34:51 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/25 19:03:40 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,24 @@ static char	**dollar_env(char **arg, char **env, char *key_frag)
 	char	*key;
 	int		i;
 
-	i = 0;
 	key_frag = ft_key(key_frag);
 	if (key_frag)
 	{
 		key = ft_strsep(&key_frag, "}");
-		while (*env)
+		while (env[0])
 		{
-			if (ft_strstr(*env, key))
+			i = 0;
+			while(env[0][i] != '=')
+				i++;
+			env[0][i] = '\0';
+			if (ft_strcmp(env[0], key) == 0)
 			{
 				free(*arg);
-				while(env[0][i] != '=')
-					i++;
-				env[0][i] = '\0';
 				*arg = ft_strdup(&env[0][i + 1]);
 				env[0][i] = '=';
 				return (arg);
 			}
+			env[0][i] = '=';
 			env++;
 		}
 	}
