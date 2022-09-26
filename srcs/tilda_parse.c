@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tilda_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 15:26:10 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/24 15:53:29 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 11:27:18 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 static char	**tilda_env(char **arg, char **env)
 {
-	char	*var;
+	char	*extra;
 	char	*tofree;
 
-	var = NULL;
-	tofree = arg[0];
 	if (!arg[0][1] || arg[0][1] == '/')
 	{
-		arg[0] = ft_strdup(ft_strchr(*env, '=') + 1);
-		if (arg[0][1] == '/')
-		{
-			var = arg[0];
-			arg[0] = ft_strjoin(var, tofree);
-			free(var);
-		}
+		tofree = arg[0];
+		arg[0] = ft_strdup(ft_strchr(env[0], '=') + 1);
+		extra = ft_strchr(tofree, '/');
 		free(tofree);
+		if (extra)
+		{
+			tofree = arg[0];
+			arg[0] = ft_strjoin(arg[0], extra);
+			free(tofree);
+		}
 	}
 	return (arg);
 }
