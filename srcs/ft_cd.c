@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/25 14:41:21 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 09:58:16 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void swap_oldpwd(t_session *sesh)
 	}
 }
 
-static void swap_pwd(t_session *sesh)
+static void swap_pwd(t_session *sesh, char *cwd)
 {
 	char	**env;
 
@@ -54,37 +54,17 @@ static void swap_pwd(t_session *sesh)
 	{
 		free(*env);
 		*env = NULL;
-		*env = ft_strjoin("PWD=", sesh->pwd);
+		*env = ft_strjoin("PWD=", cwd);
 	}
 }
 
-static void	cd_success(char *path, t_session *sesh)
+static void	cd_success(t_session *sesh)
 {
-	if (sesh->pwd)
-	{
-		free(sesh->pwd);
-		sesh->pwd = NULL;
-	}
-	sesh->pwd = ft_strdup(path);
+	char	cwd[MAXPATHLEN];
+
 	swap_oldpwd(sesh);
-	swap_pwd(sesh);
+	swap_pwd(sesh, getcwd(cwd, sizeof(cwd)));
 }
-
-// int	ft_cd(t_session *sesh)
-// {
-// 	char	cwd[256];
-
-// 	if (chdir(sesh->arg[1]) != 0)
-// 		return (0);
-// 	else 
-// 	{
-// 		if (getcwd(cwd, sizeof(cwd)) == NULL)
-// 			return (0);
-// 		else
-// 			cd_success(cwd, sesh);
-// 	}
-// 	return (1);
-// }
 
 int	ft_cd(t_session *sesh)
 {
@@ -96,7 +76,7 @@ int	ft_cd(t_session *sesh)
 		if (chdir(sesh->arg[1]) != 0)
 			return (0);
 		else
-			cd_success(path, sesh);
+			cd_success(sesh);
 	}	
 	else 
 		return (0);

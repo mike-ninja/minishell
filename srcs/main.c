@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/25 18:33:01 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 09:48:30 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static void	session_init(t_session *sesh)
 {
 	sesh->env = env_init();
 	sesh->arg = NULL;
-	sesh->pwd = NULL;
+	// sesh->pwd = ft_strchr(*env_get_var(sesh, "PWD"), '=') + 1;
 }
 
 int	main(void)

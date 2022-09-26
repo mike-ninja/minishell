@@ -3,122 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/25 19:03:40 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 11:04:22 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char	**dollar_env(t_session *sesh, char *key)
-// {
-// 	char	**env;
-// 	char	*key;
-
-// 	env = sesh->env;
-// 	while (*env)
-// 	{
-// 		key 
-// 		if (ft_strstr())
-// 	}
-// }
-
-// void	dollar_env(t_session *sesh, char *key, size_t len)
-// {
-// 	char	**env_ptr;
-// 	char	*key_env;
-// 	char	*env;
-// 	char	*tofree;
-
-// 	env = NULL;
-// 	tofree = NULL;
-// 	key_env = NULL;
-// 	env_ptr = sesh->env;
-// 	while (*env_ptr)
-// 	{
-// 		ft_printf("%s %i\n", key, len);
-// 		if (ft_strnequ(*env_ptr, key, len))
-// 		{
-// 			env = ft_strdup(*env_ptr);
-// 			tofree = env;
-// 			key_env = ft_strsep(&env, "=");
-// 			if (ft_strnequ(key_env, key, len))
-// 			{
-// 				free(*env_ptr);
-// 				*env_ptr = ft_strdup(env);
-// 				ft_printf("key %s after transfer %s env %s\n", key_env, *env_ptr, env);
-// 				free(tofree);
-// 				break ;
-// 			}
-// 		}
-// 		env_ptr++;
-// 	}
-// }
-
-static char	*ft_key(char *key)
+static int	ft_key(char *key)
 {
-	char	*ptr;
+	int	i;
 
-	if (*key == '{')
-	{
-		key += 1;
-		ptr = key;
-		while (*ptr != '}' && *ptr)
-			ptr++;
-		if (*ptr == '\0')
-			return (NULL);
-	}
-	return (key);
+	i = 0;
+	while (key[i] != '$')
+		i++;
+	i++;
+	return (i);
 }
 
-static char	**dollar_env(char **arg, char **env, char *key_frag)
+static char	**dollar_swap(char **arg, char **env, char *key)
 {
-	char	*key;
 	int		i;
+	int		key_pos;
 
-	key_frag = ft_key(key_frag);
-	if (key_frag)
+	key_pos = ft_key(key);
+	key[key_pos - 1] = '\0';
+	while (env[0])
 	{
-		key = ft_strsep(&key_frag, "}");
-		while (env[0])
+		i = 0;
+		while(env[0][i] != '=')
+			i++;
+		env[0][i] = '\0';
+		if (ft_strcmp(env[0], &key[key_pos]) == 0)
 		{
-			i = 0;
-			while(env[0][i] != '=')
-				i++;
-			env[0][i] = '\0';
-			if (ft_strcmp(env[0], key) == 0)
-			{
-				free(*arg);
-				*arg = ft_strdup(&env[0][i + 1]);
-				env[0][i] = '=';
-				return (arg);
-			}
+			free(*arg);
+			*arg = ft_strjoin(key, &env[0][i + 1]);
 			env[0][i] = '=';
-			env++;
+			return (arg);
 		}
+		env[0][i] = '=';
+		env++;
 	}
 	free(*arg);
-	*arg = ft_strdup("");
+	*arg = ft_strdup(key);
 	return (arg);
 }
 
 char	**dollar_parse(t_session *sesh)
 {
-	char	*key;
 	char	**arg;
 
-	key = NULL;
 	arg = sesh->arg;
 	while (*sesh->arg)
 	{
-		key = *sesh->arg;
-		if (*key == '$')
-		{
-			key += 1;
-			sesh->arg = dollar_env(sesh->arg, sesh->env, key);
-		}
+		if (ft_strchr(*sesh->arg, '$'))
+			sesh->arg = dollar_swap(sesh->arg, sesh->env, *sesh->arg);
 		sesh->arg++;
 	}
 	return(arg);

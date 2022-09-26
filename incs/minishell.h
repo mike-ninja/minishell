@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/25 18:33:53 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/26 09:52:50 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define SUCCESS 1
 # define FAILURE 0
 # define PROMPT "$> "
+# define MAXPATHLEN 1024
 
 extern int errno ; // Delete this when no longer used
 
@@ -32,7 +33,7 @@ typedef struct sesssion
 {
 	char	**env;
 	char	**arg;
-	char	*pwd;
+	// char	*pwd;
 }				t_session;
 
 /* Functions for Environment Variables */
