@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/26 11:04:22 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:05:05 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**dollar_parse(t_session *sesh)
 	arg = sesh->arg;
 	while (*sesh->arg)
 	{
-		if (ft_strchr(*sesh->arg, '$'))
+		if (ft_strchr(*sesh->arg, '$') && (ft_strlen(*sesh->arg) > 1))
 			sesh->arg = dollar_swap(sesh->arg, sesh->env, *sesh->arg);
 		sesh->arg++;
 	}

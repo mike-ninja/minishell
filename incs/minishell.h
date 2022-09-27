@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/26 12:29:50 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:15:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,8 @@ void	header_print(void);
 
 /* Confirming file exists */
 char	*confirm_addr(char *addr, char *file);
+
+/* Cycle */
+void	cycle(t_session *sesh, char *line);
 
 #endif

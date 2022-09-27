@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/26 13:55:56 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/27 10:47:12 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,11 @@ char	**env_init(void)
 	char	**env;
 
 	env = (char **)malloc(sizeof(char *) * env_len(environ));
-	ft_printf("len %i\n", env_len(environ));
 	if (!env)
 		return (NULL);
 	i = -1;
 	while (environ[++i])
 	{
-		ft_printf("%i %s\n", i, environ[i]);
 		if (ft_strstr(environ[i], "OLDPWD"))
 			break ;
 		if (ft_strstr(environ[i], "SHLVL"))
@@ -70,7 +68,6 @@ char	**env_init(void)
 		else
 			env[i] = ft_strdup(environ[i]);
 	}
-	ft_printf("i %i\n", i);
 	env[i] = NULL;
 	return (env);
 }

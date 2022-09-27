@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/26 09:48:30 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:19:48 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,8 @@ int	main(void)
 				if (system_call(sesh, *sesh->arg) == -1)
 					return (ft_exit(sesh, strerror(errno)));
 			}
-			arg_clean(sesh->arg, line);
+			// arg_clean(sesh->arg, line);
+			cycle(sesh, line);
 		}
 	}
 	return (SUCCESS);
