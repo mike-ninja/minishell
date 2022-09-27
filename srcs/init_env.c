@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/27 10:47:12 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:50:13 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern char	**environ;
 
-size_t	env_len(char **env)
+int	env_len(char **env)
 {
 	size_t	len;
 
@@ -54,15 +54,20 @@ char	**env_init(void)
 {
 	int		i;
 	char	**env;
+	int		len;
 
-	env = (char **)malloc(sizeof(char *) * env_len(environ));
+	len = env_len(environ);
+	// env = (char **)malloc(sizeof(char *) * env_len(environ));
+	// if (ft_strstr(environ[len - 1], "OLDPWD"))
+	// 	len--;
+	// ft_printf("len %i\n", len);
+	env = (char **)malloc(sizeof(char *) * len);
 	if (!env)
 		return (NULL);
 	i = -1;
 	while (environ[++i])
 	{
-		if (ft_strstr(environ[i], "OLDPWD"))
-			break ;
+		ft_printf("%i %s\n", i, environ[i]);
 		if (ft_strstr(environ[i], "SHLVL"))
 			env[i] = shlvl(env[i], environ[i]);
 		else

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/27 11:08:30 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:34:30 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int	env_print(char **env)
 {
 	while (*env)
-		ft_printf("%s\n", *env++);
+	{
+		ft_printf("%s\n", *env);
+		env++;
+	}
 	return (1);
 }
 
