@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/27 14:50:13 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 07:45:06 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ int	env_len(char **env)
 	size_t	len;
 
 	len = 0;
-	while (env[len])
-		len++;
+	while (*env)
+	{
+		if (!ft_strstr(*env, "OLDPWD="))
+			len++;
+		env++;
+	}
 	return (len);
 }
 
@@ -57,21 +61,22 @@ char	**env_init(void)
 	int		len;
 
 	len = env_len(environ);
-	// env = (char **)malloc(sizeof(char *) * env_len(environ));
-	// if (ft_strstr(environ[len - 1], "OLDPWD"))
-	// 	len--;
-	// ft_printf("len %i\n", len);
-	env = (char **)malloc(sizeof(char *) * len);
+	ft_printf("len %i\n", len);
+	env = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!env)
 		return (NULL);
-	i = -1;
-	while (environ[++i])
+	i = 0;
+	while (*environ)
 	{
-		ft_printf("%i %s\n", i, environ[i]);
-		if (ft_strstr(environ[i], "SHLVL"))
-			env[i] = shlvl(env[i], environ[i]);
-		else
-			env[i] = ft_strdup(environ[i]);
+		if (!ft_strstr(*environ, "OLDPWD="))
+		{	
+			if (ft_strstr(*environ, "SHLVL"))
+				env[i] = shlvl(env[i], *environ);
+			else
+				env[i] = ft_strdup(*environ);
+			i++;
+		}
+		environ++;
 	}
 	env[i] = NULL;
 	return (env);
