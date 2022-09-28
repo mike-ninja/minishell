@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 11:20:34 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 13:43:45 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**dollar_parse(t_session *sesh);
 char	**tilda_parse(t_session *sesh);
 
 /* Parse through built in functions */
-bool	built_ins(t_session *session);
+int		built_ins(t_session *session);
 
 /* EXIT */
 void	env_clean(char **env);

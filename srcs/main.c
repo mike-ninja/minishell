@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 12:55:24 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 13:43:54 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int	main(void)
 			sesh->arg = get_args(sesh, &line);
 			if (*sesh->arg)
 			{
-				if (!built_ins(sesh))
+				if (built_ins(sesh) == -1)
 				{	
 					if (ft_strcmp(*sesh->arg, "exit") == 0)
 						return (ft_exit(sesh, "exit\n"));

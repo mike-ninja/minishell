@@ -68,11 +68,36 @@ static void	cd_success(t_session *sesh)
 	swap_pwd(sesh, getcwd(cwd, sizeof(cwd)));
 }
 
+static bool	is_oldpwd(t_session *sesh)
+{
+	char **env;
+
+	env = env_get_var(sesh, "OLDPWD=");
+	if (!env)
+		return (0);
+	return (1);
+}
+
+static bool cd_error_check(t_session *sesh)
+{
+	if (ft_strcmp(sesh->arg[1], "~-") == 0)
+		return (0);
+	if (ft_strcmp(sesh->arg[1], "-") == 0)
+		return (is_oldpwd(sesh));
+	return (1);
+}
+
 int	ft_cd(t_session *sesh)
 {
 	char	*path;
 
+	if (!cd_error_check(sesh))
+	{
+		ft_printf("cd: OLDPWD not set\n");
+		return (0);
+	}
 	path = confirm_addr(NULL, ft_strdup(sesh->arg[1]));
+	// path = confirm_addr(NULL, sesh->arg[1]);
 	if (path)
 	{
 		if (chdir(sesh->arg[1]) != 0)
