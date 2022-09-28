@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cycle.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/27 12:44:30 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 08:23:06 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 
 void	cycle(t_session *sesh, char *line)
 {
+	// ft_printf("last argument [%s]\n", *get_last_arg(sesh->arg));
 	// sesh->env = last_arg_update(sesh);
 	arg_clean(sesh->arg, line);
 }

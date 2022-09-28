@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 08:01:30 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 08:28:20 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,34 +67,34 @@ static char	*find_binary(char *file, char **path)
 	return (NULL);
 }
 
-char	**env_last_prog(char *path, t_session *sesh)
-{
-	int		i;
-	int		x;
-	char	tmp;
-	char	*tofree;
+// char	**env_last_prog(char *path, t_session *sesh)
+// {
+// 	int		i;
+// 	int		x;
+// 	char	tmp;
+// 	char	*tofree;
 
-	i = -1;
-	tofree = NULL;
-	while (sesh->env[++i])
-	{
-		x = 0;
-		while (sesh->env[i][x] != '=')
-			x++;
-		tmp = sesh->env[i][x + 1];
-		sesh->env[i][x + 1] = '\0';
-		if (ft_strcmp(sesh->env[i], "_=") == 0)
-		{
-			tofree = sesh->env[i];
-			sesh->env[i] = ft_strjoin(sesh->env[i], path);
-			sesh->env[i][x] = '=';
-			free(tofree);
-			break ;
-		}
-		sesh->env[i][x + 1] = tmp;
-	}
-	return (sesh->env);
-}
+// 	i = -1;
+// 	tofree = NULL;
+// 	while (sesh->env[++i])
+// 	{
+// 		x = 0;
+// 		while (sesh->env[i][x] != '=')
+// 			x++;
+// 		tmp = sesh->env[i][x + 1];
+// 		sesh->env[i][x + 1] = '\0';
+// 		if (ft_strcmp(sesh->env[i], "_=") == 0)
+// 		{
+// 			tofree = sesh->env[i];
+// 			sesh->env[i] = ft_strjoin(sesh->env[i], path);
+// 			sesh->env[i][x] = '=';
+// 			free(tofree);
+// 			break ;
+// 		}
+// 		sesh->env[i][x + 1] = tmp;
+// 	}
+// 	return (sesh->env);
+// }
 
 static int	system_call(t_session *sesh, char *file)
 {
@@ -111,7 +111,7 @@ static int	system_call(t_session *sesh, char *file)
 			path = find_binary(file, env_get_var(sesh, "PATH"));
 		if (path)
 		{	
-			sesh->env = env_last_prog(path, sesh); // This never gets tranfered
+			// sesh->env = env_last_prog(path, sesh); // This never gets tranfered
 			if (execve(path, sesh->arg, sesh->env) == -1)
 				return (-1);
 		}
