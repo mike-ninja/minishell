@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 07:45:06 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 07:56:47 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,8 @@ char	**env_init(void)
 {
 	int		i;
 	char	**env;
-	int		len;
 
-	len = env_len(environ);
-	ft_printf("len %i\n", len);
-	env = (char **)malloc(sizeof(char *) * (len + 1));
+	env = (char **)malloc(sizeof(char *) * (env_len(environ) + 1));
 	if (!env)
 		return (NULL);
 	i = 0;

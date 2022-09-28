@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/27 12:50:06 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 08:01:30 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ static void	session_init(t_session *sesh)
 {
 	sesh->env = env_init();
 	sesh->arg = NULL;
-	// sesh->pwd = ft_strchr(*env_get_var(sesh, "PWD"), '=') + 1;
 }
 
 int	main(void)
@@ -144,14 +143,16 @@ int	main(void)
 		if (get_next_line(0, &line))
 		{
 			sesh->arg = get_args(sesh, &line);
-			if (!built_ins(sesh))
-			{	
-				if (ft_strcmp(*sesh->arg, "exit") == 0)
-					return (ft_exit(sesh, "exit\n"));
-				if (system_call(sesh, *sesh->arg) == -1)
-					return (ft_exit(sesh, strerror(errno)));
+			if (*sesh->arg)
+			{
+				if (!built_ins(sesh))
+				{	
+					if (ft_strcmp(*sesh->arg, "exit") == 0)
+						return (ft_exit(sesh, "exit\n"));
+					if (system_call(sesh, *sesh->arg) == -1)
+						return (ft_exit(sesh, strerror(errno)));
+				}
 			}
-			// arg_clean(sesh->arg, line);
 			cycle(sesh, line);
 		}
 	}
