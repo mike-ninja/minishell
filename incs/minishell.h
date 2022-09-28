@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/27 20:57:08 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:20:34 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ void	header_print(void);
 char	*confirm_addr(char *addr, char *file);
 
 /* Cycle */
-void	cycle(t_session *sesh, char *line);
+char	**cycle(t_session *sesh, char *line);
 
 #endif

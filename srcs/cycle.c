@@ -6,29 +6,18 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 08:23:06 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:22:28 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static char	**get_last_env(char	**env)
-// {
-// 	while (*env)
-// 	{
-// 		if (ft_strnequ(*env, "_=", 2))
-// 			return (env);
-// 		env++;
-// 	}
-// 	return (NULL);
-// }
-
-// static char	**get_last_arg(char	**arg)
-// {
-// 	while (*arg)
-// 		arg++;
-// 	return(arg - 1);
-// }
+static char	**get_last_arg(char	**arg)
+{
+	while (*arg)
+		arg++;
+	return(arg - 1);
+}
 
 // char    **last_arg_update(t_session *sesh)
 // {
@@ -51,9 +40,13 @@
 // 	return (sesh->env);
 // }
 
-void	cycle(t_session *sesh, char *line)
+char	**cycle(t_session *sesh, char *line)
 {
-	// ft_printf("last argument [%s]\n", *get_last_arg(sesh->arg));
-	// sesh->env = last_arg_update(sesh);
+	char	**env;
+
+	env = env_get_var(sesh, "_=");
+	free(*env);
+	*env = ft_strjoin("_=", *get_last_arg(sesh->arg));
 	arg_clean(sesh->arg, line);
+	return (sesh->env);
 }

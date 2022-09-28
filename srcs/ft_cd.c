@@ -1,12 +1,12 @@
-/* ************************************************************************** */
+/* ***x*********************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/26 12:33:06 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:09:05 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	cd_success(t_session *sesh)
 {
 	char	cwd[MAXPATHLEN];
 
-	//set OLDPWD env here
 	if (!env_get_var(sesh, "OLDPWD"))
 		set_env(sesh, "OLDPWD=");
 	swap_oldpwd(sesh);
@@ -74,6 +73,7 @@ int	ft_cd(t_session *sesh)
 	char	*path;
 
 	path = confirm_addr(NULL, sesh->arg[1]);
+	ft_printf("%s\n", path);
 	if (path)
 	{
 		if (chdir(sesh->arg[1]) != 0)

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 09:56:56 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 11:10:19 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,26 @@
 // 	*arg = ft_strdup(key);
 // 	return (arg);
 // }
+
+// static char *check_spec_char(char *input)
+// {
+// 	while (*input)
+// 	{
+// 		if (!ft_isalnum(*input) && !ft_isalpha(*input))
+// 			return (input);
+// 		input++;
+// 	}
+// 	return (NULL);
+// }
+
 static char	**dollar_swap(char **arg, char **env, char *input)
 {
 	int			i;
+	// char		*spec;
 	char		*key;
 
 	key = ft_strsep(&input, "$");
+	// spec = check_spec_char(input)
 	while (env[0])
 	{
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 11:05:20 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/22 13:18:57 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:27:28 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ void	arg_clean(char **arg, char *line)
 	ptr = arg;
 	if (line)
 		free(line);
+	// char **art;
+	// art = arg;
+	// while (*art)
+	// {
+	// 	ft_printf("{%s}\n", *art);
+	// 	art++;
+	// }
 	while (*arg)
 	{
 		free(*arg);
