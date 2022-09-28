@@ -72,8 +72,7 @@ int	ft_cd(t_session *sesh)
 {
 	char	*path;
 
-	path = confirm_addr(NULL, sesh->arg[1]);
-	ft_printf("%s\n", path);
+	path = confirm_addr(NULL, ft_strdup(sesh->arg[1]));
 	if (path)
 	{
 		if (chdir(sesh->arg[1]) != 0)

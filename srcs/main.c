@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 12:30:51 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/28 12:55:24 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*confirm_addr(char *addr, char *file)
 
 	slash = NULL;
 	path = NULL;
-	ft_printf("file %s\n", file);
 	if (addr)
 	{
 		slash = ft_strjoin(addr, "/");
@@ -111,8 +110,7 @@ static int	system_call(t_session *sesh, char *file)
 		if (!path)
 			path = find_binary(file, env_get_var(sesh, "PATH"));
 		if (path)
-		{	
-			// sesh->env = env_last_prog(path, sesh); // This never gets tranfered
+		{
 			if (execve(path, sesh->arg, sesh->env) == -1)
 				return (-1);
 		}
