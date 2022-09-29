@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 12:17:28 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:55:36 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static char	**collect_args(char **args, char **line)
 // 		ft_printf("%s\n", *arg);
 // 		arg++;
 // 	}
-// }
+// }env -
 
 char	**get_args(t_session *sesh, char **line)
 {

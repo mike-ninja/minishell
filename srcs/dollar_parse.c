@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 08:56:20 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 11:15:09 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@
 static char	**dollar_swap(char **arg, char **env, char *input)
 {
 	int			i;
+	int			j;
 	char		**keys;
 	char		**ptr;
 	char		*tmp;
@@ -71,7 +72,8 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 	keys = ft_strsplit(input, '$');
 	free(*arg);
 	*arg = NULL;
-	while (*keys)
+	j = 0;
+	while (keys[j])
 	{
 		tmp = *arg;
 		ptr = env;
@@ -81,7 +83,7 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 			while(ptr[0][i] != '=')
 				i++;
 			ptr[0][i] = '\0';
-			if (ft_strcmp(ptr[0], keys[0]) == 0)
+			if (ft_strcmp(ptr[0], keys[j]) == 0)
 			{
 				if (!*arg)
 					*arg = ft_strdup(&ptr[0][i + 1]);
@@ -96,7 +98,7 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 			ptr[0][i] = '=';
 			ptr++;
 		}
-		if (!ptr[0])
+		if (!ptr[0] && !j)
 		{
 			if (!*arg)
 				*arg = ft_strdup(*keys);
@@ -106,34 +108,10 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 				free(tmp);
 			}
 		}
-		keys++;
+		j++;
 	}
 	return (arg);
 }
-
-/*
-while (env[0])
-{
-	i = 0;
-	j = -1;
-	while(env[0][i] != '=')
-		i++;
-	env[0][i] = '\0';
-	while (keys[++j])
-	{
-		if (ft_strcmp(env[0], keys[j]) == 0)
-		{
-			*arg = ft_strjoin(key, &env[0][i + 1]);
-			env[0][i] = '=';
-			free(key);
-			return (arg);
-		}	
-	}
-	env[0][i] = '=';
-	env++;
-}
-*/
-
 	
 char	**dollar_parse(t_session *sesh)
 {
@@ -148,16 +126,3 @@ char	**dollar_parse(t_session *sesh)
 	}
 	return(arg);
 }
-// char	**dollar_parse(t_session *sesh)
-// {
-// 	char	**arg;
-
-// 	arg = sesh->arg;
-// 	while (*sesh->arg)
-// 	{
-// 		if (ft_strchr(*sesh->arg, '$') && (ft_strlen(*sesh->arg) > 1))
-// 			sesh->arg = dollar_swap(sesh->arg, sesh->env, ft_strdup(*sesh->arg));
-// 		sesh->arg++;
-// 	}
-// 	return(arg);
-// }
