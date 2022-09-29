@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 15:41:03 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:43:27 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**cycle(t_session *sesh, char *line)
 	last_arg = NULL;
 	env = env_get_var(sesh, "_=");
 	last_arg = get_last_arg(sesh->arg);
-	if (last_arg)
+	if (last_arg && env)
 	{
 		free(*env);
 		*env = ft_strjoin("_=", *last_arg);

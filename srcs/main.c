@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 16:17:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:49:37 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,16 @@ static int	system_call(t_session *sesh, char *file)
 	return (1);
 }
 
+static char	**check_mandatory_env(t_session *sesh)
+{
+	// if (env_get_var(sesh, "")) // Continue from here
+	return (sesh->env);
+}
+
 static void	session_init(t_session *sesh)
 {
 	sesh->env = env_init();
+	sesh->env = check_mandatory_env(sesh);
 	sesh->arg = NULL;
 }
 
@@ -161,9 +168,7 @@ int	main(void)
 						// return (ft_exit(sesh, strerror(errno)));
 				}
 			}
-			// ft_printf("Before breaking\n");
 			sesh->env = cycle(sesh, line);
-			// ft_printf("After breaking\n");
 		}
 	}
 	return (SUCCESS);
