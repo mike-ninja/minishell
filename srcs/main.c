@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 13:43:54 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 15:32:11 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,16 @@ static int	system_call(t_session *sesh, char *file)
 {
 	pid_t	id;
 	char	*path;
+	char	**path_env;
 
 	id = fork();
 	if (id < 0)
 		return (-1);
 	else if (id == 0)
 	{
+		path_env = env_get_var(sesh, "PATH");
+		if (!path_env)
+			return (-1);
 		path = confirm_addr(NULL, file);
 		if (!path)
 			path = find_binary(file, env_get_var(sesh, "PATH"));
@@ -152,7 +156,9 @@ int	main(void)
 						return (ft_exit(sesh, strerror(errno)));
 				}
 			}
+			// ft_printf("Before breaking\n");
 			sesh->env = cycle(sesh, line);
+			// ft_printf("After breaking\n");
 		}
 	}
 	return (SUCCESS);

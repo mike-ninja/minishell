@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 07:56:47 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 15:00:42 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,47 @@ static char	*shlvl(char *my_env, char *env)
 	return (my_env);
 }
 
+static char	**hard_set_env(void)
+{
+	char	**env;
+	char	cwd[MAXPATHLEN];
+
+	env = (char **)malloc(sizeof(char *) * 4);
+	if (!env)
+		return (NULL);
+	env[0] = ft_strjoin("PWD=", getcwd(cwd, MAXPATHLEN));
+	env[1] = ft_strdup("SHLVL=1");
+	env[2] = ft_strdup("_=/usr/bin/env");
+	env[3] = NULL;
+	return (env);
+}
+
 char	**env_init(void)
 {
 	int		i;
 	char	**env;
 
-	env = (char **)malloc(sizeof(char *) * (env_len(environ) + 1));
-	if (!env)
-		return (NULL);
-	i = 0;
-	while (*environ)
+	if (*environ)
 	{
-		if (!ft_strstr(*environ, "OLDPWD="))
-		{	
-			if (ft_strstr(*environ, "SHLVL"))
-				env[i] = shlvl(env[i], *environ);
-			else
-				env[i] = ft_strdup(*environ);
-			i++;
+		env = (char **)malloc(sizeof(char *) * (env_len(environ) + 1));
+		if (!env)
+			return (NULL);
+		i = 0;
+		while (*environ)
+		{
+			if (!ft_strstr(*environ, "OLDPWD="))
+			{	
+				if (ft_strstr(*environ, "SHLVL"))
+					env[i] = shlvl(env[i], *environ);
+				else
+					env[i] = ft_strdup(*environ);
+				i++;
+			}
+			environ++;
 		}
-		environ++;
+		env[i] = NULL;
 	}
-	env[i] = NULL;
+	else
+		env = hard_set_env();
 	return (env);
 }

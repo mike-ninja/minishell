@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 13:43:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 15:29:18 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ char	*confirm_addr(char *addr, char *file);
 
 /* Cycle */
 char	**cycle(t_session *sesh, char *line);
+// t_session *cycle(t_session *sesh, char *line);
 
 #endif
