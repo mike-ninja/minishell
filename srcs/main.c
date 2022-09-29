@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 15:32:11 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:17:45 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,12 @@ int	main(void)
 					if (ft_strcmp(*sesh->arg, "exit") == 0)
 						return (ft_exit(sesh, "exit\n"));
 					if (system_call(sesh, *sesh->arg) == -1)
-						return (ft_exit(sesh, strerror(errno)));
+					{
+						ft_printf("minishell: %s: command not found\n", *sesh->arg);
+						return (-1);
+					}
+						// return (command_not_found(sesh));
+						// return (ft_exit(sesh, strerror(errno)));
 				}
 			}
 			// ft_printf("Before breaking\n");
