@@ -6,54 +6,51 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 11:10:19 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 08:56:20 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static int	ft_key(char *key)
+// static void testing_function(char *input)
 // {
-// 	int	i;
+// 	char **art;
+// 	char **ptr;
 
-// 	i = 0;
-// 	while (key[i] != '$')
-// 		i++;
-// 	i++;
-// 	return (i);
+// 	art = ft_strsplit(input, '$');
+// 	ptr = art;
+// 	while (*art)
+// 	{
+// 		free(*art);
+// 		art++;
+// 	}
+// 	free(ptr);
 // }
 
-// static void random_function(char *key)
+// static char	**dollar_swap(char **arg, char **env, char *input)
 // {
-// 	char *first;
+// 	int			i;
+// 	// char		*spec;
+// 	char		*key;
 
-// 	first = ft_strsep(&key, "$");
-// 	ft_printf("[%s] [%s]\n", first, key);
-// 	if (!*first)
-// 		ft_printf("IT is empty");
-// }
-
-// static char	**dollar_swap(char **arg, char **env, char *key)
-// {
-// 	int		i;
-// 	int		key_pos;
-
-// 	key_pos = ft_key(key);
-// 	// random_function(key);
-// 	key[key_pos - 1] = '\0';
+// 	testing_function(input);
+// 	key = ft_strsep(&input, "$");
+	
+// 	ft_printf("key   [%s]\n", key);
+// 	ft_printf("input [%s]\n", input);
+// 	// spec = check_spec_char(input)
 // 	while (env[0])
 // 	{
 // 		i = 0;
 // 		while(env[0][i] != '=')
 // 			i++;
 // 		env[0][i] = '\0';
-// 		if (ft_strcmp(env[0], &key[key_pos]) == 0)
+// 		if (ft_strcmp(env[0], input) == 0)
 // 		{
 // 			free(*arg);
-// 			if (!*key)
-// 				ft_printf("key empty\n");
 // 			*arg = ft_strjoin(key, &env[0][i + 1]);
 // 			env[0][i] = '=';
+// 			free(key);
 // 			return (arg);
 // 		}
 // 		env[0][i] = '=';
@@ -61,51 +58,83 @@
 // 	}
 // 	free(*arg);
 // 	*arg = ft_strdup(key);
+// 	free(key);
 // 	return (arg);
 // }
-
-// static char *check_spec_char(char *input)
-// {
-// 	while (*input)
-// 	{
-// 		if (!ft_isalnum(*input) && !ft_isalpha(*input))
-// 			return (input);
-// 		input++;
-// 	}
-// 	return (NULL);
-// }
-
 static char	**dollar_swap(char **arg, char **env, char *input)
 {
 	int			i;
-	// char		*spec;
-	char		*key;
+	char		**keys;
+	char		**ptr;
+	char		*tmp;
 
-	key = ft_strsep(&input, "$");
-	// spec = check_spec_char(input)
-	while (env[0])
+	keys = ft_strsplit(input, '$');
+	free(*arg);
+	*arg = NULL;
+	while (*keys)
 	{
-		i = 0;
-		while(env[0][i] != '=')
-			i++;
-		env[0][i] = '\0';
-		if (ft_strcmp(env[0], input) == 0)
+		tmp = *arg;
+		ptr = env;
+		while (ptr[0])
 		{
-			free(*arg);
+			i = 0;
+			while(ptr[0][i] != '=')
+				i++;
+			ptr[0][i] = '\0';
+			if (ft_strcmp(ptr[0], keys[0]) == 0)
+			{
+				if (!*arg)
+					*arg = ft_strdup(&ptr[0][i + 1]);
+				else
+				{
+					*arg = ft_strjoin(*arg, &ptr[0][i + 1]);
+					free(tmp);
+				}
+				ptr[0][i] = '=';
+				break ;
+			}
+			ptr[0][i] = '=';
+			ptr++;
+		}
+		if (!ptr[0])
+		{
+			if (!*arg)
+				*arg = ft_strdup(*keys);
+			else
+			{
+				*arg = ft_strjoin(*arg, *keys);
+				free(tmp);
+			}
+		}
+		keys++;
+	}
+	return (arg);
+}
+
+/*
+while (env[0])
+{
+	i = 0;
+	j = -1;
+	while(env[0][i] != '=')
+		i++;
+	env[0][i] = '\0';
+	while (keys[++j])
+	{
+		if (ft_strcmp(env[0], keys[j]) == 0)
+		{
 			*arg = ft_strjoin(key, &env[0][i + 1]);
 			env[0][i] = '=';
 			free(key);
 			return (arg);
-		}
-		env[0][i] = '=';
-		env++;
+		}	
 	}
-	free(*arg);
-	*arg = ft_strdup(key);
-	free(key);
-	return (arg);
+	env[0][i] = '=';
+	env++;
 }
+*/
 
+	
 char	**dollar_parse(t_session *sesh)
 {
 	char	**arg;
@@ -114,9 +143,21 @@ char	**dollar_parse(t_session *sesh)
 	while (*sesh->arg)
 	{
 		if (ft_strchr(*sesh->arg, '$') && (ft_strlen(*sesh->arg) > 1))
-			sesh->arg = dollar_swap(sesh->arg, sesh->env, ft_strdup(*sesh->arg));
-		// ft_printf("%s\n", *sesh->arg);
+			sesh->arg = dollar_swap(sesh->arg, sesh->env, *sesh->arg);
 		sesh->arg++;
 	}
 	return(arg);
 }
+// char	**dollar_parse(t_session *sesh)
+// {
+// 	char	**arg;
+
+// 	arg = sesh->arg;
+// 	while (*sesh->arg)
+// 	{
+// 		if (ft_strchr(*sesh->arg, '$') && (ft_strlen(*sesh->arg) > 1))
+// 			sesh->arg = dollar_swap(sesh->arg, sesh->env, ft_strdup(*sesh->arg));
+// 		sesh->arg++;
+// 	}
+// 	return(arg);
+// }
