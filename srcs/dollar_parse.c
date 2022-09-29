@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 11:15:09 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:22:34 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,10 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 				free(tmp);
 			}
 		}
+		free(keys[j]);
 		j++;
 	}
+	free(keys);
 	return (arg);
 }
 	
