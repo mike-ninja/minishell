@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 16:49:58 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 10:54:26 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,47 +54,27 @@ static char	*shlvl(char *my_env, char *env)
 	return (my_env);
 }
 
-static char	**hard_set_env(void)
-{
-	char	**env;
-	char	cwd[MAXPATHLEN];
-
-	env = (char **)malloc(sizeof(char *) * 4);
-	if (!env)
-		return (NULL);
-	env[0] = ft_strjoin("PWD=", getcwd(cwd, MAXPATHLEN));
-	env[1] = ft_strdup("SHLVL=1");
-	env[2] = ft_strdup("_=/usr/bin/env");
-	env[3] = NULL;
-	return (env);
-}
-
 char	**env_init(void)
 {
 	int		i;
 	char	**env;
 
-	if (*environ)
+	env = (char **)malloc(sizeof(char *) * (env_len(environ) + 1));
+	if (!env)
+		return (NULL);
+	i = 0;
+	while (*environ)
 	{
-		env = (char **)malloc(sizeof(char *) * (env_len(environ) + 1));
-		if (!env)
-			return (NULL);
-		i = 0;
-		while (*environ)
-		{
-			if (!ft_strstr(*environ, "OLDPWD="))
-			{	
-				if (ft_strstr(*environ, "SHLVL"))
-					env[i] = shlvl(env[i], *environ);
-				else
-					env[i] = ft_strdup(*environ);
-				i++;
-			}
-			environ++;
+		if (!ft_strstr(*environ, "OLDPWD="))
+		{	
+			if (ft_strstr(*environ, "SHLVL"))
+				env[i] = shlvl(env[i], *environ);
+			else
+				env[i] = ft_strdup(*environ);
+			i++;
 		}
-		env[i] = NULL;
+		environ++;
 	}
-	else
-		env = hard_set_env();
+	env[i] = NULL;
 	return (env);
 }

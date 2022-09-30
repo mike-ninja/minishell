@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 16:22:34 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 13:09:32 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 			ptr[0][i] = '=';
 			ptr++;
 		}
-		if (!ptr[0] && !j)
+		if (!ptr[0] && !j && *input != '$')
 		{
 			if (!*arg)
 				*arg = ft_strdup(*keys);
@@ -108,6 +108,17 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 				free(tmp);
 			}
 		}
+		// else
+		// {
+			
+		// 	// if (!*arg)
+		// 	// 	*arg = ft_strdup("");
+		// 	// else
+		// 	// {
+		// 	// 	*arg = ft_strjoin(*arg, *keys);
+		// 	// 	free(tmp);
+		// 	// }
+		// }
 		free(keys[j]);
 		j++;
 	}

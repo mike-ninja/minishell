@@ -97,9 +97,9 @@ int	ft_cd(t_session *sesh)
 		return (0);
 	}
 	path = confirm_addr(NULL, ft_strdup(sesh->arg[1]));
-	// path = confirm_addr(NULL, sesh->arg[1]);
 	if (path)
 	{
+		free(path);
 		if (chdir(sesh->arg[1]) != 0)
 			return (0);
 		else

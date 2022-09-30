@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 15:29:18 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:43:22 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ typedef struct sesssion
 {
 	char	**env;
 	char	**arg;
+	bool	tmp_env;
 	// char	*pwd;
 }				t_session;
 
 /* Functions for Environment Variables */
 int		env_len(char **env);
-int		env_print(char **env);
+int		env_print(t_session *sesh);
 char	**env_init(void);
 int		set_env(t_session *session, char *env);
 int		unset_env(t_session *session);
@@ -55,7 +56,7 @@ int		built_ins(t_session *session);
 
 /* EXIT */
 void	env_clean(char **env);
-int		ft_exit(t_session *session, char *message);
+void	ft_exit(t_session *session, char *message, int status);
 void	arg_clean(char **arg, char *line);
 
 /* Changing directory */

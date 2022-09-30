@@ -6,14 +6,50 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 16:42:10 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:36:20 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env_print(char **env)
+static char **update_arg(t_session *sesh, char **arg)
 {
+	int		i;
+	char	**new_arg;
+
+	new_arg = (char **)malloc(sizeof(char *) * (env_len(arg) + 1));
+	if (!new_arg)
+		return (NULL);
+	i = 0;
+	while (arg[i])
+	{
+		new_arg[i] = ft_strdup(arg[i]);
+		i++;
+	}
+	new_arg[i] = NULL;
+	sesh->tmp_env = false;
+	arg_clean(sesh->arg, NULL);
+	return (new_arg);
+}
+
+int	env_print(t_session *sesh)
+{
+	int 	i;
+	char **env;
+	
+	i = 1;
+	if (sesh->arg[i] && ft_strchr(sesh->arg[i], '='))
+	{
+		set_env(sesh, sesh->arg[i]);
+		sesh->tmp_env = true;
+		i++;
+	}
+	if (sesh->arg[i])
+	{
+		sesh->arg = update_arg(sesh, &sesh->arg[i]);
+		return (-1);
+	}
+	env = sesh->env;
 	while (*env)
 	{
 		ft_printf("%s\n", *env);

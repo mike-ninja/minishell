@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/29 16:49:37 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:55:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static char	*addr_return(int status, char *slash, char *path)
 {
 	free(slash);
-	if (status == -1)
+	if (status == -1) // Is this necessary
 	{
 		free(path);
 		return (NULL);
@@ -112,7 +112,7 @@ static int	system_call(t_session *sesh, char *file)
 			return (-1);
 		path = confirm_addr(NULL, file);
 		if (!path)
-			path = find_binary(file, env_get_var(sesh, "PATH"));
+			path = find_binary(file, env_get_var(sesh, "PATH="));
 		if (path)
 		{
 			if (execve(path, sesh->arg, sesh->env) == -1)
@@ -126,14 +126,40 @@ static int	system_call(t_session *sesh, char *file)
 	return (1);
 }
 
+static char	**hard_set_env(char	**curr_env)
+{
+	int		i;
+	char	**env;
+	char	cwd[MAXPATHLEN];
+
+	env = (char **)malloc(sizeof(char *) * (env_len(curr_env) + 4));
+	if (!env)
+		return (NULL);
+	i = 0;
+	while (curr_env[i])
+	{
+		env[i] = ft_strdup(curr_env[i]);
+		free(curr_env[i]);
+		i++;
+	}
+	free(curr_env);
+	env[i++] = ft_strjoin("PWD=", getcwd(cwd, MAXPATHLEN));
+	env[i++] = ft_strdup("SHLVL=1");
+	env[i++] = ft_strdup("_=/usr/bin/env");
+	env[i] = NULL;
+	return (env);
+}
+
 static char	**check_mandatory_env(t_session *sesh)
 {
-	// if (env_get_var(sesh, "")) // Continue from here
+	if (!env_get_var(sesh, "PWD=") && !env_get_var(sesh, "SHLVL=") && !env_get_var(sesh, "_="))
+		sesh->env = hard_set_env(sesh->env);
 	return (sesh->env);
 }
 
 static void	session_init(t_session *sesh)
 {
+	sesh->tmp_env = false;
 	sesh->env = env_init();
 	sesh->env = check_mandatory_env(sesh);
 	sesh->arg = NULL;
@@ -158,14 +184,12 @@ int	main(void)
 				if (built_ins(sesh) == -1)
 				{	
 					if (ft_strcmp(*sesh->arg, "exit") == 0)
-						return (ft_exit(sesh, "exit\n"));
+						ft_exit(sesh, "exit\n", 1);
 					if (system_call(sesh, *sesh->arg) == -1)
 					{
 						ft_printf("minishell: %s: command not found\n", *sesh->arg);
 						return (-1);
 					}
-						// return (command_not_found(sesh));
-						// return (ft_exit(sesh, strerror(errno)));
 				}
 			}
 			sesh->env = cycle(sesh, line);
