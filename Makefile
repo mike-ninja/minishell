@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/09/30 13:10:36 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/09/30 15:11:12 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ CYAN 		= \033[1;96m
 
 FILE = main
 FILE += init_env
+FILE += init_env_utils
 FILE += func_env
 FILE += built_ins
 FILE += args
@@ -39,6 +40,7 @@ FILE += header
 FILE += dollar_parse
 FILE += tilda_parse
 FILE += cycle
+FILE += execute_binary
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILE)))
 

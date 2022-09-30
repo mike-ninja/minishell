@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 10:31:02 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 11:40:53 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:09:36 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	header_padd(size_t str_len)
 {
 	struct winsize	arg;
-	
+
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &arg);
 	return ((arg.ws_col - str_len) >> 1);
 }
@@ -24,17 +24,17 @@ static void	super_pinoy_boy(void)
 {
 	int		padd;
 	char	*str;
-	
+
 	str = "  ___                    ___ _               ___           ";
 	padd = header_padd(ft_strlen(str));
 	ft_printf("\n%*s%s\n", padd, "", str);
-	ft_printf("%*s%s\n", padd, "", 
+	ft_printf("%*s%s\n", padd, "",
 		" / __|_  _ _ __  ___ _ _| _ (_)_ _  ___ _  _| _ ) ___ _  _ ");
-	ft_printf("%*s%s\n", padd, "", 
+	ft_printf("%*s%s\n", padd, "",
 		" \\__ \\ || | '_ \\/ -_) '_|  _/ | ' \\/ _ \\ || | _ \\/ _ \\ || |");
-	ft_printf("%*s%s\n", padd, "", 
+	ft_printf("%*s%s\n", padd, "",
 		" |___/\\_,_| .__/\\___|_| |_| |_|_||_\\___/\\_, |___/\\___/\\_, |");
-	ft_printf("%*s%s\n", padd, "", 
+	ft_printf("%*s%s\n", padd, "",
 		"          |_|                           |__/          |__/ ");
 }
 
@@ -42,15 +42,15 @@ static void	minishell_header(void)
 {
 	int		padd;
 	char	*str;
-	
+
 	str = "        _      _    _        _ _ ";
 	padd = header_padd(ft_strlen(str));
 	ft_printf("%*s%s\n", padd, "", str);
-	ft_printf("%*s%s\n", padd, "", 
+	ft_printf("%*s%s\n", padd, "",
 		"  _ __ (_)_ _ (_)__| |_  ___| | |");
-	ft_printf("%*s%s\n", padd, "", 
+	ft_printf("%*s%s\n", padd, "",
 		" | '  \\| | ' \\| (_-< ' \\/ -_) | |");
-	ft_printf("%*s%s\n\n", padd, "", 
+	ft_printf("%*s%s\n\n", padd, "",
 		" |_|_|_|_|_||_|_/__/_||_\\___|_|_|");
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 11:05:20 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 12:43:34 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:08:53 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	arg_clean(char **arg, char *line)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (line)
@@ -27,7 +27,7 @@ void	arg_clean(char **arg, char *line)
 
 void	env_clean(char **env)
 {
-	char **ptr;
+	char	**ptr;
 
 	ptr = env;
 	while (*ptr)

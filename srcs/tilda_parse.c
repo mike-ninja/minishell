@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tilda_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 15:26:10 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 12:15:48 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:12:09 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	*ft_strfind(char *stack, char *token)
 {
 	int	i;
-	
+
 	while (*stack)
 	{
 		i = -1;
@@ -68,5 +68,5 @@ char	**tilda_parse(t_session *sesh)
 			sesh->arg = tilda_env(sesh->arg, env_get_var(sesh, "HOME"));
 		sesh->arg++;
 	}
-	return(arg);
+	return (arg);
 }

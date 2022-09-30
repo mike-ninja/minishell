@@ -6,18 +6,18 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 12:36:20 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:11:51 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char **update_arg(t_session *sesh, char **arg)
+static char	**update_arg(t_session *sesh, char **arg)
 {
 	int		i;
 	char	**new_arg;
 
-	new_arg = (char **)malloc(sizeof(char *) * (env_len(arg) + 1));
+	new_arg = (char **)malloc(sizeof(char *) * (array_len(arg) + 1));
 	if (!new_arg)
 		return (NULL);
 	i = 0;
@@ -34,9 +34,9 @@ static char **update_arg(t_session *sesh, char **arg)
 
 int	env_print(t_session *sesh)
 {
-	int 	i;
-	char **env;
-	
+	int		i;
+	char	**env;
+
 	i = 1;
 	if (sesh->arg[i] && ft_strchr(sesh->arg[i], '='))
 	{
@@ -66,7 +66,7 @@ int	unset_env(t_session *sesh)
 
 	if (ft_strcmp("PWD", sesh->arg[1]))
 	{
-		new_array = (char **)malloc(sizeof(char *) * env_len(sesh->env));
+		new_array = (char **)malloc(sizeof(char *) * array_len(sesh->env));
 		if (!new_array)
 			return (0);
 		i = 0;
@@ -84,15 +84,15 @@ int	unset_env(t_session *sesh)
 	return (1);
 }
 
-int set_env(t_session *sesh, char *env)
+int	set_env(t_session *sesh, char *env)
 {
 	char	**new_array;
 	char	**ptr;
 	int		i;
-	
+
 	if (ft_strchr(env, '='))
 	{
-		new_array = (char **)malloc(sizeof(char *) * env_len(sesh->env) + 2);
+		new_array = (char **)malloc(sizeof(char *) * array_len(sesh->env) + 2);
 		if (!new_array)
 			return (0);
 		i = 0;

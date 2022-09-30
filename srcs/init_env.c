@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 10:54:26 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:13:54 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,36 @@
 
 extern char	**environ;
 
-int	env_len(char **env)
-{
-	size_t	len;
-
-	len = 0;
-	while (*env)
-	{
-		if (!ft_strstr(*env, "OLDPWD="))
-			len++;
-		env++;
-	}
-	return (len);
-}
-
-static char	*lvl_str(char *env)
+static char	**hard_set_env(char	**curr_env)
 {
 	int		i;
-	int		lvl;
+	char	**env;
+	char	cwd[MAXPATHLEN];
 
+	env = (char **)malloc(sizeof(char *) * (array_len(curr_env) + 4));
+	if (!env)
+		return (NULL);
 	i = 0;
-	while (env[i] < '0' || env[i] > '9')
+	while (curr_env[i])
+	{
+		env[i] = ft_strdup(curr_env[i]);
+		free(curr_env[i]);
 		i++;
-	lvl = ft_atoi(&env[i]);
-	if (lvl < 1000)
-		lvl++;
-	else
-		lvl = 0;
-	return (ft_itoa(lvl));
+	}
+	free(curr_env);
+	env[i++] = ft_strjoin("PWD=", getcwd(cwd, MAXPATHLEN));
+	env[i++] = ft_strdup("SHLVL=1");
+	env[i++] = ft_strdup("_=/usr/bin/env");
+	env[i] = NULL;
+	return (env);
 }
 
-static char	*shlvl(char *my_env, char *env)
+char	**mandatory_env(t_session *sesh)
 {
-	char	*lvl;
-
-	lvl = lvl_str(env);
-	my_env = ft_strjoin("SHLVL=", lvl);
-	free(lvl);
-	return (my_env);
+	if (!env_get_var(sesh, "PWD=") && !env_get_var(sesh, "SHLVL=")
+		&& !env_get_var(sesh, "_="))
+		sesh->env = hard_set_env(sesh->env);
+	return (sesh->env);
 }
 
 char	**env_init(void)
@@ -59,7 +51,7 @@ char	**env_init(void)
 	int		i;
 	char	**env;
 
-	env = (char **)malloc(sizeof(char *) * (env_len(environ) + 1));
+	env = (char **)malloc(sizeof(char *) * (array_len(environ) + 1));
 	if (!env)
 		return (NULL);
 	i = 0;

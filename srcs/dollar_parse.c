@@ -6,126 +6,111 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 13:09:32 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:03:45 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void testing_function(char *input)
-// {
-// 	char **art;
-// 	char **ptr;
+static char	*forge_arg(char **arg, char *str)
+{
+	if (!*arg)
+		*arg = ft_strdup(str);
+	else
+		*arg = strjoin_head(*arg, str);
+	return (*arg);
+}
 
-// 	art = ft_strsplit(input, '$');
-// 	ptr = art;
-// 	while (*art)
-// 	{
-// 		free(*art);
-// 		art++;
-// 	}
-// 	free(ptr);
-// }
+static int	break_string(int i, char *str)
+{
+	if (!i)
+	{
+		while (str[i] != '=')
+			i++;
+		str[i] = '\0';
+	}
+	else
+		str[i] = '=';
+	return (i);
+}
 
-// static char	**dollar_swap(char **arg, char **env, char *input)
-// {
-// 	int			i;
-// 	// char		*spec;
-// 	char		*key;
-
-// 	testing_function(input);
-// 	key = ft_strsep(&input, "$");
-	
-// 	ft_printf("key   [%s]\n", key);
-// 	ft_printf("input [%s]\n", input);
-// 	// spec = check_spec_char(input)
-// 	while (env[0])
-// 	{
-// 		i = 0;
-// 		while(env[0][i] != '=')
-// 			i++;
-// 		env[0][i] = '\0';
-// 		if (ft_strcmp(env[0], input) == 0)
-// 		{
-// 			free(*arg);
-// 			*arg = ft_strjoin(key, &env[0][i + 1]);
-// 			env[0][i] = '=';
-// 			free(key);
-// 			return (arg);
-// 		}
-// 		env[0][i] = '=';
-// 		env++;
-// 	}
-// 	free(*arg);
-// 	*arg = ft_strdup(key);
-// 	free(key);
-// 	return (arg);
-// }
 static char	**dollar_swap(char **arg, char **env, char *input)
 {
 	int			i;
 	int			j;
-	char		**keys;
 	char		**ptr;
-	char		*tmp;
+	char		**keys;
 
 	keys = ft_strsplit(input, '$');
-	free(*arg);
-	*arg = NULL;
-	j = 0;
-	while (keys[j])
+	ft_memdel((void **)arg);
+	j = -1;
+	while (keys[++j])
 	{
-		tmp = *arg;
 		ptr = env;
 		while (ptr[0])
 		{
-			i = 0;
-			while(ptr[0][i] != '=')
-				i++;
-			ptr[0][i] = '\0';
+			i = break_string(0, ptr[0]);
 			if (ft_strcmp(ptr[0], keys[j]) == 0)
 			{
-				if (!*arg)
-					*arg = ft_strdup(&ptr[0][i + 1]);
-				else
-				{
-					*arg = ft_strjoin(*arg, &ptr[0][i + 1]);
-					free(tmp);
-				}
-				ptr[0][i] = '=';
+				*arg = forge_arg(arg, &ptr[0][i + 1]);
+				break_string(i, ptr[0]);
 				break ;
 			}
-			ptr[0][i] = '=';
+			break_string(i, ptr[0]);
 			ptr++;
 		}
 		if (!ptr[0] && !j && *input != '$')
-		{
-			if (!*arg)
-				*arg = ft_strdup(*keys);
-			else
-			{
-				*arg = ft_strjoin(*arg, *keys);
-				free(tmp);
-			}
-		}
-		// else
-		// {
-			
-		// 	// if (!*arg)
-		// 	// 	*arg = ft_strdup("");
-		// 	// else
-		// 	// {
-		// 	// 	*arg = ft_strjoin(*arg, *keys);
-		// 	// 	free(tmp);
-		// 	// }
-		// }
+			*arg = forge_arg(arg, *keys);
 		free(keys[j]);
-		j++;
 	}
 	free(keys);
 	return (arg);
 }
-	
+
+// static char	**dollar_swap(char **arg, char **env, char *input)
+// {
+// 	int			i;
+// 	int			j;
+// 	char		**keys;
+// 	char		**ptr;
+
+// 	keys = ft_strsplit(input, '$');
+// 	ft_memdel((void **)arg);
+// 	j = -1;
+// 	while (keys[++j])
+// 	{
+// 		ptr = env;
+// 		while (ptr[0])
+// 		{
+// 			i = 0;
+// 			while (ptr[0][i] != '=')
+// 				i++;
+// 			ptr[0][i] = '\0';
+// 			if (ft_strcmp(ptr[0], keys[j]) == 0)
+// 			{
+// 				if (!*arg)
+// 					*arg = ft_strdup(&ptr[0][i + 1]);
+// 				else
+// 					*arg = strjoin_head(*arg, &ptr[0][i + 1]);
+// 				ptr[0][i] = '=';
+// 				break ;
+// 			}
+// 			ptr[0][i] = '=';
+// 			ptr++;
+// 		}
+// 		if (!ptr[0] && !j && *input != '$')
+// 		{
+// 			if (!*arg)
+// 				*arg = ft_strdup(*keys);
+// 			else
+// 				*arg = strjoin_head(*arg, *keys);
+// 		}
+// 		free(keys[j]);
+// 	}
+// 	free(keys);
+// 	return (arg);
+// }
+
 char	**dollar_parse(t_session *sesh)
 {
 	char	**arg;
@@ -137,5 +122,5 @@ char	**dollar_parse(t_session *sesh)
 			sesh->arg = dollar_swap(sesh->arg, sesh->env, *sesh->arg);
 		sesh->arg++;
 	}
-	return(arg);
+	return (arg);
 }

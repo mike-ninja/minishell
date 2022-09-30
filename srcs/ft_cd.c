@@ -1,12 +1,12 @@
-/* ***x*********************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/28 12:09:05 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:10:02 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ char	**env_get_var(t_session *sesh, char *key)
 	return (NULL);
 }
 
-static void swap_oldpwd(t_session *sesh)
+static void	swap_oldpwd(t_session *sesh)
 {
 	int		i;
 	char	**env;
 	char	**pwd;
-	
+
 	i = 0;
 	pwd = env_get_var(sesh, "PWD");
 	env = env_get_var(sesh, "OLDPWD");
@@ -45,7 +45,7 @@ static void swap_oldpwd(t_session *sesh)
 	}
 }
 
-static void swap_pwd(t_session *sesh, char *cwd)
+static void	swap_pwd(t_session *sesh, char *cwd)
 {
 	char	**env;
 
@@ -70,7 +70,7 @@ static void	cd_success(t_session *sesh)
 
 static bool	is_oldpwd(t_session *sesh)
 {
-	char **env;
+	char	**env;
 
 	env = env_get_var(sesh, "OLDPWD=");
 	if (!env)
@@ -78,7 +78,7 @@ static bool	is_oldpwd(t_session *sesh)
 	return (1);
 }
 
-static bool cd_error_check(t_session *sesh)
+static bool	cd_error_check(t_session *sesh)
 {
 	if (ft_strcmp(sesh->arg[1], "~-") == 0)
 		return (0);
@@ -96,7 +96,7 @@ int	ft_cd(t_session *sesh)
 		ft_printf("cd: OLDPWD not set\n");
 		return (0);
 	}
-	path = confirm_addr(NULL, ft_strdup(sesh->arg[1]));
+	path = confirm_addr(NULL, ft_strdup(sesh->arg[1]), X_OK);
 	if (path)
 	{
 		free(path);
@@ -105,7 +105,7 @@ int	ft_cd(t_session *sesh)
 		else
 			cd_success(sesh);
 	}	
-	else 
+	else
 		return (0);
 	return (1);
 }
