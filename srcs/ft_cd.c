@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 17:10:02 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:26:05 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,23 @@ int	ft_cd(t_session *sesh)
 		ft_printf("cd: OLDPWD not set\n");
 		return (0);
 	}
-	path = confirm_addr(NULL, ft_strdup(sesh->arg[1]), X_OK);
+	if (!ft_strcmp(sesh->arg[1], "-")) // Currently doesnt work
+	{
+		path = ft_strdup(ft_strchr(*env_get_var(sesh, "OLDPWD="), '=') + 1);
+		ft_printf("%s\n", path);
+	}
+	else
+		path = confirm_addr(NULL, ft_strdup(sesh->arg[1]), X_OK);
 	if (path)
 	{
 		free(path);
 		if (chdir(sesh->arg[1]) != 0)
 			return (0);
 		else
+		{
+			ft_printf("Success\n");
 			cd_success(sesh);
+		}
 	}	
 	else
 		return (0);
