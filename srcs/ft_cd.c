@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 17:26:05 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/01 22:45:45 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,7 @@ int	ft_cd(t_session *sesh)
 		if (chdir(sesh->arg[1]) != 0)
 			return (0);
 		else
-		{
-			ft_printf("Success\n");
 			cd_success(sesh);
-		}
 	}	
 	else
 		return (0);

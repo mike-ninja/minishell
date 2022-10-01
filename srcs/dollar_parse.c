@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 17:03:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/01 22:58:55 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,41 @@ static int	break_string(int i, char *str)
 	return (i);
 }
 
+static char	*get_tail(char **keys)
+{
+	int		i;
+	char	*ptr;
+
+	i = 0;
+	while (keys[0][i] && (ft_isalpha(keys[0][i]) && ft_isalnum(keys[0][i])))
+		i++;
+	if (keys[0][i])
+	{
+		ptr = ft_strdup(&keys[0][i]);
+		keys[0][i] = '\0';
+		// ft_printf("%c]]\n", keys[0][i]); // Continue from here
+		return(ptr);
+	}
+	else
+		return (NULL);
+}
+
 static char	**dollar_swap(char **arg, char **env, char *input)
 {
 	int			i;
 	int			j;
 	char		**ptr;
 	char		**keys;
+	char		*tail;
 
+	tail = NULL;
 	keys = ft_strsplit(input, '$');
 	ft_memdel((void **)arg);
 	j = -1;
 	while (keys[++j])
 	{
 		ptr = env;
+		tail = get_tail(keys);
 		while (ptr[0])
 		{
 			i = break_string(0, ptr[0]);
@@ -61,6 +83,11 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 		}
 		if (!ptr[0] && !j && *input != '$')
 			*arg = forge_arg(arg, *keys);
+		if (tail)
+		{
+			*arg = strjoin_head(*arg, tail);
+			ft_strdel(&tail);
+		}
 		free(keys[j]);
 	}
 	free(keys);
