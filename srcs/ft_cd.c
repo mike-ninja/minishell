@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/01 22:45:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/01 23:42:09 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,41 +68,57 @@ static void	cd_success(t_session *sesh)
 	swap_pwd(sesh, getcwd(cwd, sizeof(cwd)));
 }
 
-static bool	is_oldpwd(t_session *sesh)
+// static bool	check_env_var(t_session *sesh, char *key)
+// {
+// 	if (!env_get_var(sesh, key))
+// 		return (0);
+// 	return (1);
+// }
+
+static char	*cd_error_check(t_session *sesh)
 {
 	char	**env;
 
-	env = env_get_var(sesh, "OLDPWD=");
-	if (!env)
-		return (0);
-	return (1);
-}
-
-static bool	cd_error_check(t_session *sesh)
-{
+	env = NULL;
 	if (ft_strcmp(sesh->arg[1], "~-") == 0)
-		return (0);
+		ft_printf("cd: OLDPWD not set\n");
+	// 	return (NULL);
 	if (ft_strcmp(sesh->arg[1], "-") == 0)
-		return (is_oldpwd(sesh));
-	return (1);
+	{
+		env = env_get_var(sesh, "OLDPWD=");
+		if (env)
+		{
+			ft_printf("%s\n", ft_strchr(*env_get_var(sesh, "OLDPWD="), '=') + 1);	
+			return (ft_strdup(ft_strchr(*env_get_var(sesh, "OLDPWD="), '=') + 1));
+		}
+	}
+	if (ft_strcmp(sesh->arg[1], "--") == 0)
+		return (ft_strdup(ft_strchr(*env_get_var(sesh, "HOME="), '=') + 1));
+	return (NULL);
 }
 
 int	ft_cd(t_session *sesh)
 {
 	char	*path;
 
-	if (!cd_error_check(sesh))
+	path = cd_error_check(sesh);
+	if (path)
 	{
-		ft_printf("cd: OLDPWD not set\n");
-		return (0);
+		if (chdir(path) != 0)
+		{
+			ft_strdel(&path);
+			return (0);
+		}
+		cd_success(sesh);
+		ft_strdel(&path);
+		return(1);
 	}
-	if (!ft_strcmp(sesh->arg[1], "-")) // Currently doesnt work
-	{
-		path = ft_strdup(ft_strchr(*env_get_var(sesh, "OLDPWD="), '=') + 1);
-		ft_printf("%s\n", path);
-	}
-	else
-		path = confirm_addr(NULL, ft_strdup(sesh->arg[1]), X_OK);
+	// if (!ft_strcmp(sesh->arg[1], "-")) // Currently doesnt work
+	// {
+	// 	path = ft_strdup(ft_strchr(*env_get_var(sesh, "OLDPWD="), '=') + 1);
+	// 	ft_printf("%s\n", path);
+	// }
+	path = confirm_addr(NULL, ft_strdup(sesh->arg[1]), X_OK);
 	if (path)
 	{
 		free(path);
