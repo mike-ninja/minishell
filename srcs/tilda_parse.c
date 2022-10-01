@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tilda_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 15:26:10 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 17:12:09 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/01 23:17:51 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,25 @@ static char	*ft_strfind(char *stack, char *token)
 	return (NULL);
 }
 
+static bool ascii_check(char *arg)
+{
+	while (*arg)
+	{
+		if (*arg != '+' && *arg != '~' && *arg != '-')
+			break ;
+		arg++;
+	}
+	if (*arg == '/' || !*arg)
+		return (true);
+	return (false);
+}
+
 static char	**tilda_env(char **arg, char **env)
 {
 	char	*extra;
 	char	*tofree;
 
-	if (env)
+	if (env && ascii_check(arg[0]))
 	{	
 		if (!arg[0][1] || ft_strfind(arg[0], "/+-"))
 		{
