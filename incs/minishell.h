@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/02 07:56:25 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/02 15:17:20 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define ERROR -1
 # define PROMPT "$> "
 # define MAXPATHLEN 1024
+# define STARTCYCLE 0
+# define ENDCYCLE 1
 
 extern int errno ; // Delete this when no longer used
 
@@ -74,7 +76,7 @@ void	header_print(void);
 char	*confirm_addr(char *addr, char *file, int check);
 
 /* Cycle */
-char	**cycle(t_session *sesh, char *line);
+char	**cycle(t_session *sesh, char *line, int position);
 
 /* Binary execution */
 int		system_call(t_session *sesh, char *file);

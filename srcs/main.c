@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 15:07:15 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/02 15:17:07 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	session_init(t_session *sesh)
 static int	execute_input(t_session *sesh, char *line)
 {
 	sesh->arg = get_args(sesh, &line);
+	sesh->env = cycle(sesh, line, 0);
 	if (*sesh->arg)
 	{
 		if (built_ins(sesh) == -1)
@@ -36,7 +37,7 @@ static int	execute_input(t_session *sesh, char *line)
 			}
 		}
 	}
-	sesh->env = cycle(sesh, line);
+	sesh->env = cycle(sesh, line, 1);
 	return (SUCCESS);
 }
 

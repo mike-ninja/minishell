@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/01 22:58:55 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:45:16 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,12 @@ static char	*get_tail(char **keys)
 	char	*ptr;
 
 	i = 0;
-	while (keys[0][i] && (ft_isalpha(keys[0][i]) && ft_isalnum(keys[0][i])))
+	while (keys[0][i] && ((ft_isalpha(keys[0][i]) && ft_isalnum(keys[0][i])) || keys[0][i] == '_'))
 		i++;
 	if (keys[0][i])
 	{
 		ptr = ft_strdup(&keys[0][i]);
 		keys[0][i] = '\0';
-		// ft_printf("%c]]\n", keys[0][i]); // Continue from here
 		return(ptr);
 	}
 	else
@@ -93,50 +92,6 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 	free(keys);
 	return (arg);
 }
-
-// static char	**dollar_swap(char **arg, char **env, char *input)
-// {
-// 	int			i;
-// 	int			j;
-// 	char		**keys;
-// 	char		**ptr;
-
-// 	keys = ft_strsplit(input, '$');
-// 	ft_memdel((void **)arg);
-// 	j = -1;
-// 	while (keys[++j])
-// 	{
-// 		ptr = env;
-// 		while (ptr[0])
-// 		{
-// 			i = 0;
-// 			while (ptr[0][i] != '=')
-// 				i++;
-// 			ptr[0][i] = '\0';
-// 			if (ft_strcmp(ptr[0], keys[j]) == 0)
-// 			{
-// 				if (!*arg)
-// 					*arg = ft_strdup(&ptr[0][i + 1]);
-// 				else
-// 					*arg = strjoin_head(*arg, &ptr[0][i + 1]);
-// 				ptr[0][i] = '=';
-// 				break ;
-// 			}
-// 			ptr[0][i] = '=';
-// 			ptr++;
-// 		}
-// 		if (!ptr[0] && !j && *input != '$')
-// 		{
-// 			if (!*arg)
-// 				*arg = ft_strdup(*keys);
-// 			else
-// 				*arg = strjoin_head(*arg, *keys);
-// 		}
-// 		free(keys[j]);
-// 	}
-// 	free(keys);
-// 	return (arg);
-// }
 
 char	**dollar_parse(t_session *sesh)
 {
