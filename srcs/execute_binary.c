@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_binary.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 15:19:20 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/02 15:08:39 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static char	*find_binary(char *file, char **path)
 	char	*ret;
 
 	ret = NULL;
+	if (!path)
+		return (file);
 	path_copy = ft_strdup(*path);
 	addr = path_copy;
 	while (path_copy)
@@ -75,8 +77,6 @@ int	system_call(t_session *sesh, char *file)
 		return (-1);
 	else if (id == 0)
 	{
-		if (!env_get_var(sesh, "PATH"))
-			return (-1);
 		path = confirm_addr(NULL, file, X_OK);
 		if (!path)
 			path = find_binary(file, env_get_var(sesh, "PATH="));
