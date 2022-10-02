@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 15:17:30 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/02 07:56:25 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*shlvl(char *my_env, char *env);
 /* Functions for Environment Variables */
 int		array_len(char **env);
 int		env_print(t_session *sesh);
-int		set_env(t_session *session, char *env);
+int		set_env(t_session *session);
 int		unset_env(t_session *session);
 char	**env_get_var(t_session *sesh, char *key);
 char	**env_last_prog(char *path, t_session *sesh);

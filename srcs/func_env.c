@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   func_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 17:11:51 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/02 13:24:13 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	env_print(t_session *sesh)
 	i = 1;
 	if (sesh->arg[i] && ft_strchr(sesh->arg[i], '='))
 	{
-		set_env(sesh, sesh->arg[i]);
+		set_env(sesh);
 		sesh->tmp_env = true;
 		i++;
 	}
@@ -58,7 +58,7 @@ int	env_print(t_session *sesh)
 	return (1);
 }
 
-int	unset_env(t_session *sesh)
+static int	env_removal(t_session *sesh, char *env)
 {
 	char	**new_array;
 	char	**ptr;
@@ -73,7 +73,7 @@ int	unset_env(t_session *sesh)
 		ptr = sesh->env;
 		while (*ptr)
 		{
-			if (!ft_strnequ(*ptr, sesh->arg[1], ft_strlen(sesh->arg[1])))
+			if (!ft_strnequ(*ptr, env, ft_strlen(env)))
 				new_array[i++] = ft_strdup(*ptr);
 			ptr++;
 		}
@@ -84,26 +84,93 @@ int	unset_env(t_session *sesh)
 	return (1);
 }
 
-int	set_env(t_session *sesh, char *env)
+int	unset_env(t_session *sesh)
+{
+	int		i;
+	char	*ptr;
+
+	i = 1;
+	ptr = NULL;
+	while (sesh->arg[i])
+	{
+		if (sesh->tmp_env)
+		{
+			if (ft_strchr(sesh->arg[i], '='))
+				ptr = ft_strdup(sesh->arg[i]);
+		}
+		else
+			ptr = ft_strjoin(sesh->arg[i], "=");
+		if (ptr)
+		{
+			if (env_get_var(sesh, ptr))
+				if (env_removal(sesh, ptr) == 0)
+					return (0);
+			ft_strdel(&ptr);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	append_env(t_session *sesh, char **arg)
 {
 	char	**new_array;
 	char	**ptr;
 	int		i;
 
-	if (ft_strchr(env, '='))
+	new_array = (char **)malloc(sizeof(char *) * (array_len(sesh->env) + 2));
+	if (!new_array)
+		return (0);
+	i = -1;
+	ptr = sesh->env;
+	while (ptr[++i])
+		new_array[i] = ft_strdup(ptr[i]);
+	new_array[i++] = ft_strdup(arg[0]); // sesh->arg[j] needs to be checked if it contains '='}
+	new_array[i] = NULL;
+	env_clean(sesh->env);
+	sesh->env = new_array;
+	return (1);
+}
+
+static bool	replace_value(t_session *sesh, char *arg)
+{
+	int		i;
+	char 	*key;
+	char	*frag;
+
+	i = -1;
+	frag = NULL;
+	key = ft_strsep(&arg, "=");
+	while (sesh->env[++i])
 	{
-		new_array = (char **)malloc(sizeof(char *) * array_len(sesh->env) + 2);
-		if (!new_array)
-			return (0);
-		i = 0;
-		ptr = sesh->env;
-		while (*ptr)
-			new_array[i++] = ft_strdup(*ptr++);
-		new_array[i++] = ft_strdup(env);
-		new_array[i] = NULL;
-		env_clean(sesh->env);
-		sesh->env = new_array;
-		return (1);
+		frag = ft_strjoin(key, "=");
+		if (!ft_strncmp(sesh->env[i], frag, ft_strlen(frag)))
+		{
+			ft_strdel(&sesh->env[i]);
+			sesh->env[i] = ft_strjoin(frag, arg);
+			ft_strdel(&frag);
+			ft_strdel(&key);
+			return (true);
+		}
+		ft_strdel(&frag);
 	}
-	return (0);
+	ft_strdel(&key);
+	return (false);
+}
+
+int	set_env(t_session *sesh)
+{
+	int i;
+
+	i = 1;
+	while (sesh->arg[i])
+	{
+		if (ft_strchr(sesh->arg[i], '='))
+		{
+			if (!replace_value(sesh, ft_strdup(sesh->arg[i])))
+				append_env(sesh, &sesh->arg[i]);
+		}
+		i++;
+	}
+	return (1);
 }
