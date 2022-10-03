@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 09:13:56 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 10:27:42 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,10 @@ int	ft_cd(t_session *sesh)
 	file = ft_strdup(sesh->arg[1]);
 	if (!confirm_addr(NULL, file, F_OK)) // Free error here, I need to update my check addr function
 		return (NOEXI);
-	path = confirm_addr(NULL, file, X_OK);
+	check_addr(NULL, file, &path);
 	ft_strdel(&file);
 	if (path)
 	{
-		ft_strdel(&path);
 		if (chdir(sesh->arg[1]) != 0)
 			return (NOACC);
 		else
