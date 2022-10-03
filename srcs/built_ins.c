@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/02 07:55:50 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 08:57:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_echo(char **arg)
 	while (*arg)
 		ft_printf("%s ", *arg++);
 	ft_printf("\n");
-	return (1);
+	return (RESET);
 }
 
 int	built_ins(t_session *sesh)
@@ -31,6 +31,10 @@ int	built_ins(t_session *sesh)
 	if (ft_strcmp(*sesh->arg, "echo") == 0 && sesh->arg[1])
 		return (ft_echo(sesh->arg + 1));
 	if (ft_strcmp(*sesh->arg, "cd") == 0 && sesh->arg[1])
-		return (ft_cd(sesh));
-	return (-1);
+	{
+		sesh->result = ft_cd(sesh);
+		return (sesh->result);
+	}
+	sesh->result = FAIL;
+	return (sesh->result);
 }

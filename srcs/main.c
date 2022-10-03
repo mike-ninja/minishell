@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/02 15:17:07 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 09:08:56 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	session_init(t_session *sesh)
 	sesh->env = env_init();
 	sesh->env = mandatory_env(sesh);
 	sesh->arg = NULL;
+	sesh->result = RESET;
 }
 
 static int	execute_input(t_session *sesh, char *line)
@@ -26,19 +27,20 @@ static int	execute_input(t_session *sesh, char *line)
 	sesh->env = cycle(sesh, line, 0);
 	if (*sesh->arg)
 	{
-		if (built_ins(sesh) == -1)
-		{	
-			if (ft_strcmp(*sesh->arg, "exit") == 0)
-				ft_exit(sesh, "exit\n", 1);
-			if (system_call(sesh, *sesh->arg) == ERROR)
-			{
-				ft_printf("minishell: %s: command not found\n", *sesh->arg);
-				return (ERROR);
+		built_ins(sesh);
+		if (sesh->result)
+		{
+			if (sesh->result == 1)
+			{	
+				if (ft_strcmp(*sesh->arg, "exit") == 0)
+					ft_exit(sesh, "exit\n", 1);
+				if (system_call(sesh, *sesh->arg) < 0)
+					return (-1);
 			}
 		}
 	}
 	sesh->env = cycle(sesh, line, 1);
-	return (SUCCESS);
+	return (RESET);
 }
 
 int	main(void)
@@ -53,8 +55,8 @@ int	main(void)
 	{
 		ft_printf(PROMPT);
 		if (get_next_line(0, &line))
-			if (execute_input(sesh, line) == ERROR)
-				return (ERROR);
+			if (execute_input(sesh, line) == -1)
+				return (FAIL);
 	}
-	return (SUCCESS);
+	return (RESET);
 }

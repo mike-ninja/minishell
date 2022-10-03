@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/02 13:24:13 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/02 21:19:28 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	env_print(t_session *sesh)
 	if (sesh->arg[i])
 	{
 		sesh->arg = update_arg(sesh, &sesh->arg[i]);
-		return (-1);
+		return (FAIL);
 	}
 	env = sesh->env;
 	while (*env)
@@ -55,7 +55,7 @@ int	env_print(t_session *sesh)
 		ft_printf("%s\n", *env);
 		env++;
 	}
-	return (1);
+	return (RESET);
 }
 
 static int	env_removal(t_session *sesh, char *env)
@@ -104,12 +104,12 @@ int	unset_env(t_session *sesh)
 		{
 			if (env_get_var(sesh, ptr))
 				if (env_removal(sesh, ptr) == 0)
-					return (0);
+					return (FAIL);
 			ft_strdel(&ptr);
 		}
 		i++;
 	}
-	return (1);
+	return (RESET);
 }
 
 int	append_env(t_session *sesh, char **arg)
@@ -120,7 +120,7 @@ int	append_env(t_session *sesh, char **arg)
 
 	new_array = (char **)malloc(sizeof(char *) * (array_len(sesh->env) + 2));
 	if (!new_array)
-		return (0);
+		return (FAIL);
 	i = -1;
 	ptr = sesh->env;
 	while (ptr[++i])
@@ -129,7 +129,7 @@ int	append_env(t_session *sesh, char **arg)
 	new_array[i] = NULL;
 	env_clean(sesh->env);
 	sesh->env = new_array;
-	return (1);
+	return (RESET);
 }
 
 static bool	replace_value(t_session *sesh, char *arg)
@@ -172,5 +172,5 @@ int	set_env(t_session *sesh)
 		}
 		i++;
 	}
-	return (1);
+	return (RESET);
 }

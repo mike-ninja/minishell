@@ -6,22 +6,73 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/02 15:08:39 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 09:09:26 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*addr_return(int status, char *slash, char *path)
+// static char	*addr_return(int status, char *slash, char *path)
+// {
+// 	free(slash);
+// 	if (status == -1)
+// 	{
+// 		free(path);
+// 		return (NULL);
+// 	}
+// 	return (path);
+// }
+
+// char	*confirm_addr(char *addr, char *file, int check)
+// {
+// 	char		*slash;
+// 	char		*path;
+
+// 	slash = NULL;
+// 	path = NULL;
+// 	if (addr)
+// 	{
+// 		slash = ft_strjoin(addr, "/");
+// 		path = ft_strjoin(slash, file);
+// 	}
+// 	else
+// 		path = file;
+// 	if (access(path, check) == 0)
+// 		return (addr_return(0, slash, path));
+// 	else
+// 		return (addr_return(-1, slash, path));
+// }
+
+int	check_addr(char *addr, char *file, char **buf)
 {
-	free(slash);
-	if (status == -1)
+	char		*slash;
+	char		*path;
+
+	slash = NULL;
+	path = NULL;
+	*buf = NULL;
+	if (addr)
 	{
-		free(path);
-		return (NULL);
+		slash = ft_strjoin(addr, "/");
+		path = ft_strjoin(slash, file);
+		ft_strdel(&slash);
 	}
-	return (path);
+	else
+		path = file;
+	if (access(path, F_OK) != 0)
+	{
+		ft_strdel(&path);
+		return (NOEXI);
+	}
+	if (access(path, X_OK) != 0)
+	{	
+		ft_strdel(&path);
+		return (NOACC);
+	}
+	*buf = path;
+	return (RESET);
 }
+
 
 char	*confirm_addr(char *addr, char *file, int check)
 {
@@ -34,42 +85,51 @@ char	*confirm_addr(char *addr, char *file, int check)
 	{
 		slash = ft_strjoin(addr, "/");
 		path = ft_strjoin(slash, file);
+		ft_strdel(&slash);
 	}
 	else
 		path = file;
-	if ((access(path, F_OK) == 0) && (access(path, check) == 0))
-		return (addr_return(0, slash, path));
+	if (access(path, check) == 0)
+		return (path);
 	else
-		return (addr_return(-1, slash, path));
+	{
+		ft_strdel(&path);
+		return (NULL);
+	}
 }
 
-static char	*find_binary(char *file, char **path)
+static int	find_binary(char **str, char *file, char **path)
 {
 	char	*addr;
 	char	*path_copy;
-	char	*ret;
 
-	ret = NULL;
+	*str = NULL;
 	if (!path)
-		return (file);
+	{
+		*str = file;
+		return (RESET);
+	}
 	path_copy = ft_strdup(*path);
 	addr = path_copy;
 	while (path_copy)
 	{
-		ret = confirm_addr(ft_strsep(&path_copy, "=:"), file, X_OK);
-		if (ret)
+		*str = confirm_addr(ft_strsep(&path_copy, "=:"), ft_strdup(file), X_OK);
+		if (*str)
 		{
 			free(addr);
-			return (ret);
+			return (RESET);
 		}
 	}
 	free(addr);
-	return (NULL);
+	if (!confirm_addr(NULL, file, X_OK))
+		return (NOACC);
+	return (NOEXI);
 }
 
 int	system_call(t_session *sesh, char *file)
 {
 	pid_t	id;
+	int		acc;
 	char	*path;
 
 	id = fork();
@@ -77,18 +137,29 @@ int	system_call(t_session *sesh, char *file)
 		return (-1);
 	else if (id == 0)
 	{
-		path = confirm_addr(NULL, file, X_OK);
-		if (!path)
-			path = find_binary(file, env_get_var(sesh, "PATH="));
-		if (path)
+		acc = check_addr(NULL, file, &path);
+		if (acc == RESET || acc == NOEXI)
 		{
-			if (execve(path, sesh->arg, sesh->env) == -1)
-				return (-1);
+			if (!path)
+				find_binary(&path, file, env_get_var(sesh, "PATH="));
+			if (path)
+			{
+				if (execve(path, sesh->arg, sesh->env) == -1)
+					return (-1);
+			}
+			else
+			{
+				ft_printf("minishell: %s: command not found\n", *sesh->arg);
+				return (NOEXI);
+			}
 		}
-		else
-			return (-1);
+		if (acc == NOACC)
+		{
+			ft_printf("minishell: %s: Permission denied\n", *sesh->arg);
+			return (NOACC);
+		}
 	}
 	else
 		wait(&id);
-	return (1);
+	return (FAIL);
 }

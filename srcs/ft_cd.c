@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/01 23:42:09 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 09:13:56 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ static void	swap_pwd(t_session *sesh, char *cwd)
 
 static void	cd_success(t_session *sesh)
 {
+	char	*oldpwd;
 	char	cwd[MAXPATHLEN];
 
-	if (!env_get_var(sesh, "OLDPWD"))
-		set_env(sesh, "OLDPWD=");
+	oldpwd = "OLDPWD=";
+	if (!env_get_var(sesh, oldpwd))
+		append_env(sesh, &oldpwd);
 	swap_oldpwd(sesh);
 	swap_pwd(sesh, getcwd(cwd, sizeof(cwd)));
 }
@@ -82,7 +84,6 @@ static char	*cd_error_check(t_session *sesh)
 	env = NULL;
 	if (ft_strcmp(sesh->arg[1], "~-") == 0)
 		ft_printf("cd: OLDPWD not set\n");
-	// 	return (NULL);
 	if (ft_strcmp(sesh->arg[1], "-") == 0)
 	{
 		env = env_get_var(sesh, "OLDPWD=");
@@ -100,34 +101,35 @@ static char	*cd_error_check(t_session *sesh)
 int	ft_cd(t_session *sesh)
 {
 	char	*path;
+	char	*file;
 
+	file = NULL;
 	path = cd_error_check(sesh);
 	if (path)
 	{
 		if (chdir(path) != 0)
 		{
 			ft_strdel(&path);
-			return (0);
+			return (-1);
 		}
 		cd_success(sesh);
 		ft_strdel(&path);
-		return(1);
+		return(RESET);
 	}
-	// if (!ft_strcmp(sesh->arg[1], "-")) // Currently doesnt work
-	// {
-	// 	path = ft_strdup(ft_strchr(*env_get_var(sesh, "OLDPWD="), '=') + 1);
-	// 	ft_printf("%s\n", path);
-	// }
-	path = confirm_addr(NULL, ft_strdup(sesh->arg[1]), X_OK);
+	file = ft_strdup(sesh->arg[1]);
+	if (!confirm_addr(NULL, file, F_OK)) // Free error here, I need to update my check addr function
+		return (NOEXI);
+	path = confirm_addr(NULL, file, X_OK);
+	ft_strdel(&file);
 	if (path)
 	{
-		free(path);
+		ft_strdel(&path);
 		if (chdir(sesh->arg[1]) != 0)
-			return (0);
+			return (NOACC);
 		else
 			cd_success(sesh);
 	}	
 	else
-		return (0);
-	return (1);
+		return (NOACC);
+	return (RESET);
 }

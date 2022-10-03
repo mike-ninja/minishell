@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/02 15:17:20 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 08:33:59 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@
 /* Bonus */
 # include	<sys/ioctl.h>
 
-# define SUCCESS 0
-# define FAILURE 1
-# define ERROR -1
+# define RESET 0
+# define FAIL 1
+# define NOACC -1
+# define NOEXI -2
 # define PROMPT "$> "
 # define MAXPATHLEN 1024
 # define STARTCYCLE 0
@@ -37,6 +38,7 @@ typedef struct sesssion
 	char	**env;
 	char	**arg;
 	bool	tmp_env;
+	int		result;
 	// char	*pwd;
 }				t_session;
 
@@ -52,6 +54,7 @@ int		set_env(t_session *session);
 int		unset_env(t_session *session);
 char	**env_get_var(t_session *sesh, char *key);
 char	**env_last_prog(char *path, t_session *sesh);
+int		append_env(t_session *sesh, char **arg);
 
 /* Parsing through user input */
 char	**get_args(t_session *sesh, char **line);
