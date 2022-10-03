@@ -6,7 +6,26 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:16:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 17:08:14 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 12:20:35 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
+void error_message(t_session *sesh)
+{
+    ft_printf("minishell: %s:", sesh->arg[0]);
+    if (sesh->result == INVALID)
+    {
+        if (sesh->arg[1])
+            ft_printf(" %s:", sesh->arg[1]);
+        ft_printf(" No such file or directory\n");
+    }
+    if (sesh->result == NOACCESS)
+    {
+        if (sesh->arg[1])
+            ft_printf(" %s:", sesh->arg[1]);
+        ft_printf(" Permission denied\n");
+    }
+    sesh->result = RESET;
+}

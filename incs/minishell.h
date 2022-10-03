@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 10:20:26 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:38:50 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,15 @@
 # include	<sys/ioctl.h>
 
 # define RESET 0
+
 # define FAIL 1
 # define NOACC -1
 # define NOEXI -2
+
+# define ERROR 1
+# define INVALID -1
+# define NOACCESS -2
+
 # define PROMPT "$> "
 # define MAXPATHLEN 1024
 # define STARTCYCLE 0
@@ -78,11 +84,15 @@ void	header_print(void);
 /* Confirming file exists */
 char	*confirm_addr(char *addr, char *file, int check);
 int		check_addr(char *addr, char *file, char **buf);
+int		check_address(char *file);
 
 /* Cycle */
 char	**cycle(t_session *sesh, char *line, int position);
 
 /* Binary execution */
 int		system_call(t_session *sesh, char *file);
+
+/* Error messages */
+void	error_message(t_session *sesh);
 
 #endif

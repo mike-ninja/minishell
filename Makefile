@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
+#    By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/01 22:59:42 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/03 11:39:25 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ FILE += dollar_parse
 FILE += tilda_parse
 FILE += cycle
 FILE += execute_binary
+FILE += errors
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILE)))
 

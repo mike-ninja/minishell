@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 09:08:56 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 12:48:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,24 @@ static void	session_init(t_session *sesh)
 static int	execute_input(t_session *sesh, char *line)
 {
 	sesh->arg = get_args(sesh, &line);
-	sesh->env = cycle(sesh, line, 0);
+	sesh->env = cycle(sesh, line, 0); // This needs to change to a specific function that changes the value of _=
 	if (*sesh->arg)
 	{
 		built_ins(sesh);
-		if (sesh->result)
+		if (sesh->result == 1)
 		{
-			if (sesh->result == 1)
-			{	
-				if (ft_strcmp(*sesh->arg, "exit") == 0)
-					ft_exit(sesh, "exit\n", 1);
-				if (system_call(sesh, *sesh->arg) < 0)
-					return (-1);
+			if (ft_strcmp(*sesh->arg, "exit") == 0)
+				ft_exit(sesh, "exit\n", RESET);
+			if (system_call(sesh, *sesh->arg) == ERROR)
+				return (ERROR);
+			if (sesh->result < 0)
+			{
+				error_message(sesh);
+				return (ERROR);
 			}
 		}
+		else if (sesh->result != RESET)
+			error_message(sesh);
 	}
 	sesh->env = cycle(sesh, line, 1);
 	return (RESET);
@@ -55,8 +59,8 @@ int	main(void)
 	{
 		ft_printf(PROMPT);
 		if (get_next_line(0, &line))
-			if (execute_input(sesh, line) == -1)
-				return (FAIL);
+			if (execute_input(sesh, line) == ERROR)
+				return (ERROR);
 	}
 	return (RESET);
 }

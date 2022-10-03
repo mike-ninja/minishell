@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 10:27:42 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:24:37 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,19 +116,31 @@ int	ft_cd(t_session *sesh)
 		ft_strdel(&path);
 		return(RESET);
 	}
-	file = ft_strdup(sesh->arg[1]);
-	if (!confirm_addr(NULL, file, F_OK)) // Free error here, I need to update my check addr function
-		return (NOEXI);
-	check_addr(NULL, file, &path);
-	ft_strdel(&file);
-	if (path)
+	sesh->result = check_address(sesh->arg[1]);
+	if (sesh->result == RESET)
 	{
 		if (chdir(sesh->arg[1]) != 0)
-			return (NOACC);
+			return (RESET);
 		else
 			cd_success(sesh);
-	}	
-	else
-		return (NOACC);
-	return (RESET);
+		return (RESET);
+	}
+	return (sesh->result);
 }
+
+// ft_printf("THIS HAPPENS\n");
+// ft_printf("%i\n", check_address(sesh->arg[1]));
+// file = ft_strdup(sesh->arg[1]);
+// if (!confirm_addr(NULL, file, F_OK)) // Free error here, I need to update my check addr function
+// 	return (NOEXI);
+// check_addr(NULL, file, &path);
+// ft_strdel(&file);
+// if (path)
+// {
+// 	if (chdir(sesh->arg[1]) != 0)
+// 		return (NOACC);
+// 	else
+// 		cd_success(sesh);
+// }	
+// else
+// 	return (NOACC);
