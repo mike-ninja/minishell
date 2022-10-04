@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 11:24:37 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 09:42:44 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ static char	*cd_error_check(t_session *sesh)
 	char	**env;
 
 	env = NULL;
+	if (array_len(sesh->arg) == 1 || ft_strcmp(sesh->arg[1], "--") == 0)
+		return (ft_strdup(ft_strchr(*env_get_var(sesh, "HOME="), '=') + 1));
 	if (ft_strcmp(sesh->arg[1], "~-") == 0)
 		ft_printf("cd: OLDPWD not set\n");
 	if (ft_strcmp(sesh->arg[1], "-") == 0)
@@ -93,17 +95,20 @@ static char	*cd_error_check(t_session *sesh)
 			return (ft_strdup(ft_strchr(*env_get_var(sesh, "OLDPWD="), '=') + 1));
 		}
 	}
-	if (ft_strcmp(sesh->arg[1], "--") == 0)
-		return (ft_strdup(ft_strchr(*env_get_var(sesh, "HOME="), '=') + 1));
 	return (NULL);
 }
 
 int	ft_cd(t_session *sesh)
 {
 	char	*path;
-	char	*file;
+	// char	*file;
 
-	file = NULL;
+	// file = NULL;
+	if (array_len(sesh->arg) > 2)
+	{
+		sesh->result = TOOMANYARGS;
+		return (sesh->result);
+	}
 	path = cd_error_check(sesh);
 	if (path)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 11:24:57 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 09:41:53 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	built_ins(t_session *sesh)
 		return (unset_env(sesh));
 	if (ft_strcmp(*sesh->arg, "echo") == 0 && sesh->arg[1])
 		return (ft_echo(sesh->arg + 1));
-	if (ft_strcmp(*sesh->arg, "cd") == 0 && sesh->arg[1])
+	if (ft_strcmp(*sesh->arg, "cd") == 0)
 		return (ft_cd(sesh));
 	sesh->result = FAIL;
 	return (sesh->result);
