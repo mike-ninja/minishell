@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 12:43:32 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 11:07:53 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,10 @@ int	system_call(t_session *sesh, char *file) // Dont free file
 					return (-1);
 			}
 			else
+			{
+				sesh->result = NOCOMMAND;
 				return (sesh->result);
+			}
 		}
 	}
 	else
