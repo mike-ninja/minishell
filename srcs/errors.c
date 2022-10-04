@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:16:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 11:08:36 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 11:39:18 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ void error_message(t_session *sesh)
         ft_printf(" command not found\n");
     if (sesh->result == TOOMANYARGS)
         ft_printf(" too many arguments\n");
-    sesh->result = RESET;
+    sesh->result = FAIL;
 }

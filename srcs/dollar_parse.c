@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 09:14:08 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:39:45 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*get_tail(char **keys)
 	char	*ptr;
 
 	i = 0;
-	while (keys[0][i] && ((ft_isalpha(keys[0][i]) && ft_isalnum(keys[0][i])) || keys[0][i] == '_'))
+	while (keys[0][i] && (ft_isalpha(keys[0][i]) || ft_isalnum(keys[0][i]) || keys[0][i] == '_'))
 		i++;
 	if (keys[0][i])
 	{
@@ -56,6 +56,7 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 {
 	int			i;
 	int			j;
+	bool		found;
 	char		**ptr;
 	char		**keys;
 	char		*tail;
@@ -66,6 +67,7 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 	j = -1;
 	while (keys[++j])
 	{
+		found = false;
 		ptr = env;
 		tail = get_tail(keys);
 		while (ptr[0])
@@ -75,6 +77,7 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 			{
 				*arg = forge_arg(arg, &ptr[0][i + 1]);
 				break_string(i, ptr[0]);
+				found = true;
 				break ;
 			}
 			break_string(i, ptr[0]);
@@ -84,7 +87,13 @@ static char	**dollar_swap(char **arg, char **env, char *input)
 			*arg = forge_arg(arg, *keys);
 		if (tail)
 		{
-			*arg = strjoin_head(*arg, tail);
+			if (found)
+				*arg = strjoin_head(*arg, tail);
+			else
+			{
+				ft_strdel(arg);
+				*arg = ft_strdup(tail);
+			}
 			ft_strdel(&tail);
 		}
 		free(keys[j]);

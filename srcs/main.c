@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 12:48:21 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 11:25:03 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	session_init(t_session *sesh)
 static int	execute_input(t_session *sesh, char *line)
 {
 	sesh->arg = get_args(sesh, &line);
-	sesh->env = cycle(sesh, line, 0); // This needs to change to a specific function that changes the value of _=
 	if (*sesh->arg)
 	{
 		built_ins(sesh);
+		sesh->env = cycle(sesh, line, 0); // This needs to change to a specific function that changes the value of _=
 		if (sesh->result == 1)
 		{
 			if (ft_strcmp(*sesh->arg, "exit") == 0)

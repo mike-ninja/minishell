@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 11:08:48 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 11:11:59 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,12 @@
 # define STARTCYCLE 0
 # define ENDCYCLE 1
 
-extern int errno ; // Delete this when no longer used
-
 typedef struct sesssion
 {
 	char	**env;
 	char	**arg;
 	bool	tmp_env;
 	int		result;
-	// char	*pwd;
 }				t_session;
 
 /* Initialising Environment Variables */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   func_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/02 21:19:28 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 11:21:37 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ int	env_print(t_session *sesh)
 		sesh->tmp_env = true;
 		i++;
 	}
-	if (sesh->arg[i])
-	{
-		sesh->arg = update_arg(sesh, &sesh->arg[i]);
-		return (FAIL);
-	}
 	env = sesh->env;
 	while (*env)
 	{
 		ft_printf("%s\n", *env);
 		env++;
+	}
+	if (sesh->arg[i])
+	{
+		sesh->arg = update_arg(sesh, &sesh->arg[i]);
+		return (FAIL);
 	}
 	return (RESET);
 }
@@ -125,7 +125,7 @@ int	append_env(t_session *sesh, char **arg)
 	ptr = sesh->env;
 	while (ptr[++i])
 		new_array[i] = ft_strdup(ptr[i]);
-	new_array[i++] = ft_strdup(arg[0]); // sesh->arg[j] needs to be checked if it contains '='}
+	new_array[i++] = ft_strdup(arg[0]);
 	new_array[i] = NULL;
 	env_clean(sesh->env);
 	sesh->env = new_array;
