@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 11:20:42 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:09:58 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ int	built_ins(t_session *sesh)
 		return (ft_echo(sesh->arg + 1));
 	if (ft_strcmp(*sesh->arg, "cd") == 0)
 		return (ft_cd(sesh));
-	sesh->result = FAIL;
+	sesh->result = ERROR;
 	return (sesh->result);
 }

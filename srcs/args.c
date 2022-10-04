@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 13:39:26 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:40:30 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,36 @@ static char	*skip_whitespace(char *str)
 	return (NULL);
 }
 
+static char	*decontaminate_qoutes(char **arg)
+{
+	int 	i;
+	char	*ret;
+	char	*ptr;
+
+	i = 0;
+	ret = NULL;
+	ptr = arg[0];
+	while (*ptr)
+	{	
+		if (*ptr != '"')
+			i++;
+		ptr++;
+	}
+	ret = (char *)malloc(sizeof(char) * (i + 1));
+	if (!ret)
+		return (NULL);
+	ptr = arg[0];
+	i = 0;
+	while (*ptr)
+	{
+		if (*ptr != '"')
+			ret[i++] = *ptr;
+		ptr++;
+	}
+	ft_strdel(arg);
+	return (ret);
+}
+
 static char	**collect_args(char **args, char **line)
 {
 	int		i;
@@ -74,7 +104,11 @@ static char	**collect_args(char **args, char **line)
 			args[i++] = ft_strdup(ft_strsep(&ptr, "\""));
 		}
 		else
+		{
 			args[i++] = ft_strdup(ft_strsep(&ptr, " "));
+			if (ft_strchr(args[i - 1], '"'))
+				args[i - 1] = decontaminate_qoutes(&args[i - 1]);
+		}
 		ptr = skip_whitespace(ptr);
 	}
 	args[i] = NULL;

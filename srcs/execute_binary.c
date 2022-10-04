@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 11:07:53 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:24:14 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,35 +52,35 @@ int	check_address(char *file)
 	return (RESET);
 }
 
-int	check_addr(char *addr, char *file, char **buf)
-{
-	char		*slash;
-	char		*path;
+// int	check_addr(char *addr, char *file, char **buf)
+// {
+// 	char		*slash;
+// 	char		*path;
 
-	slash = NULL;
-	path = NULL;
-	*buf = NULL;
-	if (addr)
-	{
-		slash = ft_strjoin(addr, "/");
-		path = ft_strjoin(slash, file);
-		ft_strdel(&slash);
-	}
-	else
-		path = file;
-	if (access(path, F_OK) != 0)
-	{
-		ft_strdel(&path);
-		return (NOEXI);
-	}
-	if (access(path, X_OK) != 0)
-	{	
-		ft_strdel(&path);
-		return (NOACC);
-	}
-	*buf = path;
-	return (RESET);
-}
+// 	slash = NULL;
+// 	path = NULL;
+// 	*buf = NULL;
+// 	if (addr)
+// 	{
+// 		slash = ft_strjoin(addr, "/");
+// 		path = ft_strjoin(slash, file);
+// 		ft_strdel(&slash);
+// 	}
+// 	else
+// 		path = file;
+// 	if (access(path, F_OK) != 0)
+// 	{
+// 		ft_strdel(&path);
+// 		return (NOEXI);
+// 	}
+// 	if (access(path, X_OK) != 0)
+// 	{	
+// 		ft_strdel(&path);
+// 		return (NOACC);
+// 	}
+// 	*buf = path;
+// 	return (RESET);
+// }
 
 
 char	*confirm_addr(char *addr, char *file, int check)
@@ -185,8 +185,10 @@ int	system_call(t_session *sesh, char *file) // Dont free file
 		sesh->result = check_address(file);
 		if (sesh->result == RESET)
 		{
-			if (execve(path, sesh->arg, sesh->env) == -1)
+			if (execve(file, sesh->arg, sesh->env) == -1)
 				return (-1);
+			else
+				return (RESET);
 		}
 		else if (sesh->result == INVALID)
 		{

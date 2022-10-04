@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 12:39:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:24:48 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,12 @@ char	**dollar_parse(t_session *sesh)
 	arg = sesh->arg;
 	while (*sesh->arg)
 	{
-		if (ft_strchr(*sesh->arg, '$') && (ft_strlen(*sesh->arg) > 1))
+		if (!ft_strcmp(*sesh->arg, "$$"))
+		{
+			ft_strdel(sesh->arg);
+			*sesh->arg = ft_itoa(getpid());
+		}	
+		else if (ft_strchr(*sesh->arg, '$') && (ft_strlen(*sesh->arg) > 1))
 			sesh->arg = dollar_swap(sesh->arg, sesh->env, *sesh->arg);
 		sesh->arg++;
 	}

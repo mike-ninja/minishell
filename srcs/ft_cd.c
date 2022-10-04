@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 09:42:44 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:33:36 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,7 @@ static char	*cd_error_check(t_session *sesh)
 int	ft_cd(t_session *sesh)
 {
 	char	*path;
-	// char	*file;
 
-	// file = NULL;
 	if (array_len(sesh->arg) > 2)
 	{
 		sesh->result = TOOMANYARGS;

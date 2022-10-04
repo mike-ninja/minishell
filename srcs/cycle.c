@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cycle.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/03 08:59:41 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:46:03 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**cycle(t_session *sesh, char *line, int position)
 			sesh->tmp_env = false;
 		}
 		arg_clean(sesh->arg, line);
-		sesh->result = 0;
+		// sesh->result = 0;
 	}
 	return (sesh->env);
 }

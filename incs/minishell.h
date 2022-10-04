@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 11:11:59 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:27:03 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@
 
 # define RESET 0
 
-# define FAIL 1
-# define NOACC -1
-# define NOEXI -2
-
 # define ERROR 1
 # define INVALID -1
 # define NOACCESS -2
@@ -36,8 +32,6 @@
 
 # define PROMPT "$> "
 # define MAXPATHLEN 1024
-# define STARTCYCLE 0
-# define ENDCYCLE 1
 
 typedef struct sesssion
 {
