@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cycle.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 12:46:03 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:49:58 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ static char	**get_last_arg(char	**arg)
 		arg++;
 	return (arg - 1);
 }
+
+// static void	update_last_arg(t_session **sesh);
+// {
+	
+// }
 
 char	**cycle(t_session *sesh, char *line, int position)
 {

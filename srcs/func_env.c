@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   func_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 17:09:34 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 19:48:20 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	env_print(t_session *sesh)
 	if (sesh->arg[i])
 	{
 		sesh->arg = update_arg(sesh, &sesh->arg[i]);
-		return (FAIL);
+		return (ERROR);
 	}
 	return (RESET);
 }
@@ -104,7 +104,7 @@ int	unset_env(t_session *sesh)
 		{
 			if (env_get_var(sesh, ptr))
 				if (env_removal(sesh, ptr) == 0)
-					return (FAIL);
+					return (ERROR);
 			ft_strdel(&ptr);
 		}
 		i++;
@@ -120,7 +120,7 @@ int	append_env(t_session *sesh, char **arg)
 
 	new_array = (char **)malloc(sizeof(char *) * (array_len(sesh->env) + 2));
 	if (!new_array)
-		return (FAIL);
+		return (ERROR);
 	i = -1;
 	ptr = sesh->env;
 	while (ptr[++i])

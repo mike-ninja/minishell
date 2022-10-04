@@ -3,27 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 17:11:02 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:43:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	session_init(t_session *sesh)
-{
-	sesh->tmp_env = false;
-	sesh->env = env_init();
-	sesh->env = mandatory_env(sesh);
-	sesh->arg = NULL;
-	sesh->result = RESET;
-}
 
 static int	execute_input(t_session *sesh, char *line)
 {
-	sesh->arg = get_args(sesh, &line);
+	get_args(sesh, &line);
 	if (*sesh->arg)
 	{
 		built_ins(sesh);
@@ -48,6 +40,15 @@ static int	execute_input(t_session *sesh, char *line)
 	return (sesh->result);
 }
 
+static void	session_init(t_session *sesh)
+{
+	sesh->arg = NULL;
+	sesh->result = RESET;
+	sesh->tmp_env = false;
+	sesh->env = env_init();
+	sesh->env = mandatory_env(sesh);
+}
+
 int	main(void)
 {
 	char		*line;
@@ -60,8 +61,10 @@ int	main(void)
 	{
 		ft_printf(PROMPT);
 		if (get_next_line(0, &line))
+		{
 			if (execute_input(sesh, line) == ERROR)
 				return (ERROR);
+		}
 	}
 	return (RESET);
 }

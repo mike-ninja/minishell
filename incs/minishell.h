@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 17:27:03 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 20:54:31 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@
 # define NOACCESS -2
 # define TOOMANYARGS -3
 # define NOCOMMAND -4
+# define ERR_NOMEM -5
 
 # define PROMPT "$> "
 # define MAXPATHLEN 1024
+# define MAXARGLEN 256
 
 typedef struct sesssion
 {
@@ -56,7 +58,8 @@ char	**env_last_prog(char *path, t_session *sesh);
 int		append_env(t_session *sesh, char **arg);
 
 /* Parsing through user input */
-char	**get_args(t_session *sesh, char **line);
+// char	**get_args(t_session *sesh, char **line);
+int		get_args(t_session *sesh, char **line);
 char	**dollar_parse(t_session *sesh);
 char	**tilda_parse(t_session *sesh);
 
@@ -75,7 +78,6 @@ int		ft_cd(t_session *sesh);
 void	header_print(void);
 
 /* Confirming file exists */
-char	*confirm_addr(char *addr, char *file, int check);
 int		check_addr(char *addr, char *file, char **buf);
 int		check_address(char *file);
 
