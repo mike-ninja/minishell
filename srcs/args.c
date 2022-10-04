@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 21:00:58 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/04 21:06:06 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,40 +52,9 @@ static int	arg_qty(char *line)
 	return (len);
 }
 
-
-
-// static char	*qoute_removal(char **arg)
-// {
-// 	int 	i;
-// 	char	*ret;
-// 	char	*ptr;
-
-// 	i = 0;
-// 	ret = NULL;
-// 	ptr = arg[0];
-// 	while (*ptr)
-// 	{	
-// 		if (*ptr != '"')
-// 			i++;
-// 		ptr++;
-// 	}
-// 	ret = (char *)malloc(sizeof(char) * (i + 1));
-// 	if (!ret)
-// 		return (NULL);
-// 	ptr = arg[0];
-// 	i = 0;
-// 	while (*ptr)
-// 	{
-// 		if (*ptr != '"')
-// 			ret[i++] = *ptr;
-// 		ptr++;
-// 	}
-// 	ft_strdel(arg);
-// 	return (ret);
-// }
-static char	*qoute_removal(char **arg)
+static void	qoute_removal(char **arg)
 {
-	int 	i;
+	int		i;
 	int		j;
 	char	ptr[MAXARGLEN];
 
@@ -99,39 +68,10 @@ static char	*qoute_removal(char **arg)
 		ptr[j++] = arg[0][i++];
 	}
 	ft_strdel(arg);
-	return (ft_strdup(ptr));
+	*arg = ft_strdup(ptr);
 }
 
-// static char	**collect_args(char **args, char **line)
-// {
-// 	int		i;
-// 	char	*ptr;
-
-// 	i = 0;
-// 	ptr = *line;
-// 	ptr = skip_whitespace(ptr);
-// 	while (ptr)
-// 	{
-// 		if (*ptr == '"')
-// 		{
-// 			ptr++;
-// 			args[i++] = ft_strdup(ft_strsep(&ptr, "\""));
-// 		}
-// 		else
-// 		{
-// 			args[i++] = ft_strdup(ft_strsep(&ptr, " "));
-// 			if (ft_strchr(args[i - 1], '"'))
-// 				args[i - 1] = decontaminate_qoutes(&args[i - 1]);
-// 		}
-// 		ptr = skip_whitespace(ptr);
-// 	}
-// 	args[i] = NULL;
-// 	free(*line);
-// 	*line = NULL;
-// 	return (args);
-// }
-
-static void collect_args(char **args, char **line)
+static void	collect_args(char **args, char **line)
 {
 	int		i;
 	char	*ptr;
@@ -150,7 +90,7 @@ static void collect_args(char **args, char **line)
 		{
 			args[i++] = ft_strdup(ft_strsep(&ptr, " "));
 			if (ft_strchr(args[i - 1], '"'))
-				args[i - 1] = qoute_removal(&args[i - 1]);
+				qoute_removal(&args[i - 1]);
 		}
 		ptr = skip_whitespace(ptr);
 	}
@@ -159,19 +99,8 @@ static void collect_args(char **args, char **line)
 	*line = NULL;
 }
 
-// char	**get_args(t_session *sesh, char **line)
-// {
-// 	sesh->arg = (char **)malloc(sizeof(char *) * (arg_qty(*line) + 1));
-// 	if (!sesh->arg)
-// 		return (NULL);
-// 	sesh->arg = collect_args(sesh->arg, line);
-// 	sesh->arg = tilda_parse(sesh);
-// 	sesh->arg = dollar_parse(sesh);
-// 	return (sesh->arg);
-// }
 int	get_args(t_session *sesh, char **line)
 {
-	ft_printf("%i\n", arg_qty(*line));
 	sesh->arg = (char **)malloc(sizeof(char *) * (arg_qty(*line) + 1));
 	if (!sesh->arg)
 		return (ERR_NOMEM);
