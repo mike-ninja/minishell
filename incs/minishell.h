@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/05 09:25:20 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:10:52 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct sesssion
 {
 	char	**env;
 	char	**arg;
-	bool	tmp_env;
+	char	*tmp_env;
 	int		result;
 }				t_session;
 
@@ -65,6 +65,7 @@ int		unset_env(t_session *session);
 char	**env_get_var(t_session *sesh, char *key);
 char	**env_last_prog(char *path, t_session *sesh);
 int		append_env(t_session *sesh, char **arg);
+int		env_removal(t_session *sesh, char *env);
 
 /* PARSER */
 char	*get_extra(char **keys);
@@ -81,7 +82,7 @@ int		built_ins(t_session *session);
 /* EXIT */
 void	env_clean(char **env);
 void	ft_exit(t_session *session, char *message, int status);
-void	arg_clean(char **arg, char *line);
+void	arg_clean(char **arg);
 
 /* Changing directory */
 int		ft_cd(t_session *sesh);
@@ -94,7 +95,7 @@ int		check_addr(char *addr, char *file, char **buf);
 int		check_address(char *file);
 
 /* Cycle */
-char	**cycle(t_session *sesh, char *line, int position);
+char	**cycle(t_session *sesh, int position);
 
 /* Binary execution */
 int		system_call(t_session *sesh, char *file);

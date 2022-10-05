@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 19:48:20 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 13:06:30 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static char	**update_arg(t_session *sesh, char **arg)
 		i++;
 	}
 	new_arg[i] = NULL;
-	sesh->tmp_env = false;
-	arg_clean(sesh->arg, NULL);
+	arg_clean(sesh->arg);
 	return (new_arg);
 }
 
@@ -36,13 +35,26 @@ int	env_print(t_session *sesh)
 {
 	int		i;
 	char	**env;
+	char	*ptr;
+	char	*tofree;
 
 	i = 1;
+	ptr = NULL;
+	tofree = NULL;
 	if (sesh->arg[i] && ft_strchr(sesh->arg[i], '='))
 	{
 		set_env(sesh);
-		sesh->tmp_env = true;
+		ptr = ft_strdup(sesh->arg[i]);
+		tofree = ptr;
+		sesh->tmp_env = ft_strdup(ft_strsep(&ptr, "="));
+		ft_strdel(&tofree);
 		i++;
+	}
+	if (sesh->arg[i]) // update this
+	{
+		sesh->result = ERROR;
+		sesh->arg = update_arg(sesh, &sesh->arg[i]);
+		return (ERROR);
 	}
 	env = sesh->env;
 	while (*env)
@@ -50,21 +62,17 @@ int	env_print(t_session *sesh)
 		ft_printf("%s\n", *env);
 		env++;
 	}
-	if (sesh->arg[i])
-	{
-		sesh->arg = update_arg(sesh, &sesh->arg[i]);
-		return (ERROR);
-	}
 	return (RESET);
 }
 
-static int	env_removal(t_session *sesh, char *env)
+int	env_removal(t_session *sesh, char *env)
 {
 	char	**new_array;
 	char	**ptr;
 	int		i;
 
-	if (ft_strcmp("PWD", sesh->arg[1]))
+	// if (ft_strcmp("PWD", sesh->arg[1]))
+	if (ft_strcmp("PWD", env))
 	{
 		new_array = (char **)malloc(sizeof(char *) * array_len(sesh->env));
 		if (!new_array)
@@ -84,7 +92,7 @@ static int	env_removal(t_session *sesh, char *env)
 	return (1);
 }
 
-int	unset_env(t_session *sesh)
+int	unset_env(t_session *sesh) // tmp_env update
 {
 	int		i;
 	char	*ptr;
@@ -93,13 +101,7 @@ int	unset_env(t_session *sesh)
 	ptr = NULL;
 	while (sesh->arg[i])
 	{
-		if (sesh->tmp_env)
-		{
-			if (ft_strchr(sesh->arg[i], '='))
-				ptr = ft_strdup(sesh->arg[i]);
-		}
-		else
-			ptr = ft_strjoin(sesh->arg[i], "=");
+		ptr = ft_strjoin(sesh->arg[i], "=");
 		if (ptr)
 		{
 			if (env_get_var(sesh, ptr))

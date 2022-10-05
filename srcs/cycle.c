@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 20:49:58 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 13:05:05 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ static char	**get_last_arg(char	**arg)
 	
 // }
 
-char	**cycle(t_session *sesh, char *line, int position)
+char	**cycle(t_session *sesh, int position)
 {
 	char	**env;
 	char	**last_arg;
+	char	*tofree;
 
+	tofree = NULL;
 	last_arg = NULL;
 	if (!position)
 	{	
@@ -46,11 +48,12 @@ char	**cycle(t_session *sesh, char *line, int position)
 	{
 		if (sesh->tmp_env)
 		{
-			unset_env(sesh);
-			sesh->tmp_env = false;
+			tofree = ft_strjoin(sesh->tmp_env, "=");
+			env_removal(sesh, tofree); // sesh->tmp_env should be a parameter for this function
+			ft_strdel(&sesh->tmp_env);
+			ft_strdel(&tofree);
 		}
-		arg_clean(sesh->arg, line);
-		// sesh->result = 0;
+		arg_clean(sesh->arg);
 	}
 	return (sesh->env);
 }

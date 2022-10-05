@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 20:17:15 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 13:01:13 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ int	system_call(t_session *sesh, char *file) // Dont free file
 		{
 			if (execve(file, sesh->arg, sesh->env) == -1)
 				return (-1);
-			else
-				return (RESET);
 		}
 		else if (sesh->result == INVALID)
 		{

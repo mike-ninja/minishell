@@ -3,24 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 11:05:20 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 17:08:53 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 11:10:29 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	arg_clean(char **arg, char *line)
+void	arg_clean(char **arg)
 {
 	int	i;
 
 	i = -1;
-	if (line)
-		free(line);
 	while (arg[++i])
-		free(arg[i]);
+		ft_strdel(&arg[i]);
 	free(arg);
 	arg = NULL;
 }
@@ -44,6 +42,6 @@ void	ft_exit(t_session *sesh, char *message, int status)
 	if (message)
 		ft_printf("-minishell: %s: %s\n", *sesh->arg, message);
 	env_clean(sesh->env);
-	arg_clean(sesh->arg, NULL);
+	arg_clean(sesh->arg);
 	exit(status);
 }
