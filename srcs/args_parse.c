@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.c                                             :+:      :+:    :+:   */
+/*   args_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 21:06:06 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 09:19:59 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	get_args(t_session *sesh, char **line)
 	if (!sesh->arg)
 		return (ERR_NOMEM);
 	collect_args(sesh->arg, line);
-	sesh->arg = tilda_parse(sesh);
-	sesh->arg = dollar_parse(sesh);
+	tilda_parse(sesh);
+	dollar_parse(sesh);
 	return (RESET);
 }

@@ -6,30 +6,13 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 15:26:10 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/01 23:17:51 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 09:21:20 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_strfind(char *stack, char *token)
-{
-	int	i;
-
-	while (*stack)
-	{
-		i = -1;
-		while (token[++i])
-		{
-			if (token[i] == *stack)
-				return (stack);
-		}
-		stack++;
-	}
-	return (NULL);
-}
-
-static bool ascii_check(char *arg)
+static bool	validate_tilda(char *arg)
 {
 	while (*arg)
 	{
@@ -42,44 +25,41 @@ static bool ascii_check(char *arg)
 	return (false);
 }
 
-static char	**tilda_env(char **arg, char **env)
+static char	*fetch_val(char *arg, char **env)
 {
+	char	*ptr;
 	char	*extra;
-	char	*tofree;
 
-	if (env && ascii_check(arg[0]))
-	{	
-		if (!arg[0][1] || ft_strfind(arg[0], "/+-"))
-		{
-			tofree = arg[0];
-			arg[0] = ft_strdup(ft_strchr(env[0], '=') + 1);
-			extra = ft_strchr(tofree, '/');
-			free(tofree);
-			if (extra)
-			{
-				tofree = arg[0];
-				arg[0] = ft_strjoin(arg[0], extra);
-				free(tofree);
-			}
-		}
+	ptr = NULL;
+	extra = NULL;
+	if (env && validate_tilda(arg))
+	{
+		extra = ft_strchr(arg, '/');
+		if (extra)
+			ptr = ft_strjoin(ft_strchr(*env, '=') + 1, extra);
+		else
+			ptr = ft_strdup(ft_strchr(*env, '=') + 1);
+		ft_strdel(&arg);
+		arg = ptr;
 	}
 	return (arg);
 }
 
-char	**tilda_parse(t_session *sesh)
+void	tilda_parse(t_session *sesh)
 {
-	char	**arg;
+	int	i;
 
-	arg = sesh->arg;
-	while (sesh->arg[0])
+	i = -1;
+	while (sesh->arg[++i])
 	{
-		if (ft_strstr(sesh->arg[0], "~+"))
-			sesh->arg = tilda_env(sesh->arg, env_get_var(sesh, "PWD"));
-		else if (ft_strstr(sesh->arg[0], "~-"))
-			sesh->arg = tilda_env(sesh->arg, env_get_var(sesh, "OLDPWD"));
-		else if (ft_strstr(sesh->arg[0], "~"))
-			sesh->arg = tilda_env(sesh->arg, env_get_var(sesh, "HOME"));
-		sesh->arg++;
+		if (ft_strstr(sesh->arg[i], "~+"))
+			sesh->arg[i] = fetch_val(sesh->arg[i],
+					env_get_var(sesh, "PWD="));
+		else if (ft_strstr(sesh->arg[i], "~-"))
+			sesh->arg[i] = fetch_val(sesh->arg[i],
+					env_get_var(sesh, "OLDPWD="));
+		else if (ft_strstr(sesh->arg[i], "~"))
+			sesh->arg[i] = fetch_val(sesh->arg[i],
+					env_get_var(sesh, "HOME="));
 	}
-	return (arg);
 }

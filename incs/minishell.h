@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 20:54:31 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 09:25:20 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,15 @@ typedef struct sesssion
 	int		result;
 }				t_session;
 
+typedef struct dollar_attr
+{
+	int		i;
+	bool 	key;
+	bool 	match;
+	char	**keys;
+	bool 	needle;
+}				t_dollar;
+
 /* Initialising Environment Variables */
 char	**env_init(void);
 char	**mandatory_env(t_session *sesh);
@@ -57,11 +66,14 @@ char	**env_get_var(t_session *sesh, char *key);
 char	**env_last_prog(char *path, t_session *sesh);
 int		append_env(t_session *sesh, char **arg);
 
-/* Parsing through user input */
-// char	**get_args(t_session *sesh, char **line);
+/* PARSER */
+char	*get_extra(char **keys);
+void	tilda_parse(t_session *sesh);
+void	dollar_parse(t_session *sesh);
+// int		break_string(int i, char *str);
+char	*prefix(char **arg, char *str);
 int		get_args(t_session *sesh, char **line);
-char	**dollar_parse(t_session *sesh);
-char	**tilda_parse(t_session *sesh);
+void	find_match_env(char **arg, char **env, t_dollar *attr);
 
 /* Parse through built in functions */
 int		built_ins(t_session *session);

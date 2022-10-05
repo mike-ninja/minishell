@@ -6,123 +6,73 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/04 20:13:31 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/05 09:15:48 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*forge_arg(char **arg, char *str)
+static void	dollar_swap_util(char **arg, char **env, t_dollar *attr)
 {
-	if (!*arg)
-		*arg = ft_strdup(str);
-	else
-		*arg = strjoin_head(*arg, str);
+	char	*extra;
+
+	extra = get_extra(&attr->keys[attr->i]);
+	find_match_env(arg, env, attr);
+	if (!attr->match && !attr->i && !attr->key && !attr->needle)
+		*arg = prefix(arg, attr->keys[attr->i]);
+	if (extra)
+	{
+		if (attr->match)
+			*arg = strjoin_head(*arg, extra);
+		else
+		{
+			ft_strdel(arg);
+			*arg = ft_strdup(extra);
+		}
+		ft_strdel(&extra);
+	}
+}
+
+static void	dollar_struct(t_dollar *attr)
+{
+	attr->i = -1;
+	attr->key = false;
+	attr->keys = NULL;
+	attr->match = false;
+	attr->needle = false;
+}
+
+static char	*dollar_swap(char **arg, char **env)
+{
+	t_dollar	attr[1];
+
+	dollar_struct(attr);
+	if (arg[0][0] == '$')
+		attr->key = true;
+	attr->keys = ft_strsplit(*arg, '$');
+	ft_memdel((void **)arg);
+	while (attr->keys[++attr->i])
+	{
+		dollar_swap_util(arg, env, attr);
+		free(attr->keys[attr->i]);
+	}
+	free(attr->keys);
 	return (*arg);
 }
 
-static int	break_string(int i, char *str)
+void	dollar_parse(t_session *sesh)
 {
-	if (!i)
+	int	i;
+
+	i = -1;
+	while (sesh->arg[++i])
 	{
-		while (str[i] != '=')
-			i++;
-		str[i] = '\0';
-	}
-	else
-		str[i] = '=';
-	return (i);
-}
-
-static char	*get_tail(char **keys)
-{
-	int		i;
-	char	*ptr;
-
-	i = 0;
-	while (keys[0][i] && (ft_isalpha(keys[0][i]) || ft_isalnum(keys[0][i]) || keys[0][i] == '_'))
-		i++;
-	if (keys[0][i])
-	{
-		ptr = ft_strdup(&keys[0][i]);
-		keys[0][i] = '\0';
-		return(ptr);
-	}
-	else
-		return (NULL);
-}
-
-static char	**dollar_swap(char **arg, char **env, char *input)
-{
-	int			i;
-	int			j;
-	bool		found;
-	char		**ptr;
-	char		**keys;
-	char		*tail;
-	bool 		needle;
-
-	tail = NULL;
-	keys = ft_strsplit(input, '$');
-	ft_memdel((void **)arg);
-	j = -1;
-	while (keys[++j])
-	{
-		found = false;
-		needle = false;
-		ptr = env;
-		tail = get_tail(keys);
-		while (ptr[0])
+		if (!ft_strcmp(sesh->arg[i], "$$"))
 		{
-			i = break_string(0, ptr[0]);
-			if (ft_strcmp(ptr[0], keys[j]) == 0)
-			{
-				*arg = forge_arg(arg, &ptr[0][i + 1]);
-				break_string(i, ptr[0]);
-				found = true;
-				break ;
-			}
-			if (ft_strstr(ptr[0], keys[j]))
-				needle = true;
-			break_string(i, ptr[0]); // fix string function but point to the same function
-			ptr++;
-		}
-		if (!ptr[0] && !j && *input != '$' && !needle)
-			*arg = forge_arg(arg, *keys);
-		if (tail)
-		{
-			if (found)
-			{
-				*arg = strjoin_head(*arg, tail);
-			}
-			else
-			{
-				ft_strdel(arg);
-				*arg = ft_strdup(tail);
-			}
-			ft_strdel(&tail);
-		}
-		free(keys[j]);
-	}
-	free(keys);
-	return (arg);
-}
-
-char	**dollar_parse(t_session *sesh)
-{
-	char	**arg;
-
-	arg = sesh->arg;
-	while (*sesh->arg)
-	{
-		if (!ft_strcmp(*sesh->arg, "$$"))
-		{
-			ft_strdel(sesh->arg);
-			*sesh->arg = ft_itoa(getpid());
+			ft_strdel(&sesh->arg[i]);
+			sesh->arg[i] = ft_itoa(getpid());
 		}	
-		else if (ft_strchr(*sesh->arg, '$') && (ft_strlen(*sesh->arg) > 1))
-			sesh->arg = dollar_swap(sesh->arg, sesh->env, *sesh->arg);
-		sesh->arg++;
+		else if (ft_strchr(sesh->arg[i], '$') && (ft_strlen(sesh->arg[i]) > 1))
+			sesh->arg[i] = dollar_swap(&sesh->arg[i], sesh->env);
 	}
-	return (arg);
 }
