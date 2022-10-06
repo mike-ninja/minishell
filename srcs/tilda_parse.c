@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 15:26:10 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/05 09:21:20 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:09:55 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,20 @@ static char	*fetch_val(char *arg, char **env)
 
 	ptr = NULL;
 	extra = NULL;
-	if (env && validate_tilda(arg))
+	if (env)
 	{
-		extra = ft_strchr(arg, '/');
-		if (extra)
-			ptr = ft_strjoin(ft_strchr(*env, '=') + 1, extra);
+		if (validate_tilda(arg))
+		{
+			extra = ft_strchr(arg, '/');
+			if (extra)
+				ptr = ft_strjoin(ft_strchr(*env, '=') + 1, extra);
+			else
+				ptr = ft_strdup(ft_strchr(*env, '=') + 1);
+			ft_strdel(&arg);
+			arg = ptr;
+		}
 		else
-			ptr = ft_strdup(ft_strchr(*env, '=') + 1);
-		ft_strdel(&arg);
-		arg = ptr;
+			user_expansion(&arg, env);
 	}
 	return (arg);
 }

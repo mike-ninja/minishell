@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 17:20:14 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:13:27 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	cd_success(t_session *sesh);
 
 /* Utils */
 char	*skip_whitespace(char *str);
+void	user_expansion(char **arg, char **env);
 
 
 #endif
