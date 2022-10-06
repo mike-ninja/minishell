@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 14:52:40 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:34:50 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		check_address(char *file);
 void	cycle(t_session *sesh, bool pos);
 
 /* Binary execution */
-int		system_call(t_session *sesh, char *file);
+int		system_call(t_session *sesh);
 
 /* Error messages */
 void	error_message(t_session *sesh);

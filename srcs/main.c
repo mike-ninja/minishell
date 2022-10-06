@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 10:02:33 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:34:44 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	execute_input(t_session *sesh, char *line)
 		{
 			if (ft_strcmp(*sesh->arg, "exit") == 0)
 				ft_exit(sesh, "exit\n", RESET);
-			if (system_call(sesh, *sesh->arg) == ERROR)
+			if (system_call(sesh) == ERROR)
 				return (ERROR);
 			if (sesh->result < 0)
 			{
