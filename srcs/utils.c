@@ -6,11 +6,20 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:13:31 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 10:14:12 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:05:22 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_address(char *file)
+{
+	if (access(file, F_OK) != 0)
+		return (INVALID);
+	if (access(file, X_OK) != 0)
+		return (NOACCESS);
+	return (RESET);
+}
 
 char	**env_get_var(t_session *sesh, char *key)
 {

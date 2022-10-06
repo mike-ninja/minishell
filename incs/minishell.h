@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 10:20:52 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:52:40 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include	<sys/ioctl.h>
 
 # define RESET 0
-
 # define ERROR 1
 # define INVALID -1
 # define NOACCESS -2
@@ -48,10 +47,10 @@ typedef struct sesssion
 typedef struct dollar_attr
 {
 	int		i;
-	bool 	key;
-	bool 	match;
+	bool	key;
+	bool	match;
 	char	**keys;
-	bool 	needle;
+	bool	needle;
 }				t_dollar;
 
 /* Initialising Environment Variables */

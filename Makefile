@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/06 10:21:36 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/06 14:22:41 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ FILE += cmd_setenv
 FILE += cmd_unsetenv
 FILE += header
 FILE += cycle
-FILE += execute_binary
+FILE += system_call
 FILE += errors
 FILE += utils
 

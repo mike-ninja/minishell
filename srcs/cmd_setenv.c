@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:09:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 10:10:02 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:03:56 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	append_env(t_session *sesh, char **arg)
 	char	**ptr;
 	int		i;
 
-	new_array = (char **)malloc(sizeof(char *) * (array_len(sesh->env, END) + 2));
+	i = array_len(sesh->env, END);
+	new_array = (char **)malloc(sizeof(char *) * (i + 2));
 	if (!new_array)
 		return (ERROR);
 	i = -1;
@@ -35,7 +36,7 @@ int	append_env(t_session *sesh, char **arg)
 static bool	replace_value(t_session *sesh, char *arg)
 {
 	int		i;
-	char 	*key;
+	char	*key;
 	char	*frag;
 
 	i = -1;
@@ -60,10 +61,9 @@ static bool	replace_value(t_session *sesh, char *arg)
 
 int	cmd_setenv(t_session *sesh)
 {
-	int i;
+	int	i;
 
 	i = 1;
-
 	while (sesh->arg[i])
 	{
 		if (ft_strchr(sesh->arg[i], '='))
@@ -73,6 +73,5 @@ int	cmd_setenv(t_session *sesh)
 		}
 		i++;
 	}
-	
 	return (RESET);
 }

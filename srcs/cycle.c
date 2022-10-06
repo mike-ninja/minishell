@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 10:02:05 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:04:32 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	update_last_arg(t_session *sesh)
 
 void	cycle(t_session *sesh, bool pos)
 {
-	
 	char	*tofree;
 
 	tofree = NULL;
@@ -48,7 +47,7 @@ void	cycle(t_session *sesh, bool pos)
 		if (sesh->tmp_env)
 		{
 			tofree = ft_strjoin(sesh->tmp_env, "=");
-			env_removal(sesh, tofree); // sesh->tmp_env should be a parameter for this function
+			env_removal(sesh, tofree);
 			ft_strdel(&sesh->tmp_env);
 			ft_strdel(&tofree);
 		}

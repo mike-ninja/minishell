@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   func_env.c                                         :+:      :+:    :+:   */
+/*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 10:11:02 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:01:24 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,28 @@ static char	**update_arg(t_session *sesh, char **arg)
 	return (new_arg);
 }
 
+static int	set_tmp_env(t_session *sesh, int i)
+{
+	char	*sep;
+	char	*tofree;
+
+	sep = NULL;
+	cmd_setenv(sesh);
+	sep = ft_strdup(sesh->arg[i]);
+	tofree = sep;
+	sesh->tmp_env = ft_strdup(ft_strsep(&sep, "="));
+	ft_strdel(&tofree);
+	return (++i);
+}
+
 int	cmd_env(t_session *sesh)
 {
 	int		i;
 	char	**env;
-	char	*ptr;
-	char	*tofree;
 
 	i = 1;
-	ptr = NULL;
-	tofree = NULL;
 	if (sesh->arg[i] && ft_strchr(sesh->arg[i], '='))
-	{
-		cmd_setenv(sesh);
-		ptr = ft_strdup(sesh->arg[i]);
-		tofree = ptr;
-		sesh->tmp_env = ft_strdup(ft_strsep(&ptr, "="));
-		ft_strdel(&tofree);
-		i++;
-	}
+		i = set_tmp_env(sesh, i);
 	if (sesh->arg[i])
 	{
 		sesh->result = ERROR;
