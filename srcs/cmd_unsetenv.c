@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:11:06 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 12:02:05 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:48:22 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,20 @@ int	env_removal(t_session *sesh, char *env)
 	char	**ptr;
 	int		i;
 
-	if (ft_strcmp("PWD=", env))
+	new_array = (char **)malloc(sizeof(char *) * array_len(sesh->env, END));
+	if (!new_array)
+		return (0);
+	i = 0;
+	ptr = sesh->env;
+	while (*ptr)
 	{
-		new_array = (char **)malloc(sizeof(char *) * array_len(sesh->env, END));
-		if (!new_array)
-			return (0);
-		i = 0;
-		ptr = sesh->env;
-		while (*ptr)
-		{
-			if (!ft_strnequ(*ptr, env, ft_strlen(env)))
-				new_array[i++] = ft_strdup(*ptr);
-			ptr++;
-		}
-		new_array[i] = NULL;
-		env_clean(sesh->env);
-		sesh->env = new_array;
+		if (!ft_strnequ(*ptr, env, ft_strlen(env)))
+			new_array[i++] = ft_strdup(*ptr);
+		ptr++;
 	}
+	new_array[i] = NULL;
+	env_clean(sesh->env);
+	sesh->env = new_array;
 	return (1);
 }
 

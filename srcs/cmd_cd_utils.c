@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:13:00 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 10:20:25 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:47:38 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,19 @@ static void	swap_oldpwd(t_session *sesh)
 static void	swap_pwd(t_session *sesh, char *cwd)
 {
 	char	**env;
+	char	*new_pwd;
 
+	new_pwd = ft_strjoin("PWD=", cwd);
 	env = env_get_var(sesh, "PWD");
 	if (env)
 	{
-		free(*env);
-		*env = NULL;
-		*env = ft_strjoin("PWD=", cwd);
+		ft_strdel(env);
+		*env = new_pwd;
+	}
+	else
+	{
+		append_env(sesh, &new_pwd);
+		ft_strdel(&new_pwd);
 	}
 }
 

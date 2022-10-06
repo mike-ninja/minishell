@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 17:27:11 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:48:36 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	cmd_echo(char **arg)
 {
-	bool nl_flag;
+	bool	nl_flag;
 
 	nl_flag = false;
 	if (!ft_strcmp(*arg, "-n"))
