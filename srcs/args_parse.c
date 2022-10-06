@@ -6,25 +6,11 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 16:24:51 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:21:58 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*skip_whitespace(char *str)
-{
-	if (str)
-	{
-		while (*str)
-		{
-			if (!ft_iswhitespace(*str))
-				return (str);
-			str++;
-		}	
-	}
-	return (NULL);
-}
 
 static int	arg_qty(char *line)
 {
@@ -35,9 +21,9 @@ static int	arg_qty(char *line)
 	len = 0;
 	line_cpy = ft_strdup(line);
 	tofree = line_cpy;
+	line_cpy = skip_whitespace(line_cpy);
 	while (line_cpy)
 	{
-		line_cpy = skip_whitespace(line_cpy);
 		if (*line_cpy == '"')
 		{
 			line_cpy++;

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:13:31 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 12:05:22 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:19:47 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,18 @@ int	array_len(char **array, bool pos)
 		array++;
 	}
 	return (len);
+}
+
+char	*skip_whitespace(char *str)
+{
+	if (str)
+	{
+		while (*str)
+		{
+			if (!ft_iswhitespace(*str))
+				return (str);
+			str++;
+		}	
+	}
+	return (NULL);
 }

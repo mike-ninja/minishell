@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 16:34:50 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:20:14 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,9 @@ int		cmd_cd(t_session *sesh);
 
 /* Builtins Utils */
 void	cd_success(t_session *sesh);
+
+/* Utils */
+char	*skip_whitespace(char *str);
+
 
 #endif
