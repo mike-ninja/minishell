@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/05 13:05:05 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:02:05 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,28 @@ static char	**get_last_arg(char	**arg)
 	return (arg - 1);
 }
 
-// static void	update_last_arg(t_session **sesh);
-// {
-	
-// }
-
-char	**cycle(t_session *sesh, int position)
+static void	update_last_arg(t_session *sesh)
 {
 	char	**env;
 	char	**last_arg;
+
+	env = env_get_var(sesh, "_=");
+	last_arg = get_last_arg(sesh->arg);
+	if (last_arg && env)
+	{
+		ft_strdel(env);
+		*env = ft_strjoin("_=", *last_arg);
+	}
+}
+
+void	cycle(t_session *sesh, bool pos)
+{
+	
 	char	*tofree;
 
 	tofree = NULL;
-	last_arg = NULL;
-	if (!position)
-	{	
-		env = env_get_var(sesh, "_=");
-		last_arg = get_last_arg(sesh->arg);
-		if (last_arg && env)
-		{
-			free(*env);
-			*env = ft_strjoin("_=", *last_arg);
-		}
-	}
+	if (!pos)
+		update_last_arg(sesh);
 	else
 	{
 		if (sesh->tmp_env)
@@ -55,5 +54,4 @@ char	**cycle(t_session *sesh, int position)
 		}
 		arg_clean(sesh->arg);
 	}
-	return (sesh->env);
 }

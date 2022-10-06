@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/05 09:18:12 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/06 10:21:36 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,14 +35,18 @@ FILE += args_parse
 FILE += tilda_parse
 FILE += dollar_parse
 FILE += parse_utils
-FILE += func_env
 FILE += built_ins
 FILE += exit
-FILE += ft_cd
+FILE += cmd_cd
+FILE += cmd_cd_utils
+FILE += cmd_env
+FILE += cmd_setenv
+FILE += cmd_unsetenv
 FILE += header
 FILE += cycle
 FILE += execute_binary
 FILE += errors
+FILE += utils
 
 OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILE)))
 

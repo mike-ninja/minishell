@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 15:13:54 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 09:27:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	**hard_set_env(char	**curr_env)
 	char	**env;
 	char	cwd[MAXPATHLEN];
 
-	env = (char **)malloc(sizeof(char *) * (array_len(curr_env) + 4));
+	env = (char **)malloc(sizeof(char *) * (array_len(curr_env, START) + 4));
 	if (!env)
 		return (NULL);
 	i = 0;
@@ -51,7 +51,7 @@ char	**env_init(void)
 	int		i;
 	char	**env;
 
-	env = (char **)malloc(sizeof(char *) * (array_len(environ) + 1));
+	env = (char **)malloc(sizeof(char *) * (array_len(environ, START) + 1));
 	if (!env)
 		return (NULL);
 	i = 0;

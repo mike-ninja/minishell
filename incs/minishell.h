@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/05 11:10:52 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:20:52 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define TOOMANYARGS -3
 # define NOCOMMAND -4
 # define ERR_NOMEM -5
+# define START 0
+# define END 1
 
 # define PROMPT "$> "
 # define MAXPATHLEN 1024
@@ -58,10 +60,7 @@ char	**mandatory_env(t_session *sesh);
 char	*shlvl(char *my_env, char *env);
 
 /* Functions for Environment Variables */
-int		array_len(char **env);
-int		env_print(t_session *sesh);
-int		set_env(t_session *session);
-int		unset_env(t_session *session);
+int		array_len(char **env, bool pos);
 char	**env_get_var(t_session *sesh, char *key);
 char	**env_last_prog(char *path, t_session *sesh);
 int		append_env(t_session *sesh, char **arg);
@@ -95,12 +94,22 @@ int		check_addr(char *addr, char *file, char **buf);
 int		check_address(char *file);
 
 /* Cycle */
-char	**cycle(t_session *sesh, int position);
+void	cycle(t_session *sesh, bool pos);
 
 /* Binary execution */
 int		system_call(t_session *sesh, char *file);
 
 /* Error messages */
 void	error_message(t_session *sesh);
+
+/* Builtins */
+int		cmd_echo(char **arg);
+int		cmd_env(t_session *sesh);
+int		cmd_setenv(t_session *session);
+int		cmd_unsetenv(t_session *session);
+int		cmd_cd(t_session *sesh);
+
+/* Builtins Utils */
+void	cd_success(t_session *sesh);
 
 #endif

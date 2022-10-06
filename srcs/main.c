@@ -6,12 +6,11 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/05 13:03:12 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/06 10:02:33 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static int	execute_input(t_session *sesh, char *line)
 {
@@ -19,7 +18,7 @@ static int	execute_input(t_session *sesh, char *line)
 	if (*sesh->arg)
 	{
 		built_ins(sesh);
-		sesh->env = cycle(sesh, 0); // This needs to change to a specific function that changes the value of _=
+		cycle(sesh, START);
 		if (sesh->result == 1)
 		{
 			if (ft_strcmp(*sesh->arg, "exit") == 0)
@@ -33,9 +32,9 @@ static int	execute_input(t_session *sesh, char *line)
 			}
 		}
 		else if (sesh->result != RESET)
-			error_message(sesh);	
+			error_message(sesh);
 	}
-	sesh->env = cycle(sesh, 1);
+	cycle(sesh, END);
 	sesh->result = RESET;
 	return (sesh->result);
 }
@@ -63,8 +62,12 @@ int	main(void)
 		if (get_next_line(0, &line))
 		{
 			if (*line)
+			{
 				if (execute_input(sesh, line) == ERROR)
 					return (ERROR);
+			}
+			else
+				ft_strdel(&line);
 		}
 	}
 	return (RESET);
