@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/07 08:32:38 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/07 11:36:28 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	 = minishell
 
 CC 		= gcc
 INC 	= -Iincs/
-FLAG 	= -Werror -Wextra -Wall
+FLAG 	= -Werror -Wextra -Wall -g -fsanitize=address
 
 LIBFT 		= libft
 LIBFT_INC	= -Llibft -lft
@@ -55,7 +55,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C $(LIBFT)
-	@$(CC) $(OBJ) -o $@ $(LIBFT_INC)
+	@$(CC)  $(FLAG) $(OBJ) -o $@ $(LIBFT_INC)
 	@echo "$(BLUE)Generated Executable -> $@$(DEF_COLOR)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
