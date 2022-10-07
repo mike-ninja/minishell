@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 17:17:30 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/07 21:25:26 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	heart(t_session *sesh)
 
 	path = NULL;
 	sesh->result = check_address(*sesh->arg);
-	if (sesh->result == RESET)
+	if (sesh->result == RESET || **sesh->arg == '.')
 	{
 		if (execve(*sesh->arg, sesh->arg, sesh->env) == -1)
 			return (-1);

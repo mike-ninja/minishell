@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/07 09:21:12 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/07 09:48:51 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,38 @@ static void	dollar_struct(t_dollar *attr)
 	attr->needle = false;
 }
 
+// static void	testing_tokenize(char *arg)
+// {
+// 	int		i;
+// 	char	*ptr;
+	
+// 	i = 0;
+// 	ptr = ft_strchr(arg, '$');
+// 	while (ptr)
+// 	{
+// 		i++;
+// 		if (*ptr == '$')
+// 			ptr++;
+// 		ft_printf("- %s\n", ptr);
+// 		ptr = ft_strchr(ptr, '$');
+// 	}
+// 	ft_printf("i = %i\n", i);
+// }
+
+
 static char	*dollar_swap(char **arg, char **env)
 {
 	t_dollar	attr[1];
 
 	dollar_struct(attr);
+	// testing_tokenize(*arg);
 	if (arg[0][0] == '$')
 		attr->key = true;
 	attr->keys = ft_strsplit(*arg, '$');
 	ft_memdel((void **)arg);
 	while (attr->keys[++attr->i])
 	{
-		// ft_printf("- %s\n", attr->keys[attr->i]);
 		dollar_swap_util(arg, env, attr);
-		// ft_printf("~ %s\n", *arg);
 		free(attr->keys[attr->i]);
 	}
 	free(attr->keys);

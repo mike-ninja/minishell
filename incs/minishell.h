@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/07 08:33:07 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/07 09:24:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ char	*get_extra(char **keys);
 void	user_expansion(char **arg);
 void	tilda_parse(t_session *sesh);
 void	dollar_parse(t_session *sesh);
-// int		break_string(int i, char *str);
 char	*prefix(char **arg, char *str);
 int		get_args(t_session *sesh, char **line);
 void	find_match_env(char **arg, char **env, t_dollar *attr);
