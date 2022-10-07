@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/05 09:15:48 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/07 09:21:12 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ static char	*dollar_swap(char **arg, char **env)
 	ft_memdel((void **)arg);
 	while (attr->keys[++attr->i])
 	{
+		// ft_printf("- %s\n", attr->keys[attr->i]);
 		dollar_swap_util(arg, env, attr);
+		// ft_printf("~ %s\n", *arg);
 		free(attr->keys[attr->i]);
 	}
 	free(attr->keys);

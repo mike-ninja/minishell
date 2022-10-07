@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 15:26:10 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 19:09:55 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/07 08:34:07 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*fetch_val(char *arg, char **env)
 			arg = ptr;
 		}
 		else
-			user_expansion(&arg, env);
+			user_expansion(&arg);
 	}
 	return (arg);
 }

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:09:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 12:03:56 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/07 09:00:47 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static bool	replace_value(t_session *sesh, char *arg)
 			sesh->env[i] = ft_strjoin(frag, arg);
 			ft_strdel(&frag);
 			ft_strdel(&key);
+			ft_printf("This happens\n"); 
 			return (true);
 		}
 		ft_strdel(&frag);
