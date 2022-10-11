@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:13:31 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/07 13:01:01 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/11 12:00:28 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_address(char *file) // /bin/ls
+int	check_address(char *file)
 {
 	if (access(file, F_OK) != 0)
 		return (INVALID);

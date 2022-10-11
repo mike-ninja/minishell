@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/07 09:48:51 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/11 11:59:19 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,31 +42,11 @@ static void	dollar_struct(t_dollar *attr)
 	attr->needle = false;
 }
 
-// static void	testing_tokenize(char *arg)
-// {
-// 	int		i;
-// 	char	*ptr;
-	
-// 	i = 0;
-// 	ptr = ft_strchr(arg, '$');
-// 	while (ptr)
-// 	{
-// 		i++;
-// 		if (*ptr == '$')
-// 			ptr++;
-// 		ft_printf("- %s\n", ptr);
-// 		ptr = ft_strchr(ptr, '$');
-// 	}
-// 	ft_printf("i = %i\n", i);
-// }
-
-
 static char	*dollar_swap(char **arg, char **env)
 {
 	t_dollar	attr[1];
 
 	dollar_struct(attr);
-	// testing_tokenize(*arg);
 	if (arg[0][0] == '$')
 		attr->key = true;
 	attr->keys = ft_strsplit(*arg, '$');
@@ -94,5 +74,7 @@ void	dollar_parse(t_session *sesh)
 		}	
 		else if (ft_strchr(sesh->arg[i], '$') && (ft_strlen(sesh->arg[i]) > 1))
 			sesh->arg[i] = dollar_swap(&sesh->arg[i], sesh->env);
+		if (!sesh->arg[i])
+			sesh->arg[i] = ft_strdup("");
 	}
 }
