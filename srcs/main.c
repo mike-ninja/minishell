@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/11 11:14:23 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/11 18:23:29 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	execute_input(t_session *sesh, char *line)
 	get_args(sesh, &line);
 	if (*sesh->arg)
 	{
-		built_ins(sesh);
 		cycle(sesh, START);
+		built_ins(sesh);
 		if (sesh->result == 1)
 		{
 			if (ft_strcmp(*sesh->arg, "exit") == 0)
