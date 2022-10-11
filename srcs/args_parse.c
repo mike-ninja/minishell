@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/07 21:13:32 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/11 18:40:54 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ static void	qoute_removal(char **arg)
 	ft_bzero(ptr, MAXARGLEN + 1);
 	while (arg[0][i])
 	{	
-		while (arg[0][i] == '"')
+		while (arg[0][i] && arg[0][i] == '"')
 			i++;
 		ptr[j++] = arg[0][i++];
+		while (arg[0][i] && arg[0][i] == '"')
+			i++;
 	}
 	ft_strdel(arg);
 	*arg = ft_strdup(ptr);
