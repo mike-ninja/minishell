@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 10:40:28 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/11 17:13:35 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ static char	*cd_get_expansion(t_session *sesh)
 
 	env = NULL;
 	if (array_len(sesh->arg, 0) == 1 || ft_strcmp(sesh->arg[1], "--") == 0)
-		return (ft_strdup(ft_strchr(*env_get_var(sesh, "HOME="), '=') + 1));
-	if (ft_strcmp(sesh->arg[1], "-") == 0)
+	{
+		env = env_get_var(sesh, "HOME=");
+		if (env)
+			return (ft_strdup(ft_strchr(*env, '=') + 1));
+	}
+	else if (ft_strcmp(sesh->arg[1], "-") == 0)
 	{
 		env = env_get_var(sesh, "OLDPWD=");
 		if (env)
@@ -45,6 +49,11 @@ static bool	cd_expansion(t_session *sesh)
 		}
 		cd_success(sesh);
 		ft_strdel(&path);
+		return (RESET);
+	}
+	if (!sesh->arg[1])
+	{
+		ft_printf("cd: HOME not set\n");
 		return (RESET);
 	}
 	if (!ft_strcmp(sesh->arg[1], "~-") || !ft_strcmp(sesh->arg[1], "-"))
