@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 10:31:02 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/09/30 15:09:36 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/12 12:25:14 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static void	minishell_header(void)
 
 void	header_print(void)
 {
+	ft_putstr("\033[2J");
+	ft_putstr("\033[H");
 	super_pinoy_boy();
 	minishell_header();
 }
