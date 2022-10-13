@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/11 12:11:14 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/13 10:54:00 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ typedef struct sesssion
 {
 	char	**env;
 	char	**arg;
-	char	*tmp_env;
+	// char	*tmp_env; // This needs to be pointer to pointer & perhaps need a boolean for nonexistent env var or existent one
+	char	**tm_en; // This needs to be pointer to pointer & perhaps need a boolean for nonexistent env var or existent one
 	int		result;
 }				t_session;
 
@@ -103,9 +104,10 @@ void	cd_success(t_session *sesh);
 int		check_address(char *file);
 char	*skip_whitespace(char *str);
 int		array_len(char **env, bool pos);
-char	**env_get_var(t_session *sesh, char *key);
-char	**env_last_prog(char *path, t_session *sesh);
 int		append_env(t_session *sesh, char **arg);
 int		env_removal(t_session *sesh, char *env);
+char	**env_get_var(t_session *sesh, char *key);
+char	**env_last_prog(char *path, t_session *sesh);
+bool	replace_value(t_session *sesh, char *arg, char **tmp);
 
 #endif

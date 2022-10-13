@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/12 12:25:05 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/13 11:11:36 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static int	execute_input(t_session *sesh, char *line)
 				return (ERROR);
 			if (sesh->result < 0)
 			{
-				env_clean(sesh->env);
 				error_message(sesh);
 				cycle(sesh, END);
+				env_clean(sesh->env);
 				return (ERROR);
 			}
 		}
@@ -45,7 +45,7 @@ static void	session_init(t_session *sesh)
 {
 	sesh->arg = NULL;
 	sesh->result = RESET;
-	sesh->tmp_env = NULL;
+	sesh->tm_en = NULL;
 	sesh->env = env_init();
 	sesh->env = mandatory_env(sesh);
 }

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/11 18:21:47 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/13 11:11:45 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,53 @@ static void	update_last_arg(t_session *sesh)
 	}
 }
 
+static void	revert_tm_en(t_session *sesh)
+{
+	int		i;
+	int		j;
+	char	c;
+	char	*key;
+	char	**env;
+
+	i = -1;
+	j = 0;
+	c = 0;
+	key = NULL;
+	env = NULL;
+	while (sesh->tm_en[++i])
+	{
+		if (ft_strchr(sesh->tm_en[i], '='))
+		{
+			while (sesh->tm_en[i][j] != '=')
+				j++;
+			c = sesh->tm_en[i][j + 1];
+			sesh->tm_en[i][j + 1] = '\0';
+			env = env_get_var(sesh, sesh->tm_en[i]);
+			if (env)
+			{
+				ft_strdel(env);
+				sesh->tm_en[i][j + 1] = c;
+				*env = ft_strdup(sesh->tm_en[i]);
+			}
+		}
+		else
+		{
+			key = ft_strjoin(sesh->tm_en[i], "=");
+			env_removal(sesh, key);
+			ft_strdel(&key);
+		}
+		ft_strdel(&sesh->tm_en[i]);
+	}
+}
+
 void	cycle(t_session *sesh, bool pos)
 {
-	char	*tofree;
-
-	tofree = NULL;
 	if (!pos)
 		update_last_arg(sesh);
 	else
 	{
-		if (sesh->tmp_env)
-		{
-			tofree = ft_strjoin(sesh->tmp_env, "=");
-			env_removal(sesh, tofree);
-			ft_strdel(&sesh->tmp_env);
-			ft_strdel(&tofree);
-		}
+		if (sesh->tm_en)
+			revert_tm_en(sesh);
 		arg_clean(sesh->arg);
 	}
 }

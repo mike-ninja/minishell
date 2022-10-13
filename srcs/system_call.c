@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/08 19:54:09 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/12 18:30:23 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static int	heart(t_session *sesh)
 		path = env_get_var(sesh, "PATH=");
 		if (path)
 		{
-			find_binary(sesh, ft_strdup(*path), ft_strjoin("/", *sesh->arg));
+			if (*sesh->arg[0])
+				find_binary(sesh, ft_strdup(*path), ft_strjoin("/", *sesh->arg));
 			if (sesh->result == RESET)
 			{
 				if (execve(*sesh->arg, sesh->arg, sesh->env) == -1)

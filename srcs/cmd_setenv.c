@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:09:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/07 13:19:14 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/13 08:31:45 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	append_env(t_session *sesh, char **arg)
 	return (RESET);
 }
 
-static bool	replace_value(t_session *sesh, char *arg)
+bool	replace_value(t_session *sesh, char *arg, char **tmp)
 {
 	int		i;
 	char	*key;
@@ -47,7 +47,10 @@ static bool	replace_value(t_session *sesh, char *arg)
 		frag = ft_strjoin(key, "=");
 		if (!ft_strncmp(sesh->env[i], frag, ft_strlen(frag)))
 		{
-			ft_strdel(&sesh->env[i]);
+			if (tmp)
+				*tmp = sesh->env[i];
+			else
+				ft_strdel(&sesh->env[i]);
 			sesh->env[i] = ft_strjoin(frag, arg);
 			ft_strdel(&frag);
 			ft_strdel(&key);
@@ -66,9 +69,9 @@ int	cmd_setenv(t_session *sesh)
 	i = 1;
 	while (sesh->arg[i])
 	{
-		if (ft_strchr(sesh->arg[i], '='))
+		if (ft_strchr(sesh->arg[i], '=') && *sesh->arg[i] != '=')
 		{
-			if (!replace_value(sesh, ft_strdup(sesh->arg[i])))
+			if (!replace_value(sesh, ft_strdup(sesh->arg[i]), NULL))
 				append_env(sesh, &sesh->arg[i]);
 		}
 		i++;
