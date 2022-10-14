@@ -3,32 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/11 11:59:19 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:07:47 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	get_prefix(char **arg)
+{
+	int		len;
+	char	*ret;
+
+	len = 0;
+	ret = NULL;
+	while (arg[0][len] && arg[0][len] != '$')
+		len++;
+	if (arg[0][len] && len)
+	{
+		ret = (char *)ft_memalloc(sizeof(char) * (len + 1));
+		ft_bzero((char *)ret, len + 1);
+		len = -1;
+		while (arg[0][++len] && arg[0][len] != '$')
+			ret[len] = arg[0][len];
+		ft_strdel(arg);
+		*arg = ret;
+	}
+	else
+		ft_strdel(arg);
+}
+
 static void	dollar_swap_util(char **arg, char **env, t_dollar *attr)
 {
 	char	*extra;
 
+	if (!attr->i)
+		get_prefix(arg);
 	extra = get_extra(&attr->keys[attr->i]);
 	find_match_env(arg, env, attr);
-	if (!attr->match && !attr->i && !attr->key && !attr->needle)
-		*arg = prefix(arg, attr->keys[attr->i]);
 	if (extra)
 	{
-		if (attr->match)
-			*arg = strjoin_head(*arg, extra);
-		else
-		{
-			ft_strdel(arg);
-			*arg = ft_strdup(extra);
-		}
+		*arg = strjoin_head(*arg, extra);
 		ft_strdel(&extra);
 	}
 }
@@ -36,27 +53,28 @@ static void	dollar_swap_util(char **arg, char **env, t_dollar *attr)
 static void	dollar_struct(t_dollar *attr)
 {
 	attr->i = -1;
-	attr->key = false;
 	attr->keys = NULL;
 	attr->match = false;
-	attr->needle = false;
 }
 
 static char	*dollar_swap(char **arg, char **env)
 {
+	char		*hay;
 	t_dollar	attr[1];
 
 	dollar_struct(attr);
-	if (arg[0][0] == '$')
-		attr->key = true;
+	hay = ft_strchr(*arg, '$');
+	if (hay)
+		hay = ft_strdup(hay);
 	attr->keys = ft_strsplit(*arg, '$');
-	ft_memdel((void **)arg);
 	while (attr->keys[++attr->i])
 	{
-		dollar_swap_util(arg, env, attr);
-		free(attr->keys[attr->i]);
+		if (hay && ft_strstr(hay, attr->keys[attr->i]))
+			dollar_swap_util(arg, env, attr);
+		ft_strdel(&attr->keys[attr->i]);
 	}
-	free(attr->keys);
+	ft_strdel(&hay);
+	ft_memdel((void **)attr->keys);
 	return (*arg);
 }
 
@@ -65,16 +83,18 @@ void	dollar_parse(t_session *sesh)
 	int	i;
 
 	i = -1;
-	while (sesh->arg[++i])
+	while (sesh->tokens->arg[++i])
 	{
-		if (!ft_strcmp(sesh->arg[i], "$$"))
+		if (!ft_strcmp(sesh->tokens->arg[i], "$$"))
 		{
-			ft_strdel(&sesh->arg[i]);
-			sesh->arg[i] = ft_itoa(getpid());
-		}	
-		else if (ft_strchr(sesh->arg[i], '$') && (ft_strlen(sesh->arg[i]) > 1))
-			sesh->arg[i] = dollar_swap(&sesh->arg[i], sesh->env);
-		if (!sesh->arg[i])
-			sesh->arg[i] = ft_strdup("");
+			ft_strdel(&sesh->tokens->arg[i]);
+			sesh->tokens->arg[i] = ft_itoa(getpid());
+		}
+		else if (sesh->tokens->tok[i] && (ft_strlen(sesh->tokens->arg[i]) > 1))
+		{
+			sesh->tokens->arg[i] = dollar_swap(&sesh->tokens->arg[i], sesh->env);
+		}
+		if (!sesh->tokens->arg[i])
+			sesh->tokens->arg[i] = ft_strdup("");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 11:05:20 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 10:53:48 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:15:27 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	env_clean(char **env)
 void	ft_exit(t_session *sesh, char *message, int status)
 {
 	if (message)
-		ft_printf("-minishell: %s: %s\n", *sesh->arg, message);
+		ft_printf("-minishell: %s: %s\n", *sesh->tokens->arg, message);
 	env_clean(sesh->env);
-	arg_clean(sesh->arg);
+	arg_clean(sesh->tokens->arg);
 	exit(status);
 }

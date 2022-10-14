@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 10:10:31 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:08:26 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,23 @@
 typedef struct dollar_attr
 {
 	int		i;
-	bool	key;
 	bool	match;
 	char	**keys;
-	bool	needle;
 }				t_dollar;
+
+typedef struct tokens
+{
+	bool	*tok;
+	char	**arg;
+}				t_tokens;
 
 typedef struct sesssion
 {
-	char	**env;
-	char	**arg;
-	char	**tm_en;
-	int		result;
+	char		**env;
+	char		**arg;
+	t_tokens	*tokens;
+	char		**tm_en;
+	int			result;
 }				t_session;
 
 /* Initialising Environment Variables */

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/13 20:39:22 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:14:22 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ int	cmd_echo(char **arg)
 
 int	built_ins(t_session *sesh)
 {
-	if (ft_strcmp(*sesh->arg, "env") == 0)
+	if (ft_strcmp(*sesh->tokens->arg, "env") == 0)
 		return (cmd_env(sesh));
-	if (ft_strcmp(*sesh->arg, "setenv") == 0)
+	if (ft_strcmp(*sesh->tokens->arg, "setenv") == 0)
 		return (cmd_setenv(sesh));
-	if (ft_strcmp(*sesh->arg, "unsetenv") == 0 && sesh->arg[1])
+	if (ft_strcmp(*sesh->tokens->arg, "unsetenv") == 0 && sesh->tokens->arg[1])
 		return (cmd_unsetenv(sesh));
-	if (ft_strcmp(*sesh->arg, "echo") == 0 && sesh->arg[1])
-		return (cmd_echo(sesh->arg + 1));
-	if (ft_strcmp(*sesh->arg, "cd") == 0)
+	if (ft_strcmp(*sesh->tokens->arg, "echo") == 0 && sesh->tokens->arg[1])
+		return (cmd_echo(sesh->tokens->arg + 1));
+	if (ft_strcmp(*sesh->tokens->arg, "cd") == 0)
 		return (cmd_cd(sesh));
 	sesh->result = ERROR;
 	return (sesh->result);
