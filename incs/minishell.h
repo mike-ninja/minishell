@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 15:08:26 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:41:37 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct sesssion
 {
 	char		**env;
 	char		**arg;
-	t_tokens	*tokens;
+	t_tokens	*tok;
 	char		**tm_en;
 	int			result;
 }				t_session;
@@ -72,8 +72,10 @@ void	user_expansion(char **arg);
 void	tilda_parse(t_session *sesh);
 void	dollar_parse(t_session *sesh);
 char	*prefix(char **arg, char *str);
+void	arg_qty_loop(char *line_cpy, int *len);
 int		get_args(t_session *sesh, char **line);
 void	find_match_env(char **arg, char **env, t_dollar *attr);
+void	collect_args_loop(char **args, char *ptr, bool *tok, int *i);
 
 /* EXIT */
 void	no_mem_exit(void);

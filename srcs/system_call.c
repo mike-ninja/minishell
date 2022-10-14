@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 12:16:59 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:03:41 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static int	find_binary(t_session *sesh, char *env, char *addr)
 		sesh->result = check_address(path);
 		if (sesh->result == RESET)
 		{
-			free_pointers(sesh->tokens->arg, addr, tofree);
-			*sesh->tokens->arg = path;
+			free_pointers(sesh->tok->arg, addr, tofree);
+			*sesh->tok->arg = path;
 			return (RESET);
 		}
 		if (sesh->result == NOACCESS)
@@ -52,11 +52,10 @@ static int	heart(t_session *sesh)
 {
 	char	**path;
 
-	path = NULL;
-	sesh->result = check_address(*sesh->tokens->arg);
-	if (sesh->result == RESET || **sesh->tokens->arg == '.')
+	sesh->result = check_address(*sesh->tok->arg);
+	if (sesh->result == RESET || **sesh->tok->arg == '.')
 	{
-		if (execve(*sesh->tokens->arg, sesh->tokens->arg, sesh->env) == -1)
+		if (execve(*sesh->tok->arg, sesh->tok->arg, sesh->env) == -1)
 			return (-1);
 	}
 	else if (sesh->result == INVALID)
@@ -64,11 +63,12 @@ static int	heart(t_session *sesh)
 		path = env_get_var(sesh, "PATH=");
 		if (path)
 		{
-			if (*sesh->tokens->arg[0])
+			if (*sesh->tok->arg[0])
 				find_binary(sesh, ft_strdup(*path),
-					ft_strjoin("/", *sesh->tokens->arg));
+					ft_strjoin("/", *sesh->tok->arg));
 			if (sesh->result == RESET)
-				if (execve(*sesh->tokens->arg, sesh->tokens->arg, sesh->env) == -1)
+				if (execve(*sesh->tok->arg,
+						sesh->tok->arg, sesh->env) == -1)
 					return (-1);
 		}
 		sesh->result = NOCOMMAND;

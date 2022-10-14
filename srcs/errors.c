@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:16:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 12:17:21 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:03:07 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	error_message(t_session *sesh)
 {
-	ft_printf("minishell: %s:", sesh->tokens->arg[0]);
+	ft_printf("minishell: %s:", sesh->tok->arg[0]);
 	if (sesh->result == INVALID)
 	{
-		if (sesh->tokens->arg[1])
-			ft_printf(" %s:", sesh->tokens->arg[1]);
+		if (sesh->tok->arg[1])
+			ft_printf(" %s:", sesh->tok->arg[1]);
 		ft_printf(" No such file or directory\n");
 	}
 	if (sesh->result == NOACCESS)
 	{
-		if (sesh->tokens->arg[1])
-			ft_printf(" %s:", sesh->tokens->arg[1]);
+		if (sesh->tok->arg[1])
+			ft_printf(" %s:", sesh->tok->arg[1]);
 		ft_printf(" Permission denied\n");
 	}
 	if (sesh->result == NOCOMMAND)

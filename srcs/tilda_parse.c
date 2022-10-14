@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 15:26:10 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 12:08:47 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:03:50 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ void	tilda_parse(t_session *sesh)
 	int	i;
 
 	i = -1;
-	while (sesh->tokens->arg[++i])
+	while (sesh->tok->arg[++i])
 	{
-		if (ft_strstr(sesh->tokens->arg[i], "~+"))
-			sesh->tokens->arg[i] = fetch_val(sesh->tokens->arg[i],
+		if (ft_strstr(sesh->tok->arg[i], "~+"))
+			sesh->tok->arg[i] = fetch_val(sesh->tok->arg[i],
 					env_get_var(sesh, "PWD="));
-		else if (ft_strstr(sesh->tokens->arg[i], "~-"))
-			sesh->tokens->arg[i] = fetch_val(sesh->tokens->arg[i],
+		else if (ft_strstr(sesh->tok->arg[i], "~-"))
+			sesh->tok->arg[i] = fetch_val(sesh->tok->arg[i],
 					env_get_var(sesh, "OLDPWD="));
-		else if (ft_strstr(sesh->tokens->arg[i], "~"))
-			sesh->tokens->arg[i] = fetch_val(sesh->tokens->arg[i],
+		else if (ft_strstr(sesh->tok->arg[i], "~"))
+			sesh->tok->arg[i] = fetch_val(sesh->tok->arg[i],
 					env_get_var(sesh, "HOME="));
 	}
 }

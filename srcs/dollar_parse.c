@@ -6,19 +6,23 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 15:07:47 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:02:58 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	get_prefix(char **arg)
+static void	get_prefix(char **arg, t_dollar *attr)
 {
 	int		len;
 	char	*ret;
+	int		dollar;
 
 	len = 0;
 	ret = NULL;
+	dollar = 0;
+	if (arg[0][len] && arg[0][len] == '$')
+		dollar = 1;
 	while (arg[0][len] && arg[0][len] != '$')
 		len++;
 	if (arg[0][len] && len)
@@ -31,7 +35,7 @@ static void	get_prefix(char **arg)
 		ft_strdel(arg);
 		*arg = ret;
 	}
-	else
+	else if (dollar && !attr->i)
 		ft_strdel(arg);
 }
 
@@ -39,8 +43,7 @@ static void	dollar_swap_util(char **arg, char **env, t_dollar *attr)
 {
 	char	*extra;
 
-	if (!attr->i)
-		get_prefix(arg);
+	get_prefix(arg, attr);
 	extra = get_extra(&attr->keys[attr->i]);
 	find_match_env(arg, env, attr);
 	if (extra)
@@ -83,18 +86,19 @@ void	dollar_parse(t_session *sesh)
 	int	i;
 
 	i = -1;
-	while (sesh->tokens->arg[++i])
+	while (sesh->tok->arg[++i])
 	{
-		if (!ft_strcmp(sesh->tokens->arg[i], "$$"))
+		if (!ft_strcmp(sesh->tok->arg[i], "$$"))
 		{
-			ft_strdel(&sesh->tokens->arg[i]);
-			sesh->tokens->arg[i] = ft_itoa(getpid());
+			ft_strdel(&sesh->tok->arg[i]);
+			sesh->tok->arg[i] = ft_itoa(getpid());
 		}
-		else if (sesh->tokens->tok[i] && (ft_strlen(sesh->tokens->arg[i]) > 1))
+		else if (sesh->tok->tok[i] && (ft_strlen(sesh->tok->arg[i]) > 1))
 		{
-			sesh->tokens->arg[i] = dollar_swap(&sesh->tokens->arg[i], sesh->env);
+			sesh->tok->arg[i] = dollar_swap(
+					&sesh->tok->arg[i], sesh->env);
 		}
-		if (!sesh->tokens->arg[i])
-			sesh->tokens->arg[i] = ft_strdup("");
+		if (!sesh->tok->arg[i])
+			sesh->tok->arg[i] = ft_strdup("");
 	}
 }

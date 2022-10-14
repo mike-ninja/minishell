@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/14 12:37:29 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/14 16:41:03 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ FILE = main
 FILE += init_env
 FILE += init_env_utils
 FILE += args_parse
+FILE += args_parse_utils
 FILE += tilda_parse
 FILE += dollar_parse
 FILE += parse_utils

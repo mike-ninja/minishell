@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:09:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 12:23:53 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:02:08 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,19 @@ int	cmd_setenv(t_session *sesh)
 	int	i;
 
 	i = 1;
-	while (sesh->tokens->arg[i])
+	while (sesh->tok->arg[i])
 	{
-		if (ft_strchr(sesh->tokens->arg[i], '='))
+		if (ft_strchr(sesh->tok->arg[i], '='))
 		{
-			if (*sesh->tokens->arg[i] == '=' || (!ft_isalpha(*sesh->tokens->arg[i])
-					&& *sesh->tokens->arg[i] != '_'))
+			if (*sesh->tok->arg[i] == '='
+				|| (!ft_isalpha(*sesh->tok->arg[i])
+					&& *sesh->tok->arg[i] != '_'))
 			{
-				invalid_env_msg(sesh->tokens->arg, i);
+				invalid_env_msg(sesh->tok->arg, i);
 			}
-			else if (!replace_value(sesh, ft_strdup(sesh->tokens->arg[i]), NULL))
-				append_env(sesh, &sesh->tokens->arg[i]);
+			else if (!replace_value(sesh,
+					ft_strdup(sesh->tok->arg[i]), NULL))
+				append_env(sesh, &sesh->tok->arg[i]);
 		}
 		i++;
 	}

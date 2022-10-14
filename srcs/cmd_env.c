@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 12:23:26 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:01:58 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**update_arg(t_session *sesh, char **arg)
 		i++;
 	}
 	new_arg[i] = NULL;
-	arg_clean(sesh->tokens->arg);
+	arg_clean(sesh->tok->arg);
 	return (new_arg);
 }
 
@@ -62,13 +62,14 @@ static int	set_tmp_env(t_session *sesh, int i)
 
 	j = 0;
 	sesh->tm_en = (char **)malloc(sizeof(char *)
-			* (tmp_env_qty(&sesh->tokens->arg[i]) + 1));
+			* (tmp_env_qty(&sesh->tok->arg[i]) + 1));
 	if (!sesh->tm_en)
 		ft_exit_no_mem(1);
-	while (sesh->tokens->arg[i] && ft_strchr(sesh->tokens->arg[i], '=') && *sesh->tokens->arg[i] != '=')
+	while (sesh->tok->arg[i] && ft_strchr(sesh->tok->arg[i], '=')
+		&& *sesh->tok->arg[i] != '=')
 	{
-		if (!replace_value(sesh, ft_strdup(sesh->tokens->arg[i]), &replaced))
-			key_str(sesh, sesh->tokens->arg[i], &j);
+		if (!replace_value(sesh, ft_strdup(sesh->tok->arg[i]), &replaced))
+			key_str(sesh, sesh->tok->arg[i], &j);
 		else
 			sesh->tm_en[j++] = replaced;
 		i++;
@@ -83,12 +84,12 @@ int	cmd_env(t_session *sesh)
 	char	**env;
 
 	i = 1;
-	if (sesh->tokens->arg[i] && ft_strchr(sesh->tokens->arg[i], '='))
+	if (sesh->tok->arg[i] && ft_strchr(sesh->tok->arg[i], '='))
 		i = set_tmp_env(sesh, i);
-	if (sesh->tokens->arg[i])
+	if (sesh->tok->arg[i])
 	{
 		sesh->result = ERROR;
-		sesh->tokens->arg = update_arg(sesh, &sesh->tokens->arg[i]);
+		sesh->tok->arg = update_arg(sesh, &sesh->tok->arg[i]);
 		return (ERROR);
 	}
 	env = sesh->env;

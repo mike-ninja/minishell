@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:11:06 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 10:44:05 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:02:29 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	cmd_unsetenv(t_session *sesh)
 
 	i = 1;
 	ptr = NULL;
-	while (sesh->arg[i])
+	while (sesh->tok->arg[i])
 	{
-		ptr = ft_strjoin(sesh->arg[i], "=");
+		ptr = ft_strjoin(sesh->tok->arg[i], "=");
 		if (ptr)
 		{
 			if (env_get_var(sesh, ptr))

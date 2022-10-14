@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:15:37 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 15:06:14 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 15:48:59 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	find_match_env(char **arg, char **env, t_dollar *attr)
 	while (env[0])
 	{
 		i = break_string(0, env[0]);
-		if (ft_strncmp(env[0], attr->keys[attr->i], ft_strlen(attr->keys[attr->i])) == 0)
+		if (ft_strncmp(env[0], attr->keys[attr->i],
+				ft_strlen(attr->keys[attr->i])) == 0)
 		{
 			*arg = prefix(arg, &env[0][i + 1]);
 			fix_string(i, env[0]);
