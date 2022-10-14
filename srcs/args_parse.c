@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/12 18:29:42 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:40:48 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	arg_qty(char *line)
 		line_cpy = skip_whitespace(line_cpy);
 		len++;
 	}
-	free(tofree);
+	ft_strdel(&tofree);
 	return (len);
 }
 
@@ -46,7 +46,7 @@ static void	qoute_removal(char **arg)
 
 	i = 0;
 	j = 0;
-	ft_bzero(ptr, MAXARGLEN + 1);
+	ft_bzero(ptr, MAXARGLEN);
 	while (arg[0][i])
 	{	
 		while (arg[0][i] && arg[0][i] == '"')
@@ -83,14 +83,13 @@ static void	collect_args(char **args, char **line)
 		ptr = skip_whitespace(ptr);
 	}
 	args[i] = NULL;
-	ft_strdel(line);
 }
 
 int	get_args(t_session *sesh, char **line)
 {
 	sesh->arg = (char **)malloc(sizeof(char *) * (arg_qty(*line) + 1));
 	if (!sesh->arg)
-		return (ERR_NOMEM);
+		ft_exit_no_mem(1);
 	collect_args(sesh->arg, line);
 	tilda_parse(sesh);
 	dollar_parse(sesh);

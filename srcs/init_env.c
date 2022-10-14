@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/06 09:27:21 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:37:09 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ static char	**hard_set_env(char	**curr_env)
 
 	env = (char **)malloc(sizeof(char *) * (array_len(curr_env, START) + 4));
 	if (!env)
-		return (NULL);
+		ft_exit_no_mem(1);
 	i = 0;
 	while (curr_env[i])
 	{
 		env[i] = ft_strdup(curr_env[i]);
-		free(curr_env[i]);
+		ft_strdel(&curr_env[i]);
 		i++;
 	}
-	free(curr_env);
+	ft_memdel((void **)curr_env);
 	env[i++] = ft_strjoin("PWD=", getcwd(cwd, MAXPATHLEN));
 	env[i++] = ft_strdup("SHLVL=1");
 	env[i++] = ft_strdup("_=/usr/bin/env");
@@ -53,7 +53,7 @@ char	**env_init(void)
 
 	env = (char **)malloc(sizeof(char *) * (array_len(environ, START) + 1));
 	if (!env)
-		return (NULL);
+		ft_exit_no_mem(1);
 	i = 0;
 	while (*environ)
 	{

@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:09:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/13 08:31:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:44:22 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	append_env(t_session *sesh, char **arg)
 	i = array_len(sesh->env, END);
 	new_array = (char **)malloc(sizeof(char *) * (i + 2));
 	if (!new_array)
-		return (ERROR);
+		ft_exit_no_mem(1);
 	i = -1;
 	ptr = sesh->env;
 	while (ptr[++i])
@@ -62,6 +62,13 @@ bool	replace_value(t_session *sesh, char *arg, char **tmp)
 	return (false);
 }
 
+static void	invalid_env_msg(char **arg, int i)
+{
+	ft_printf("minishell: %s:", arg[0]);
+	ft_printf(" `%s':", arg[i]);
+	ft_printf(" not a valid identifier\n");
+}
+
 int	cmd_setenv(t_session *sesh)
 {
 	int	i;
@@ -69,9 +76,14 @@ int	cmd_setenv(t_session *sesh)
 	i = 1;
 	while (sesh->arg[i])
 	{
-		if (ft_strchr(sesh->arg[i], '=') && *sesh->arg[i] != '=')
+		if (ft_strchr(sesh->arg[i], '='))
 		{
-			if (!replace_value(sesh, ft_strdup(sesh->arg[i]), NULL))
+			if (*sesh->arg[i] == '=' || (!ft_isalpha(*sesh->arg[i])
+					&& *sesh->arg[i] != '_'))
+			{
+				invalid_env_msg(sesh->arg, i);
+			}
+			else if (!replace_value(sesh, ft_strdup(sesh->arg[i]), NULL))
 				append_env(sesh, &sesh->arg[i]);
 		}
 		i++;

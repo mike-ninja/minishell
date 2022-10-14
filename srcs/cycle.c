@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/13 11:11:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/13 20:45:23 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,38 @@ static void	update_last_arg(t_session *sesh)
 	}
 }
 
-static void	revert_tm_en(t_session *sesh)
+static void	revert_existent_env(t_session *sesh, char **tm_en)
 {
 	int		i;
-	int		j;
 	char	c;
-	char	*key;
 	char	**env;
 
+	i = 0;
+	while (tm_en[0][i] != '=')
+		i++;
+	c = tm_en[0][i + 1];
+	tm_en[0][i + 1] = '\0';
+	env = env_get_var(sesh, tm_en[0]);
+	if (env)
+	{
+		ft_strdel(env);
+		tm_en[0][i + 1] = c;
+		*env = ft_strdup(tm_en[0]);
+	}
+}
+
+static void	tmp_env(t_session *sesh)
+{
+	int		i;
+	char	*key;
+
 	i = -1;
-	j = 0;
-	c = 0;
 	key = NULL;
-	env = NULL;
 	while (sesh->tm_en[++i])
 	{
 		if (ft_strchr(sesh->tm_en[i], '='))
 		{
-			while (sesh->tm_en[i][j] != '=')
-				j++;
-			c = sesh->tm_en[i][j + 1];
-			sesh->tm_en[i][j + 1] = '\0';
-			env = env_get_var(sesh, sesh->tm_en[i]);
-			if (env)
-			{
-				ft_strdel(env);
-				sesh->tm_en[i][j + 1] = c;
-				*env = ft_strdup(sesh->tm_en[i]);
-			}
+			revert_existent_env(sesh, &sesh->tm_en[i]);
 		}
 		else
 		{
@@ -92,7 +96,7 @@ void	cycle(t_session *sesh, bool pos)
 	else
 	{
 		if (sesh->tm_en)
-			revert_tm_en(sesh);
+			tmp_env(sesh);
 		arg_clean(sesh->arg);
 	}
 }

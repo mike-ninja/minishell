@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/13 10:54:00 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:10:31 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/incs/libft.h"
-# include "../libft/incs/ft_printf.h"
 
 /* Mandatory */
 # include	<sys/stat.h>
@@ -40,15 +39,6 @@
 # define MAXPATHLEN 1024
 # define MAXARGLEN 256
 
-typedef struct sesssion
-{
-	char	**env;
-	char	**arg;
-	// char	*tmp_env; // This needs to be pointer to pointer & perhaps need a boolean for nonexistent env var or existent one
-	char	**tm_en; // This needs to be pointer to pointer & perhaps need a boolean for nonexistent env var or existent one
-	int		result;
-}				t_session;
-
 typedef struct dollar_attr
 {
 	int		i;
@@ -57,6 +47,14 @@ typedef struct dollar_attr
 	char	**keys;
 	bool	needle;
 }				t_dollar;
+
+typedef struct sesssion
+{
+	char	**env;
+	char	**arg;
+	char	**tm_en;
+	int		result;
+}				t_session;
 
 /* Initialising Environment Variables */
 char	**env_init(void);
@@ -73,9 +71,10 @@ int		get_args(t_session *sesh, char **line);
 void	find_match_env(char **arg, char **env, t_dollar *attr);
 
 /* EXIT */
+void	no_mem_exit(void);
 void	env_clean(char **env);
-void	ft_exit(t_session *session, char *message, int status);
 void	arg_clean(char **arg);
+void	ft_exit(t_session *session, char *message, int status);
 
 /* Printing header */
 void	header_print(void);

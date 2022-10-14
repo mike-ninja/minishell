@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 11:05:20 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/05 11:10:29 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 10:53:48 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,17 @@ void	arg_clean(char **arg)
 	i = -1;
 	while (arg[++i])
 		ft_strdel(&arg[i]);
-	free(arg);
-	arg = NULL;
+	ft_memdel((void **)arg);
 }
 
 void	env_clean(char **env)
 {
-	char	**ptr;
+	int	i;
 
-	ptr = env;
-	while (*ptr)
-	{
-		free(*ptr);
-		ptr++;
-	}
-	free(env);
-	env = NULL;
+	i = -1;
+	while (env[++i])
+		ft_strdel(&env[i]);
+	ft_memdel((void **)env);
 }
 
 void	ft_exit(t_session *sesh, char *message, int status)
