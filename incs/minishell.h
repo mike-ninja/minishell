@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 16:41:37 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/15 17:33:25 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define START 0
 # define END 1
 
-# define PROMPT "$> "
+# define PROMPT "{RED}SuperPinoyBoy:> {RESET}"
 # define MAXPATHLEN 1024
 # define MAXARGLEN 256
 

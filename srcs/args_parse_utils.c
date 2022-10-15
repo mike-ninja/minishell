@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arg_parse_utils.c                                  :+:      :+:    :+:   */
+/*   args_parse_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:39:30 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 16:42:57 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/14 21:11:49 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	qoute_parse(char **ptr, char **arg, int *i, char *sep)
 	tojoin = NULL;
 	ptr[0]++;
 	arg[i[0]++] = ft_strdup(ft_strsep(&ptr[0], sep));
-	if (ptr[0][0] && !ft_iswhitespace(ptr[0][0]))
+	if (ptr[0] && !ft_iswhitespace(ptr[0][0]))
 	{
 		tojoin = arg[i[0] - 1];
 		arg[i[0] - 1] = ft_strjoin(arg[i[0] - 1], ft_strsep(ptr, " "));
