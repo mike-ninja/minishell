@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 16:00:54 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 10:08:41 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,31 +56,6 @@ static void	session_init(t_session *sesh)
 	sesh->env = env_init();
 	sesh->env = mandatory_env(sesh);
 }
-
-// int	main(void)
-// {
-// 	char		*line;
-// 	t_session	sesh[1];
-
-// 	line = NULL;
-// 	header_print();
-// 	session_init(sesh);
-// 	while (1)
-// 	{
-// 		ft_printf(PROMPT);
-// 		if (get_next_line(0, &line))
-// 		{
-// 			if (*line)
-// 			{
-// 				if (execute_input(sesh, line) == ERROR)
-// 					return (ERROR);
-// 			}
-// 			else
-// 				ft_strdel(&line);
-// 		}
-// 	}
-// 	return (RESET);
-// }
 
 int	main(void)
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
+#    By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/15 17:37:35 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/17 11:04:47 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ LIBFT 		= libft
 LIBFT_INC	= -Llibft -lft
 SRC_DIR 	= srcs/
 OBJ_DIR 	= objs/
+TERMCAP		= -ltermcap -lncurses
 
 # Colors
 DEF_COLOR 	= \033[0;39m
@@ -56,7 +57,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ) Makefile
 	@make -C $(LIBFT)
-	@$(CC)  $(FLAG) $(OBJ) -o $@ $(LIBFT_INC)
+	@$(CC)  $(FLAG) $(OBJ) -o $@ $(TERMCAP) $(LIBFT_INC)
 	@echo "$(BLUE)Generated Executable -> $@$(DEF_COLOR)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)

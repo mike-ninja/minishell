@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parse_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:39:30 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 21:11:49 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 10:16:38 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ static void	qoute_removal(char **arg)
 {
 	int		i;
 	int		j;
-	char	ptr[MAXARGLEN];
+	char	ptr[BUFF_SIZE];
 
 	i = 0;
 	j = 0;
-	ft_bzero(ptr, MAXARGLEN);
+	ft_bzero(ptr, BUFF_SIZE);
 	while (arg[0][i])
 	{	
 		while (arg[0][i] && (arg[0][i] == '"' || arg[0][i] == '\''))

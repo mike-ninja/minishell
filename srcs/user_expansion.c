@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   user_expansion.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:53:31 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/07 08:32:58 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 10:09:18 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <dirent.h>
 
 static char	*find_user(char *user)
 {

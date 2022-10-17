@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/15 17:33:25 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 10:24:29 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # endif
 
 /* Bonus */
-# include	<sys/ioctl.h>
+# include <sys/ioctl.h>
+# include <dirent.h>
 
 # define RESET 0
 # define ERROR 1
@@ -37,7 +38,6 @@
 
 # define PROMPT "{RED}SuperPinoyBoy:> {RESET}"
 # define MAXPATHLEN 1024
-# define MAXARGLEN 256
 
 typedef struct dollar_attr
 {
@@ -55,7 +55,6 @@ typedef struct tokens
 typedef struct sesssion
 {
 	char		**env;
-	char		**arg;
 	t_tokens	*tok;
 	char		**tm_en;
 	int			result;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 10:31:02 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/15 17:33:03 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:09:49 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ static void	minishell_header(void)
 
 void	header_print(void)
 {
-	ft_putstr("\033[2J");
-	ft_putstr("\033[H");
+	term_cap("cl");
 	super_pinoy_boy();
 	minishell_header();
 }

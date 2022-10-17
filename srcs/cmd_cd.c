@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_cd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 16:59:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 16:51:13 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 10:06:39 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static bool	cd_expansion(t_session *sesh)
 		chdir_expand(sesh, &path);
 		return (RESET);
 	}
-	if (!sesh->tok->arg[1])
+	if (!sesh->tok->arg[1] || !ft_strcmp(sesh->tok->arg[1], "--"))
 	{
 		ft_printf("cd: HOME not set\n");
 		return (RESET);
