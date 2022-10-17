@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tilda_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 15:26:10 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 16:03:50 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 13:19:35 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	tilda_parse(t_session *sesh)
 
 	i = -1;
 	while (sesh->tok->arg[++i])
-	{
+	{ 
 		if (ft_strstr(sesh->tok->arg[i], "~+"))
 			sesh->tok->arg[i] = fetch_val(sesh->tok->arg[i],
 					env_get_var(sesh, "PWD="));

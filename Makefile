@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/17 11:04:47 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/17 12:23:30 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	 = minishell
 
 CC 		= gcc
 INC 	= -Iincs/
-FLAG 	= -Werror -Wextra -Wall -g -fsanitize=address
+FLAG 	= -Werror -Wextra -Wall
 
 LIBFT 		= libft
 LIBFT_INC	= -Llibft -lft

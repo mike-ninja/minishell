@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 10:08:41 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 13:14:54 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static int	execute_input(t_session *sesh, char *line)
 			if (sesh->result < 0)
 			{
 				error_message(sesh);
-				cycle(sesh, END);
-				env_clean(sesh->env);
+				// cycle(sesh, END); // This might not be needed
+				// env_clean(sesh->env);
 				return (ERROR);
 			}
 		}
@@ -69,10 +69,8 @@ int	main(void)
 		ft_printf(PROMPT);
 		ft_termcaps(line);
 		if (*line)
-		{
 			if (execute_input(sesh, line) == ERROR)
 				return (ERROR);
-		}
 	}
 	return (RESET);
 }

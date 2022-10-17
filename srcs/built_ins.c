@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:14 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 12:16:48 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	cmd_echo(char **arg)
 			ft_printf("%s", *arg++);
 		else
 			arg++;
-		ft_printf(" ");
+		if (*arg)
+			ft_printf(" ");
 	}
 	if (!nl_flag)
 		ft_printf("\n");
