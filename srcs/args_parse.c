@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 13:34:45 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/17 19:28:55 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	get_args(t_session *sesh, char **line)
 	len = arg_qty(*line);
 	sesh->tok->arg = (char **)malloc(sizeof(char *) * (len + 1));
 	sesh->tok->tok = (bool *)ft_memalloc(sizeof(bool) * (len));
-	if (!sesh->tok->arg)
+	if (!sesh->tok->arg || !sesh->tok->tok)
 		ft_exit_no_mem(1);
 	collect_args(sesh->tok->arg, line, sesh->tok->tok);
 	tilda_parse(sesh);
