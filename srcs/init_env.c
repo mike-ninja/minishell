@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:21:43 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 10:37:09 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:07:48 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	**hard_set_env(char	**curr_env)
 		ft_strdel(&curr_env[i]);
 		i++;
 	}
-	ft_memdel((void **)curr_env);
+	ft_memdel((void **)&curr_env);
 	env[i++] = ft_strjoin("PWD=", getcwd(cwd, MAXPATHLEN));
 	env[i++] = ft_strdup("SHLVL=1");
 	env[i++] = ft_strdup("_=/usr/bin/env");

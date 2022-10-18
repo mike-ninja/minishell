@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 19:27:30 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:50:04 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*dollar_swap(char **arg, char **env)
 		ft_strdel(&attr->keys[attr->i]);
 	}
 	ft_strdel(&hay);
-	ft_memdel((void **)attr->keys);
+	ft_memdel((void **)&attr->keys);
 	return (*arg);
 }
 
@@ -88,7 +88,6 @@ void	dollar_parse(t_session *sesh)
 	i = -1;
 	while (sesh->tok->arg[++i])
 	{
-		ft_printf("%p\n", &sesh->tok->tok[i]);
 		if (!ft_strcmp(sesh->tok->arg[i], "$$"))
 		{
 			ft_strdel(&sesh->tok->arg[i]);

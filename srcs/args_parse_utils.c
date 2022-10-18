@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   args_parse_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:39:30 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 13:29:58 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:54:50 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,60 +37,61 @@ static void	qoute_removal(char **arg)
 {
 	int		i;
 	int		j;
-	char	ptr[BUFF_SIZE];
+	char	line[BUFF_SIZE];
 
 	i = 0;
 	j = 0;
-	ft_bzero(ptr, BUFF_SIZE);
+	ft_bzero(line, BUFF_SIZE);
 	while (arg[0][i])
 	{	
 		while (arg[0][i] && (arg[0][i] == '"' || arg[0][i] == '\''))
 			i++;
-		ptr[j++] = arg[0][i++];
+		line[j++] = arg[0][i++];
 		while (arg[0][i] && (arg[0][i] == '"' || arg[0][i] == '\''))
 			i++;
 	}
 	ft_strdel(arg);
-	*arg = ft_strdup(ptr);
+	*arg = ft_strdup(line);
 }
 
-static void	qoute_parse(char **ptr, char **arg, int *i, char *sep)
+static void	qoute_parse(char **line, char **arg, int *i, char *sep)
 {
-	char	*tojoin;
+	char	*tofree;
 
-	tojoin = NULL;
-	ptr[0]++;
-	arg[i[0]++] = ft_strdup(ft_strsep(&ptr[0], sep));
-	if (ptr[0] && !ft_iswhitespace(ptr[0][0]))
+	tofree = NULL;
+	line[0]++;
+	arg[i[0]++] = ft_strdup(ft_strsep(&line[0], sep));
+	if (line[0] && !ft_iswhitespace(line[0][0]))
 	{
-		tojoin = arg[i[0] - 1];
-		arg[i[0] - 1] = ft_strjoin(arg[i[0] - 1], ft_strsep(ptr, " "));
-		ft_strdel(&tojoin);
+		tofree = arg[i[0] - 1];
+		arg[i[0] - 1] = ft_strjoin(arg[i[0] - 1], ft_strsep(line, " "));
+		ft_strdel(&tofree);
 	}
 }
 
-void	collect_args_loop(char **args, char *ptr, bool *tok, int *i)
+void	collect_args_loop(char **args, char *line, bool *tok, int *i)
 {
-	while (ptr)
+	while (line)
 	{
-		if (*ptr == '"')
+		if (*line == '"')
 		{
 			tok[*i] = 1;
-			qoute_parse(&ptr, args, i, "\"");
+			qoute_parse(&line, args, i, "\"");
 		}
-		else if (*ptr == '\'')
+		else if (*line == '\'')
 		{
 			tok[*i] = 0;
-			qoute_parse(&ptr, args, i, "\'");
+			qoute_parse(&line, args, i, "\'");
 		}
 		else
 		{
-			args[i[0]++] = ft_strdup(ft_strsep(&ptr, " "));
-			tok[*i - 1] = 1;
+			tok[*i] = 1;
+			args[i[0]++] = ft_strdup(ft_strsep(&line, " "));
 			if (ft_strchr(args[*i - 1], '"') || ft_strchr(args[*i - 1], '\''))
 				qoute_removal(&args[*i - 1]);
 		}
-		ptr = skip_whitespace(ptr);
+		
+		line = skip_whitespace(line);
 	}
 	args[*i] = NULL;
 }

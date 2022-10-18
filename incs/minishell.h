@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 13:24:12 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:27:29 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ char	*prefix(char **arg, char *str);
 void	arg_qty_loop(char *line_cpy, int *len);
 int		get_args(t_session *sesh, char **line);
 void	find_match_env(char **arg, char **env, t_dollar *attr);
-void	collect_args_loop(char **args, char *ptr, bool *tok, int *i);
+void	collect_args_loop(char **args, char *line, bool *tok, int *i);
 
 /* EXIT */
 void	no_mem_exit(void);
 void	env_clean(char **env);
-void	arg_clean(char **arg);
+void	arg_clean(t_tokens *toks);
 void	ft_exit(t_session *session, char *message, int status);
 
 /* Printing header */

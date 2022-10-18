@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 12:41:17 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:05:34 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**update_arg(t_session *sesh, char **arg)
 		i++;
 	}
 	new_arg[i] = NULL;
-	arg_clean(sesh->tok->arg);
+	arg_clean(sesh->tok);
 	return (new_arg);
 }
 

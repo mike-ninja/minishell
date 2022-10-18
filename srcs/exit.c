@@ -3,23 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 11:05:20 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 13:36:25 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:07:17 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	arg_clean(char **arg)
+void	arg_clean(t_tokens *toks)
 {
 	int	i;
 
 	i = -1;
-	while (arg[++i])
-		ft_strdel(&arg[i]);
-	ft_memdel((void **)arg);
+	while (toks->arg[++i])
+	{
+		ft_strdel(&toks->arg[i]);
+		toks->tok[i] = 0;
+	}
+	ft_memdel((void **)&toks->arg);
+	ft_memdel((void **)&toks->tok);
 }
 
 void	env_clean(char **env)
@@ -29,7 +33,7 @@ void	env_clean(char **env)
 	i = -1;
 	while (env[++i])
 		ft_strdel(&env[i]);
-	ft_memdel((void **)env);
+	ft_memdel((void **)&env);
 }
 
 void	ft_exit(t_session *sesh, char *message, int status)
@@ -37,8 +41,7 @@ void	ft_exit(t_session *sesh, char *message, int status)
 	if (message)
 		ft_printf("-minishell: %s: %s\n", *sesh->tok->arg, message);
 	env_clean(sesh->env);
-	arg_clean(sesh->tok->arg);
-	ft_memdel((void **)&sesh->tok->tok);
+	arg_clean(sesh->tok);
 	ft_memdel((void **)&sesh->tok);
 	exit(status);
 }

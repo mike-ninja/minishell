@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cycle.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 11:10:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 12:56:59 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:04:04 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	cycle(t_session *sesh, bool pos)
 	{
 		if (sesh->tm_en)
 			tmp_env(sesh);
-		arg_clean(sesh->tok->arg);
-		ft_memdel((void **)&sesh->tok->tok);
+		arg_clean(sesh->tok);
 	}
 }

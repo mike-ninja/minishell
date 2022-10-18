@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+         #
+#    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/17 12:23:30 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/18 10:44:43 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ LIBFT_INC	= -Llibft -lft
 SRC_DIR 	= srcs/
 OBJ_DIR 	= objs/
 TERMCAP		= -ltermcap -lncurses
+# FSANITIZE	= -g -fsanitize=address
 
 # Colors
 DEF_COLOR 	= \033[0;39m
@@ -57,7 +58,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ) Makefile
 	@make -C $(LIBFT)
-	@$(CC)  $(FLAG) $(OBJ) -o $@ $(TERMCAP) $(LIBFT_INC)
+	@$(CC) $(FLAG) $(FSANITIZE) $(OBJ) -o $@ $(TERMCAP) $(LIBFT_INC)
 	@echo "$(BLUE)Generated Executable -> $@$(DEF_COLOR)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)

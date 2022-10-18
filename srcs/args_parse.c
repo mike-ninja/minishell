@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:55:57 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 19:28:55 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 10:36:06 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,10 @@ static int	arg_qty(char *line)
 static void	collect_args(char **args, char **line, bool	*tok)
 {
 	int		i;
-	char	*ptr;
 
 	i = 0;
-	ptr = *line;
-	ptr = skip_whitespace(ptr);
-	collect_args_loop(args, ptr, tok, &i);
+	*line = skip_whitespace(*line);
+	collect_args_loop(args, *line, tok, &i);
 }
 
 int	get_args(t_session *sesh, char **line)
@@ -44,8 +42,9 @@ int	get_args(t_session *sesh, char **line)
 
 	len = arg_qty(*line);
 	sesh->tok->arg = (char **)malloc(sizeof(char *) * (len + 1));
-	sesh->tok->tok = (bool *)ft_memalloc(sizeof(bool) * (len));
-	if (!sesh->tok->arg || !sesh->tok->tok)
+	if (len)
+		sesh->tok->tok = (bool *)ft_memalloc(sizeof(bool) * (len));
+	if (!sesh->tok->arg || (!sesh->tok->tok && len))
 		ft_exit_no_mem(1);
 	collect_args(sesh->tok->arg, line, sesh->tok->tok);
 	tilda_parse(sesh);
