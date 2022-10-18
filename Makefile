@@ -6,7 +6,7 @@
 #    By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/12 06:01:22 by mbarutel          #+#    #+#              #
-#    Updated: 2022/10/18 10:44:43 by mbarutel         ###   ########.fr        #
+#    Updated: 2022/10/18 21:09:59 by mbarutel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT 		= libft
 LIBFT_INC	= -Llibft -lft
 SRC_DIR 	= srcs/
 OBJ_DIR 	= objs/
-TERMCAP		= -ltermcap -lncurses
+TERMCAP		= -ltermcap
 # FSANITIZE	= -g -fsanitize=address
 
 # Colors

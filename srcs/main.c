@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 06:21:44 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/18 10:48:46 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 20:12:22 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ static int	execute_input(t_session *sesh, char *line)
 			if (sesh->result < 0)
 			{
 				error_message(sesh);
-				// cycle(sesh, END); // This might not be needed
-				// env_clean(sesh->env);
 				return (ERROR);
 			}
 		}

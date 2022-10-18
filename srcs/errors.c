@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:16:26 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 11:58:27 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 21:05:34 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ static void	print_failed_arg(char *str)
 	}
 }
 
+static void	error_message_cont(t_session *sesh)
+{
+	if (sesh->result == NOCOMMAND)
+		ft_printf("command not found\n");
+	if (sesh->result == TOOMANYARGS)
+		ft_printf("too many arguments\n");
+	if (sesh->result == NONEXE)
+	{
+		if (sesh->tok->arg[1])
+			print_failed_arg(sesh->tok->arg[1]);
+		ft_printf("not an executable\n");
+	}
+	sesh->result = ERROR;
+}
+
 void	error_message(t_session *sesh)
 {
 	ft_printf("minishell: ");
@@ -34,19 +49,18 @@ void	error_message(t_session *sesh)
 	write(1, ": ", 2);
 	if (sesh->result == INVALID)
 	{
-		if (sesh->tok->arg[1])
+		if (!ft_strcmp(sesh->tok->arg[0], "cd"))
+		{
 			print_failed_arg(sesh->tok->arg[1]);
-		ft_printf(": No such file or directory\n");
+			write(1, ": ", 2);
+		}
+		ft_printf("No such file or directory\n");
 	}
 	if (sesh->result == NOACCESS)
 	{
 		if (sesh->tok->arg[1])
 			print_failed_arg(sesh->tok->arg[1]);
-		ft_printf(": Permission denied\n");
+		ft_printf("Permission denied\n");
 	}
-	if (sesh->result == NOCOMMAND)
-		ft_printf("command not found\n");
-	if (sesh->result == TOOMANYARGS)
-		ft_printf("too many arguments\n");
-	sesh->result = ERROR;
+	error_message_cont(sesh);
 }

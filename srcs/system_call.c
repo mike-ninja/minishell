@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/14 16:03:41 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 20:23:24 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,46 @@ static int	find_binary(t_session *sesh, char *env, char *addr)
 	return (INVALID);
 }
 
-static int	heart(t_session *sesh)
+static int	binary_call(t_session *sesh)
 {
 	char	**path;
 
-	sesh->result = check_address(*sesh->tok->arg);
-	if (sesh->result == RESET || **sesh->tok->arg == '.')
+	path = env_get_var(sesh, "PATH=");
+	if (path)
 	{
+		if (*sesh->tok->arg[0])
+			find_binary(sesh, ft_strdup(*path),
+				ft_strjoin("/", *sesh->tok->arg));
+		if (sesh->result == RESET)
+			if (execve(*sesh->tok->arg, sesh->tok->arg, sesh->env) == -1)
+				return (ERROR);
+	}
+	if (ft_strchr(sesh->tok->arg[0], '/'))
+		sesh->result = INVALID;
+	else
+		sesh->result = NOCOMMAND;
+	return (sesh->result);
+}
+
+static int	heart(t_session *sesh)
+{
+	sesh->result = check_address(*sesh->tok->arg);
+	if (**sesh->tok->arg == '.' || sesh->result == RESET)
+	{
+		if (sesh->result == NOACCESS || sesh->result == INVALID)
+			return (sesh->result);
 		if (execve(*sesh->tok->arg, sesh->tok->arg, sesh->env) == -1)
-			return (-1);
+		{
+			sesh->result = NONEXE;
+			return (sesh->result);
+		}
 	}
 	else if (sesh->result == INVALID)
 	{
-		path = env_get_var(sesh, "PATH=");
-		if (path)
-		{
-			if (*sesh->tok->arg[0])
-				find_binary(sesh, ft_strdup(*path),
-					ft_strjoin("/", *sesh->tok->arg));
-			if (sesh->result == RESET)
-				if (execve(*sesh->tok->arg,
-						sesh->tok->arg, sesh->env) == -1)
-					return (-1);
-		}
-		sesh->result = NOCOMMAND;
-		return (sesh->result);
+		if (binary_call(sesh) == ERROR)
+			return (ERROR);
+		else
+			return (sesh->result);
 	}
 	return (RESET);
 }

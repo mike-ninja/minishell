@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 16:39:30 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/18 10:54:50 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:33:24 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	collect_args_loop(char **args, char *line, bool *tok, int *i)
 			if (ft_strchr(args[*i - 1], '"') || ft_strchr(args[*i - 1], '\''))
 				qoute_removal(&args[*i - 1]);
 		}
-		
 		line = skip_whitespace(line);
 	}
 	args[*i] = NULL;

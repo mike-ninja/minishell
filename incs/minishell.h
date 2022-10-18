@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 05:56:33 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/18 10:27:29 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/18 16:27:29 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define TOOMANYARGS -3
 # define NOCOMMAND -4
 # define ERR_NOMEM -5
+# define NONEXE -6
 # define START 0
 # define END 1
 
