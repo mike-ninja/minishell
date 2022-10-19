@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:47:54 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 12:16:48 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/19 12:39:39 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	cmd_echo(char **arg)
 	bool	nl_flag;
 
 	nl_flag = false;
+	if (!*arg)
+	{
+		ft_putstr("\n");
+		return (RESET);
+	}
 	if (!ft_strcmp(*arg, "-n"))
 	{
 		nl_flag = true;
@@ -44,7 +49,7 @@ int	built_ins(t_session *sesh)
 		return (cmd_setenv(sesh));
 	if (ft_strcmp(*sesh->tok->arg, "unsetenv") == 0 && sesh->tok->arg[1])
 		return (cmd_unsetenv(sesh));
-	if (ft_strcmp(*sesh->tok->arg, "echo") == 0 && sesh->tok->arg[1])
+	if (ft_strcmp(*sesh->tok->arg, "echo") == 0)
 		return (cmd_echo(sesh->tok->arg + 1));
 	if (ft_strcmp(*sesh->tok->arg, "cd") == 0)
 		return (cmd_cd(sesh));

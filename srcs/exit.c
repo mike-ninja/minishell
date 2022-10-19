@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/17 11:05:20 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/18 12:07:17 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/19 12:45:28 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	arg_clean(t_tokens *toks)
 
 	i = -1;
 	while (toks->arg[++i])
-	{
 		ft_strdel(&toks->arg[i]);
-		toks->tok[i] = 0;
-	}
 	ft_memdel((void **)&toks->arg);
 	ft_memdel((void **)&toks->tok);
 }

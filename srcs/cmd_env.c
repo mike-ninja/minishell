@@ -3,32 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:42:38 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/18 10:05:34 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:01:21 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**update_arg(t_session *sesh, char **arg)
+static void	update_arg(t_session *sesh, char **arg)
 {
 	int		i;
+	int		len;
 	char	**new_arg;
+	bool	*tokens;
 
-	new_arg = (char **)malloc(sizeof(char *) * (array_len(arg, END) + 1));
-	if (!new_arg)
+	len = array_len(arg, END);
+	new_arg = (char **)malloc(sizeof(char *) * (len + 1));
+	if (len)
+		tokens = (bool *)ft_memalloc(sizeof(bool) * (len));
+	if (!new_arg || (!sesh->tok->tok && len))
 		ft_exit_no_mem(1);
-	i = 0;
-	while (arg[i])
+	i = -1;
+	while (arg[++i])
 	{
 		new_arg[i] = ft_strdup(arg[i]);
-		i++;
+		tokens[i] = sesh->tok->tok[i];
 	}
 	new_arg[i] = NULL;
 	arg_clean(sesh->tok);
-	return (new_arg);
+	sesh->tok->arg = new_arg;
+	sesh->tok->tok = tokens;
 }
 
 static int	tmp_env_qty(char **arg)
@@ -89,7 +95,7 @@ int	cmd_env(t_session *sesh)
 	if (sesh->tok->arg[i])
 	{
 		sesh->result = ERROR;
-		sesh->tok->arg = update_arg(sesh, &sesh->tok->arg[i]);
+		update_arg(sesh, &sesh->tok->arg[i]);
 		return (ERROR);
 	}
 	env = sesh->env;
