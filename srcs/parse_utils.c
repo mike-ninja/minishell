@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 09:15:37 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/17 10:21:28 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:10:36 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char	*get_extra(char **keys)
 	if (keys[0][i])
 	{
 		ptr = ft_strdup(&keys[0][i]);
-		keys[0][i] = '\0';
 		return (ptr);
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:44:19 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/18 10:50:04 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:15:00 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,13 @@ static void	dollar_swap_util(char **arg, char **env, t_dollar *attr)
 	find_match_env(arg, env, attr);
 	if (extra)
 	{
-		*arg = strjoin_head(*arg, extra);
-		ft_strdel(&extra);
+		if (!*arg)
+			*arg = extra;
+		else
+		{
+			*arg = strjoin_head(*arg, extra);
+			ft_strdel(&extra);
+		}
 	}
 }
 
