@@ -6,7 +6,7 @@
 /*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/18 20:23:24 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/20 09:07:07 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ static int	binary_call(t_session *sesh)
 
 static int	heart(t_session *sesh)
 {
-	sesh->result = check_address(*sesh->tok->arg);
-	if (**sesh->tok->arg == '.' || sesh->result == RESET)
+	if (ft_strchr(*sesh->tok->arg, '/'))
 	{
+		sesh->result = check_address(*sesh->tok->arg);
 		if (sesh->result == NOACCESS || sesh->result == INVALID)
 			return (sesh->result);
 		if (execve(*sesh->tok->arg, sesh->tok->arg, sesh->env) == -1)
@@ -82,7 +82,7 @@ static int	heart(t_session *sesh)
 			return (sesh->result);
 		}
 	}
-	else if (sesh->result == INVALID)
+	else
 	{
 		if (binary_call(sesh) == ERROR)
 			return (ERROR);
