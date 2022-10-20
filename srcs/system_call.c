@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   system_call.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbarutel <mbarutel@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mbarutel <mbarutel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 14:48:55 by mbarutel          #+#    #+#             */
-/*   Updated: 2022/10/20 09:07:07 by mbarutel         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:05:11 by mbarutel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	binary_call(t_session *sesh)
 
 static int	heart(t_session *sesh)
 {
-	if (ft_strchr(*sesh->tok->arg, '/'))
+	if (ft_strchr(*sesh->tok->arg, '/') || **sesh->tok->arg == '.')
 	{
 		sesh->result = check_address(*sesh->tok->arg);
 		if (sesh->result == NOACCESS || sesh->result == INVALID)
