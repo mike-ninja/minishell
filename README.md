@@ -1,6 +1,6 @@
 # minishell
 
-First, clone library at root of this repo: run -> ``git clone https://github.com/mike-ninja/libft.git``
+After cloning the minishell repo, clone library at root of the repo: run -> ``git clone https://github.com/mike-ninja/libft.git``
 
 make : Create minishell
 
